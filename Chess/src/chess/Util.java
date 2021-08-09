@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.ArrayList;
+
 public class Util {
     
     static char lower(char c){
@@ -25,7 +27,11 @@ public class Util {
     }
     
     static boolean isOfSamePosition(int[] a1,int[] a2){
-        return a1[0]==a2[0]&&a1[1]==a2[1];
+        return isOfSamePosition(a1[0],a2[0],a1[1],a2[1]);
+    }
+    
+    static boolean isOfSamePosition(int x1,int x2,int y1,int y2){
+        return x1==x2&&y1==y2;
     }
     
     static boolean isUpper(char c){
@@ -58,6 +64,22 @@ public class Util {
     
     static boolean isKing(Piece piece){
         return !isWhiteKing(piece)&&!isBlackKing(piece);
+    }
+    
+    static boolean isOfSameSign(int i,int j){
+        return (i<0&&j<0) || (i>0&&j>0)|| (i==0&&j==0);
+    }
+    
+    static ArrayList<int[]> getPossibleWay(int dx,int dy,int[][] offset){
+        ArrayList<int[]> newoffset=new ArrayList<>();
+        for(int[] position:offset){
+            int file=position[0];
+            int rank=position[1];
+            if(isOfSameSign(file,dx)&&isOfSameSign(rank,dy)){
+                newoffset.add(position);
+            }
+        }
+        return newoffset;
     }
     
 }

@@ -12,9 +12,10 @@ public class Tile extends JButton{
     
     public Tile(int i,int j){
         position=new int[]{i,j};
-        c=(i+j)%2!=0?new Color(200,150,0):new Color(150,150,150);
+        c=(i+j)%2!=0?new Color(200,150,0):new Color(180,180,180);
         isSelected=false;
         setBackground(c);
+        setFocusable(false);
     }
     
     public int[] getPosition(){

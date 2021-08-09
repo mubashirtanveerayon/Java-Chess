@@ -1,12 +1,8 @@
 package chess;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 public class Board {
-
-    int unitw;
-    int unith;
 
     Tile[][] tile;
     char[][] board;
@@ -15,9 +11,7 @@ public class Board {
     boolean checkForBlack;
     boolean checkResolved;
 
-    public Board(int width, int height) {
-        unitw = width / Constants.NUM_OF_COLUMNS;
-        unith = height / Constants.NUM_OF_ROWS;
+    public Board() {
         checkForWhite = false;
         checkForBlack = false;
         checkResolved = false;
@@ -59,7 +53,7 @@ public class Board {
         }
     }
 
-    void calculateCheck(boolean forBlackToMove) {
+    public void calculateCheck(boolean forBlackToMove) {
         checkForWhite = false;
         checkForBlack = false;
         checkResolved = true;
@@ -69,21 +63,27 @@ public class Board {
             for (Tile row : col) {
                 Piece piece = row.getPiece();
                 if (piece != null && !Util.isKing(piece) && piece.getColor() == toCheck) {
-                    piece.generateLegalMoves(this);
-                    ArrayList<Tile> legalMoves = piece.getLegalMoves();
-                    for (Tile t : legalMoves) {
-                        if (Util.isOfSamePosition(t, targetKingTile)) {
-                            if (!forBlackToMove) {
-                                checkForWhite = true;
-                            } else {
-                                checkForBlack = true;
-                            }
-                            checkResolved = false;
-                            break;
+//                    piece.generateLegalMoves(this);
+//                    ArrayList<Tile> legalMoves = piece.getLegalMoves();
+//                    for (Tile t : legalMoves) {
+//                        if (Util.isOfSamePosition(t, targetKingTile)) {
+//                            if (!forBlackToMove) {
+//                                checkForWhite = true;
+//                            } else {
+//                                checkForBlack = true;
+//                            }
+//                            checkResolved = false;
+//                            break;
+//                        }
+//                    }
+//                    piece.getLegalMoves().clear();
+                    if(piece.isPossibleToReach(this, targetKingTile)){
+                        if(forBlackToMove){
+                           checkForBlack=true; 
+                        }else{
+                            checkForWhite=true;
                         }
-                    }
-                    piece.getLegalMoves().clear();
-                    if (!checkResolved) {
+                        checkResolved=false;
                         break;
                     }
                 }
@@ -94,17 +94,17 @@ public class Board {
         }
     }
 
-    boolean isWhiteOnCheck() {
+    public boolean isWhiteOnCheck() {
         calculateCheck(false);
         return checkForWhite;
     }
 
-    boolean isBlackOnCheck() {
+    public boolean isBlackOnCheck() {
         calculateCheck(true);
         return checkForBlack;
     }
 
-    boolean isLegal(Piece piece, Tile t) {
+    public boolean isLegal(Piece piece, Tile t) {
         piece.generateLegalMoves(this);
         if (!piece.isLegalMove(t)) {
             return false;

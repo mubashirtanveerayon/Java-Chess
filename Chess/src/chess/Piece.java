@@ -13,37 +13,44 @@ public class Piece {
     ArrayList<Tile> legalMoves;
     String imgLocation;
     char pieceChar;
+    int[][] offset;
 
     public Piece(String name, boolean isBlack, int file, int rank) {
         imgLocation = isBlack ? Constants.BLACK_IMG_PATH + name + ".png" : Constants.WHITE_IMG_PATH + name + ".png";
         position = new int[]{file, rank};
         pieceChar = isBlack ? name.charAt(0) : Util.upper(name.charAt(0));
-        ArrayList<Tile> legalMoves = new ArrayList();
         c = isBlack ? Constants.BLACK_PIECE_COLOR : Constants.WHITE_PIECE_COLOR;
         img = new ImageIcon(imgLocation);
-        generateValue();
+        legalMoves = new ArrayList<Tile>();
+        generateValueAndOffset();
     }
 
-    void generateValue() {
+    void generateValueAndOffset() {
         char tempChar = Util.lower(pieceChar);
         switch (tempChar) {
             case 'p':
                 value = Constants.PAWN_VALUE;
+                offset = Constants.PAWN_OFFSET;
                 break;
             case 'n':
                 value = Constants.KNIGHT_VALUE;
+                offset = Constants.KNIGHT_OFFSET;
                 break;
             case 'b':
                 value = Constants.BISHOP_VALUE;
+                offset = Constants.BISHOP_OFFSET;
                 break;
             case 'r':
                 value = Constants.ROOK_VALUE;
+                offset = Constants.ROOK_OFFSET;
                 break;
             case 'q':
                 value = Constants.QUEEN_VALUE;
+                offset = Constants.QUEEN_OFFSET;
                 break;
             case 'k':
                 value = Constants.KING_VALUE;
+                offset = Constants.KING_OFFSET;
                 break;
             default:
                 value = Constants.NULL_VALUE;
@@ -65,112 +72,77 @@ public class Piece {
     public void generateLegalMoves(Board board) {
         legalMoves.clear();
         Tile[][] tile = board.getTiles();
-        if (Util.upper(pieceChar)== 'B') {
-            int[][] offset = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
-            for (int i = 0; i < offset.length; i++) {
-                int file = position[0];
-                int rank = position[1];
-                file += offset[i][0];
-                rank += offset[i][1];
-                while (Util.isValid(file, rank)) {
-                    Piece tp = tile[file][rank].getPiece();
-                    if (tp != null) {
-                        if (isAlly(tp)) {
-                            break;
-                        } else {
-                            legalMoves.add(tile[file][rank]);
-                            break;
-                        }
-                    } else {
-                        legalMoves.add(tile[file][rank]);
-                    }
-                }
+        switch (Util.upper(pieceChar)) {
+            case 'P': {
+                break;
             }
-        } else if (Util.upper(pieceChar)== 'R') {
-            int[][] offset = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-            for (int i = 0; i < offset.length; i++) {
-                int file = position[0];
-                int rank = position[1];
-                file += offset[i][0];
-                rank += offset[i][1];
-                while (Util.isValid(file, rank)) {
-                    Piece tp = tile[file][rank].getPiece();
-                    if (tp != null) {
-                        if (isAlly(tp)) {
-                            break;
+            case 'K': {
+                for (int i = 0; i < offset.length; i++) {
+                    int file = position[0];
+                    int rank = position[1];
+                    file += offset[i][0];
+                    rank += offset[i][1];
+                    if (Util.isValid(file, rank)) {
+                        Piece tp = tile[file][rank].getPiece();
+                        if (tp != null) {
+                            if (isAlly(tp)) {
+                                continue;
+                            } else if ((Util.isBlackKing(this) && Util.isWhiteKing(tp)) || (Util.isWhiteKing(this) && Util.isBlackKing(tp))) {
+                                continue;
+                            } else {
+                                legalMoves.add(tile[file][rank]);
+                                continue;
+                            }
                         } else {
                             legalMoves.add(tile[file][rank]);
-                            break;
                         }
-                    } else {
-                        legalMoves.add(tile[file][rank]);
                     }
                 }
+                break;
             }
-        } else if (Util.upper(pieceChar)== 'Q') {
-            int[][] offset = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}, {-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-            for (int i = 0; i < offset.length; i++) {
-                int file = position[0];
-                int rank = position[1];
-                file += offset[i][0];
-                rank += offset[i][1];
-                while (Util.isValid(file, rank)) {
-                    Piece tp = tile[file][rank].getPiece();
-                    if (tp != null) {
-                        if (isAlly(tp)) {
-                            break;
+            case 'N': {
+                for (int i = 0; i < offset.length; i++) {
+                    int file = position[0];
+                    int rank = position[1];
+                    file += offset[i][0];
+                    rank += offset[i][1];
+                    if (Util.isValid(file, rank)) {
+                        Piece tp = tile[file][rank].getPiece();
+                        if (tp != null) {
+                            if (isAlly(tp)) {
+                                continue;
+                            } else {
+                                legalMoves.add(tile[file][rank]);
+                                continue;
+                            }
                         } else {
                             legalMoves.add(tile[file][rank]);
-                            break;
                         }
-                    } else {
-                        legalMoves.add(tile[file][rank]);
                     }
                 }
+                break;
             }
-        } else if (Util.upper(pieceChar)== 'K') {
-            int[][] offset = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}, {-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-            for (int i = 0; i < offset.length; i++) {
-                int file = position[0];
-                int rank = position[1];
-                file += offset[i][0];
-                rank += offset[i][1];
-                if (Util.isValid(file, rank)) {
-                    Piece tp = tile[file][rank].getPiece();
-                    if (tp != null) {
-                        if (isAlly(tp)) {
-                            continue;
-                        } else if ((Util.isBlackKing(this)&&Util.isWhiteKing(tp))||(Util.isWhiteKing(this)&&Util.isBlackKing(tp))) {
-                            continue;
+            default: {
+                for (int i = 0; i < offset.length; i++) {
+                    int file = position[0];
+                    int rank = position[1];
+                    while (Util.isValid(file, rank)) {
+                        file += offset[i][0];
+                        rank += offset[i][1];
+                        Piece tp = tile[file][rank].getPiece();
+                        if (tp != null) {
+                            if (isAlly(tp)) {
+                                break;
+                            } else {
+                                legalMoves.add(tile[file][rank]);
+                                break;
+                            }
                         } else {
                             legalMoves.add(tile[file][rank]);
-                            continue;
                         }
-                    } else {
-                        legalMoves.add(tile[file][rank]);
                     }
                 }
-            }
-        } else if (Util.upper(pieceChar)== 'N') {
-            int[][] offset = {{2, -1}, {1, -2}, {1, 2}, {-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}};
-            for (int i = 0; i < offset.length; i++) {
-                int file = position[0];
-                int rank = position[1];
-                file += offset[i][0];
-                rank += offset[i][1];
-                if (Util.isValid(file, rank)) {
-                    Piece tp = tile[file][rank].getPiece();
-                    if (tp != null) {
-                        if (isAlly(tp)) {
-                            continue;
-                        } else {
-                            legalMoves.add(tile[file][rank]);
-                            continue;
-                        }
-                    } else {
-                        legalMoves.add(tile[file][rank]);
-                    }
-                }
+                break;
             }
         }
     }
@@ -183,6 +155,92 @@ public class Piece {
             }
         }
         return false;
+    }
+
+    public boolean isPossibleToReach(Board board, Piece piece) {
+        return isPossibleToReach(board, board.getTile(piece));
+    }
+
+    public boolean isPossibleToReach(Board board, Tile tile) {
+        return isPossibleToReach(board, tile.getPosition());
+    }
+
+    public boolean isPossibleToReach(Board board, int[] pos) {
+        return isPossibleToReach(board, pos[0], pos[1]);
+    }
+
+    public boolean isPossibleToReach(Board board, int x, int y) {
+        if (Util.isOfSamePosition(position[0], x, position[1], y)) {
+            return false;
+        }
+        int dx = x - position[0];
+        int dy = y - position[1];
+        ArrayList<int[]> possibleWays = Util.getPossibleWay(dx, dy, offset);
+        char temp = Util.lower(pieceChar);
+        Tile[][] tile = board.getTiles();
+        switch (temp) {
+            case 'p': {
+                return false;
+            }
+            case 'k': {
+                for (int[] array : possibleWays) {
+                    int file = position[0];
+                    int rank = position[1];
+                    file += array[0];
+                    rank += array[1];
+                    if (Util.isValid(file, rank)) {
+                        if (!tile[file][rank].isEmpty()) {
+                            Piece tp = tile[file][rank].getPiece();
+                            if (isAlly(tile[file][rank].getPiece())) {
+                                continue;
+                            } else if ((Util.isBlackKing(this) && Util.isWhiteKing(tp)) || (Util.isWhiteKing(this) && Util.isBlackKing(tp))) {
+                                continue;
+                            } else if (Util.isOfSamePosition(file, x, rank, y)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+            case 'n': {
+                for (int[] array : possibleWays) {
+                    int file = position[0];
+                    int rank = position[1];
+                    file += array[0];
+                    rank += array[1];
+                    if (Util.isValid(file, rank)) {
+                        if (!tile[file][rank].isEmpty()) {
+                            Piece tp = tile[file][rank].getPiece();
+                            if (isAlly(tile[file][rank].getPiece())) {
+                                continue;
+                            } else if (Util.isOfSamePosition(file, x, rank, y)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+            default: {
+                for (int[] array : possibleWays) {
+                    int file = position[0];
+                    int rank = position[1];
+                    while (Util.isValid(file, rank)) {
+                        file += array[0];
+                        rank += array[1];
+                        if (!tile[file][rank].isEmpty()) {
+                            if (isAlly(tile[file][rank].getPiece())) {
+                                break;
+                            } else if (Util.isOfSamePosition(file, x, rank, y)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        }
     }
 
     public boolean isAlly(char piece) {
