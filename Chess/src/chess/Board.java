@@ -58,25 +58,11 @@ public class Board {
         checkForBlack = false;
         checkResolved = true;
         Color toCheck = forBlackToMove ? Constants.WHITE_PIECE_COLOR :Constants.BLACK_PIECE_COLOR;
-        Tile targetKingTile = forBlackToMove ? getTile('k') : getTile('K');
+        Tile targetKingTile = forBlackToMove ? getTile(getKingPosition(true)) : getTile(getKingPosition(false));
         for (Tile[] col : tile) {
             for (Tile row : col) {
                 Piece piece = row.getPiece();
-                if (piece != null && !Util.isKing(piece) && piece.getColor() == toCheck) {
-//                    piece.generateLegalMoves(this);
-//                    ArrayList<Tile> legalMoves = piece.getLegalMoves();
-//                    for (Tile t : legalMoves) {
-//                        if (Util.isOfSamePosition(t, targetKingTile)) {
-//                            if (!forBlackToMove) {
-//                                checkForWhite = true;
-//                            } else {
-//                                checkForBlack = true;
-//                            }
-//                            checkResolved = false;
-//                            break;
-//                        }
-//                    }
-//                    piece.getLegalMoves().clear();
+                if (piece != null &&piece.getColor() == toCheck&& !Util.isKing(piece) ) {
                     if(piece.isPossibleToReach(this, targetKingTile)){
                         if(forBlackToMove){
                            checkForBlack=true; 
@@ -123,30 +109,36 @@ public class Board {
     
     public void move(Piece piece,Tile nt){
         Tile pTile=getTile(piece);
-        getTile(piece).emptyTile();
-        emptySpace(pTile.getPosition());
+        pTile.emptyTile();
         nt.place(piece);
         piece.setPosition(nt);
-        board[pTile.getPosition()[0]][pTile.getPosition()[1]]=piece.getPieceChar();
+        refactorBoard();
     }
-
-    public void emptySpace(int x, int y) {
-        board[x][y] = ' ';
+    
+    public void refactorBoard(){
+        for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
+            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
+                board[i][j]=tile[i][j].getPieceChar();
+            }
+        }
     }
-
-    public void emptySpace(Tile t) {
-        emptySpace(t.getPosition());
-    }
-
-    public void emptySpace(int[] pos) {
-        emptySpace(pos[0], pos[1]);
+    
+    public void printBoard(){
+        refactorBoard();
+        for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
+            for (int j = 0; j < Constants.NUM_OF_ROWS; j++) {
+                System.out.print(board[j][i]);
+            }
+            System.out.println("");
+        }
+        System.out.println("");
     }
 
     public int[] getKingPosition(boolean isBlack) {
         char pieceChar = isBlack ? 'k' : 'K';
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (board[i][j] == pieceChar) {
+                if (tile[i][j].getPieceChar() == pieceChar) {
                     return new int[]{i, j};
                 }
             }

@@ -21,7 +21,7 @@ public class Piece {
         pieceChar = isBlack ? name.charAt(0) : Util.upper(name.charAt(0));
         c = isBlack ? Constants.BLACK_PIECE_COLOR : Constants.WHITE_PIECE_COLOR;
         img = new ImageIcon(imgLocation);
-        legalMoves = new ArrayList<Tile>();
+        legalMoves = new ArrayList<>();
         generateValueAndOffset();
     }
 
@@ -75,36 +75,40 @@ public class Piece {
         switch (Util.upper(pieceChar)) {
             case 'P': {
                 if (c == Constants.BLACK_PIECE_COLOR) {
-                    int length=position[1]==1?offset.length:offset.length-1;
+                    int length = position[1] == 1 ? offset.length : offset.length - 1;
                     for (int i = 0; i < length; i++) {
                         int file = position[0];
                         int rank = position[1];
                         file += offset[i][0];
                         rank += offset[i][1];
-                        if (i == 0||i==offset.length-1) {
-                            if (tile[file][rank].isEmpty()) {
-                                legalMoves.add(tile[file][rank]);
-                            }
-                        } else {
-                            if (!tile[file][rank].isEmpty() && !isAlly(tile[file][rank].getPiece())) {
-                                legalMoves.add(tile[file][rank]);
+                        if (Util.isValid(file, rank)) {
+                            if (i == 0 || i == offset.length - 1) {
+                                if (tile[file][rank].isEmpty()) {
+                                    legalMoves.add(tile[file][rank]);
+                                }
+                            } else {
+                                if (!tile[file][rank].isEmpty() && !isAlly(tile[file][rank].getPiece())) {
+                                    legalMoves.add(tile[file][rank]);
+                                }
                             }
                         }
                     }
                 } else {
-                    int length=position[1]==6?offset.length:offset.length-1;
+                    int length = position[1] == 6 ? offset.length : offset.length - 1;
                     for (int i = 0; i < length; i++) {
                         int file = position[0];
                         int rank = position[1];
                         file += (offset[i][0] * -1);
                         rank += (offset[i][1] * -1);
-                        if (i == 0||i==offset.length-1) {
-                            if (tile[file][rank].isEmpty()) {
-                                legalMoves.add(tile[file][rank]);
-                            }
-                        } else {
-                            if (!tile[file][rank].isEmpty() && !isAlly(tile[file][rank].getPiece())) {
-                                legalMoves.add(tile[file][rank]);
+                        if (Util.isValid(file, rank)) {
+                            if (i == 0 || i == offset.length - 1) {
+                                if (tile[file][rank].isEmpty()) {
+                                    legalMoves.add(tile[file][rank]);
+                                }
+                            } else {
+                                if (!tile[file][rank].isEmpty() && !isAlly(tile[file][rank].getPiece())) {
+                                    legalMoves.add(tile[file][rank]);
+                                }
                             }
                         }
                     }
@@ -161,9 +165,9 @@ public class Piece {
                 for (int i = 0; i < offset.length; i++) {
                     int file = position[0];
                     int rank = position[1];
+                    file += offset[i][0];
+                    rank += offset[i][1];
                     while (Util.isValid(file, rank)) {
-                        file += offset[i][0];
-                        rank += offset[i][1];
                         Piece tp = tile[file][rank].getPiece();
                         if (tp != null) {
                             if (isAlly(tp)) {
@@ -175,6 +179,8 @@ public class Piece {
                         } else {
                             legalMoves.add(tile[file][rank]);
                         }
+                        file += offset[i][0];
+                        rank += offset[i][1];
                     }
                 }
                 break;
@@ -216,22 +222,22 @@ public class Piece {
         switch (temp) {
             case 'p': {
                 if (c == Constants.BLACK_PIECE_COLOR) {
-                    for (int i = 1; i < offset.length-1; i++) {
+                    for (int i = 1; i < offset.length - 1; i++) {
                         int file = position[0];
                         int rank = position[1];
                         file += offset[i][0];
                         rank += offset[i][1];
-                        if (Util.isOfSamePosition(file, x, rank, y)) {
+                        if (Util.isValid(file, rank)&&Util.isOfSamePosition(file, x, rank, y)) {
                             return true;
                         }
                     }
                 } else {
-                    for (int i = 1; i < offset.length-1; i++) {
+                    for (int i = 1; i < offset.length - 1; i++) {
                         int file = position[0];
                         int rank = position[1];
                         file += (offset[i][0] * -1);
                         rank += (offset[i][1] * -1);
-                        if (Util.isOfSamePosition(file, x, rank, y)) {
+                        if (Util.isValid(file, rank)&&Util.isOfSamePosition(file, x, rank, y)) {
                             return true;
                         }
                     }
@@ -247,7 +253,7 @@ public class Piece {
                     if (Util.isValid(file, rank)) {
                         if (!tile[file][rank].isEmpty()) {
                             Piece tp = tile[file][rank].getPiece();
-                            if (isAlly(tile[file][rank].getPiece())) {
+                            if (isAlly(tp)) {
                                 continue;
                             } else if ((Util.isBlackKing(this) && Util.isWhiteKing(tp)) || (Util.isWhiteKing(this) && Util.isBlackKing(tp))) {
                                 continue;
@@ -268,7 +274,7 @@ public class Piece {
                     if (Util.isValid(file, rank)) {
                         if (!tile[file][rank].isEmpty()) {
                             Piece tp = tile[file][rank].getPiece();
-                            if (isAlly(tile[file][rank].getPiece())) {
+                            if (isAlly(tp)) {
                                 continue;
                             } else if (Util.isOfSamePosition(file, x, rank, y)) {
                                 return true;
@@ -282,9 +288,9 @@ public class Piece {
                 for (int[] array : possibleWays) {
                     int file = position[0];
                     int rank = position[1];
+                    file += array[0];
+                    rank += array[1];
                     while (Util.isValid(file, rank)) {
-                        file += array[0];
-                        rank += array[1];
                         if (!tile[file][rank].isEmpty()) {
                             if (isAlly(tile[file][rank].getPiece())) {
                                 break;
@@ -292,6 +298,8 @@ public class Piece {
                                 return true;
                             }
                         }
+                        file += array[0];
+                        rank += array[1];
                     }
                 }
                 return false;

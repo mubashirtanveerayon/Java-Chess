@@ -70,6 +70,7 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
         renderBoard();
+        board.printBoard();
     }
 
 }
