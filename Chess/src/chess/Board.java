@@ -117,6 +117,13 @@ public class Board {
     public void move(Piece piece,Tile nt){
         Tile pTile=getTile(piece);
         pTile.emptyTile();
+        if(Util.lower(piece.getPieceChar())==Constants.BLACK_PAWN){
+            if(piece.getColor()==Constants.BLACK_PIECE_COLOR&&nt.getPosition()[1]==7){
+                piece.promote(Constants.BLACK_QUEEN);
+            }else if(piece.getColor()==Constants.WHITE_PIECE_COLOR&&nt.getPosition()[1]==0){
+                piece.promote(Constants.WHITE_QUEEN);
+            }
+        }
         nt.place(piece);
         piece.setPosition(nt);
         refactorBoard();

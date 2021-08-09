@@ -187,6 +187,23 @@ public class Piece {
             }
         }
     }
+    
+    public void copy(Piece piece){
+        setPosition(piece.getPosition());
+        pieceChar=piece.getPieceChar();
+        imgLocation=piece.imgLocation;
+        img=piece.getPieceImage();
+    }
+    
+    public void promote(char ch){
+        for(String name:Constants.PIECE_NAMES){
+            if(ch==name.charAt(0)){
+                Piece piece = new Piece(name,this.getColor()==Constants.BLACK_PIECE_COLOR,this.position[0],this.position[1]);
+                copy(piece);
+                break;
+            }
+        }
+    }
 
     public boolean isLegalMove(Tile t) {
         int[] tpos = t.getPosition();
