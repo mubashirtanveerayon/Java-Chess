@@ -100,5 +100,5 @@ public class Constants {
 
     public static final int[][] KNIGHT_OFFSET= {{2, -1}, {1, -2}, {1, 2}, {-2, -1}, {-2, 1}, {-1, -2}, {-1, 2},{2,1}};
 
-    public static final int[][] PAWN_OFFSET= {{}};
+    public static final int[][] PAWN_OFFSET= {{0,1},{-1,1},{1,1},{0,2}};
 }

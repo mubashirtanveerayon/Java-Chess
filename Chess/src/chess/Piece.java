@@ -74,6 +74,41 @@ public class Piece {
         Tile[][] tile = board.getTiles();
         switch (Util.upper(pieceChar)) {
             case 'P': {
+                if (c == Constants.BLACK_PIECE_COLOR) {
+                    int length=position[1]==1?offset.length:offset.length-1;
+                    for (int i = 0; i < length; i++) {
+                        int file = position[0];
+                        int rank = position[1];
+                        file += offset[i][0];
+                        rank += offset[i][1];
+                        if (i == 0||i==offset.length-1) {
+                            if (tile[file][rank].isEmpty()) {
+                                legalMoves.add(tile[file][rank]);
+                            }
+                        } else {
+                            if (!tile[file][rank].isEmpty() && !isAlly(tile[file][rank].getPiece())) {
+                                legalMoves.add(tile[file][rank]);
+                            }
+                        }
+                    }
+                } else {
+                    int length=position[1]==6?offset.length:offset.length-1;
+                    for (int i = 0; i < length; i++) {
+                        int file = position[0];
+                        int rank = position[1];
+                        file += (offset[i][0] * -1);
+                        rank += (offset[i][1] * -1);
+                        if (i == 0||i==offset.length-1) {
+                            if (tile[file][rank].isEmpty()) {
+                                legalMoves.add(tile[file][rank]);
+                            }
+                        } else {
+                            if (!tile[file][rank].isEmpty() && !isAlly(tile[file][rank].getPiece())) {
+                                legalMoves.add(tile[file][rank]);
+                            }
+                        }
+                    }
+                }
                 break;
             }
             case 'K': {
@@ -180,6 +215,27 @@ public class Piece {
         Tile[][] tile = board.getTiles();
         switch (temp) {
             case 'p': {
+                if (c == Constants.BLACK_PIECE_COLOR) {
+                    for (int i = 1; i < offset.length-1; i++) {
+                        int file = position[0];
+                        int rank = position[1];
+                        file += offset[i][0];
+                        rank += offset[i][1];
+                        if (Util.isOfSamePosition(file, x, rank, y)) {
+                            return true;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i < offset.length-1; i++) {
+                        int file = position[0];
+                        int rank = position[1];
+                        file += (offset[i][0] * -1);
+                        rank += (offset[i][1] * -1);
+                        if (Util.isOfSamePosition(file, x, rank, y)) {
+                            return true;
+                        }
+                    }
+                }
                 return false;
             }
             case 'k': {
