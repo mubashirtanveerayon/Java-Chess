@@ -96,6 +96,10 @@ public class Board {
             return false;
         }
         Tile prevTile = getTile(piece);
+        Piece prevPiece=null;
+        if(!t.isEmpty()){
+            prevPiece=t.getPiece();
+        }
         move(piece, t);
         boolean isLegal;
         if (piece.getColor() == Constants.BLACK_PIECE_COLOR) {
@@ -104,6 +108,9 @@ public class Board {
             isLegal = !isWhiteOnCheck();
         }
         move(piece, prevTile);
+        if(prevPiece!=null){
+            move(prevPiece,t);
+        }
         return isLegal;
     }
     

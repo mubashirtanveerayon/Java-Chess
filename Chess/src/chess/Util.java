@@ -63,7 +63,7 @@ public class Util {
     }
     
     static boolean isKing(Piece piece){
-        return !isWhiteKing(piece)&&!isBlackKing(piece);
+        return isWhiteKing(piece)&&isBlackKing(piece);
     }
     
     static boolean isOfSameSign(int i,int j){

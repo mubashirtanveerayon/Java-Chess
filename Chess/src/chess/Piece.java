@@ -227,8 +227,10 @@ public class Piece {
                         int rank = position[1];
                         file += offset[i][0];
                         rank += offset[i][1];
-                        if (Util.isValid(file, rank)&&Util.isOfSamePosition(file, x, rank, y)) {
-                            return true;
+                        if (Util.isValid(file, rank)) {
+                            if (Util.isOfSamePosition(file, x, rank, y)) {
+                                return true;
+                            }
                         }
                     }
                 } else {
@@ -237,8 +239,10 @@ public class Piece {
                         int rank = position[1];
                         file += (offset[i][0] * -1);
                         rank += (offset[i][1] * -1);
-                        if (Util.isValid(file, rank)&&Util.isOfSamePosition(file, x, rank, y)) {
-                            return true;
+                        if (Util.isValid(file, rank)) {
+                            if (Util.isOfSamePosition(file, x, rank, y)) {
+                                return true;
+                            }
                         }
                     }
                 }
@@ -251,15 +255,8 @@ public class Piece {
                     file += array[0];
                     rank += array[1];
                     if (Util.isValid(file, rank)) {
-                        if (!tile[file][rank].isEmpty()) {
-                            Piece tp = tile[file][rank].getPiece();
-                            if (isAlly(tp)) {
-                                continue;
-                            } else if ((Util.isBlackKing(this) && Util.isWhiteKing(tp)) || (Util.isWhiteKing(this) && Util.isBlackKing(tp))) {
-                                continue;
-                            } else if (Util.isOfSamePosition(file, x, rank, y)) {
-                                return true;
-                            }
+                        if (Util.isOfSamePosition(file, x, rank, y)) {
+                            return true;
                         }
                     }
                 }
@@ -272,13 +269,8 @@ public class Piece {
                     file += array[0];
                     rank += array[1];
                     if (Util.isValid(file, rank)) {
-                        if (!tile[file][rank].isEmpty()) {
-                            Piece tp = tile[file][rank].getPiece();
-                            if (isAlly(tp)) {
-                                continue;
-                            } else if (Util.isOfSamePosition(file, x, rank, y)) {
-                                return true;
-                            }
+                        if (Util.isOfSamePosition(file, x, rank, y)) {
+                            return true;
                         }
                     }
                 }
@@ -291,11 +283,11 @@ public class Piece {
                     file += array[0];
                     rank += array[1];
                     while (Util.isValid(file, rank)) {
-                        if (!tile[file][rank].isEmpty()) {
-                            if (isAlly(tile[file][rank].getPiece())) {
+                        if (Util.isOfSamePosition(file, x, rank, y)) {
+                            return true;
+                        } else {
+                            if (!tile[file][rank].isEmpty()) {
                                 break;
-                            } else if (Util.isOfSamePosition(file, x, rank, y)) {
-                                return true;
                             }
                         }
                         file += array[0];

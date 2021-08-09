@@ -19,12 +19,12 @@ public class MainWindow extends JFrame{
     
     public MainWindow(){
         setSize(800,700);
-        setLayout(null);
         setLocation(150,60);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         board = new Board();
-        gamePanel=new GamePanel(600,600,board);
+        gamePanel=new GamePanel(board);
         initComponents();
+        pack();
     }
     
     public void initComponents(){

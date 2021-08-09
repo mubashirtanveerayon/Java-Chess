@@ -13,9 +13,8 @@ public class GamePanel extends JPanel implements ActionListener {
     Tile selectedTile;
     boolean whiteToMove;
 
-    public GamePanel(int w, int h, Board board_) {
-        setSize(w, h);
-        setLayout(new GridLayout(Constants.NUM_OF_COLUMNS, Constants.NUM_OF_ROWS));
+    public GamePanel(Board board_) {
+        super(new GridLayout(Constants.NUM_OF_COLUMNS, Constants.NUM_OF_ROWS));
         board = board_;
         tile = board.getTiles();
         for (int i = 0; i < Constants.NUM_OF_COLUMNS; i++) {
@@ -70,7 +69,6 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
         renderBoard();
-        board.printBoard();
     }
 
 }
