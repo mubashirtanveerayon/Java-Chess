@@ -193,6 +193,7 @@ public class Piece {
         pieceChar=piece.getPieceChar();
         imgLocation=piece.imgLocation;
         img=piece.getPieceImage();
+        offset=piece.offset;
     }
     
     public void promote(char ch){
