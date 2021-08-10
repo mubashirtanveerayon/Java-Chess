@@ -12,6 +12,7 @@ public class GamePanel extends JPanel implements ActionListener {
     boolean selected;
     Tile selectedTile;
     boolean whiteToMove;
+    Cpu cpu;
 
     public GamePanel(Board board_) {
         super(new GridLayout(Constants.NUM_OF_COLUMNS, Constants.NUM_OF_ROWS));
@@ -25,6 +26,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         selected = false;
         whiteToMove = true;
+        cpu=new Cpu(board);
         renderBoard();
     }
 
@@ -36,7 +38,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         tile = board.getTiles();
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < Constants.NUM_OF_COLUMNS; i++) {
@@ -48,23 +50,30 @@ public class GamePanel extends JPanel implements ActionListener {
                             if (whiteToMove && piece.getColor() == Constants.WHITE_PIECE_COLOR) {
                                 if (board.isLegal(piece, tile[i][j])) {
                                     board.move(piece, tile[i][j]);
-                                    whiteToMove=false;
-                                }else{
+                                     whiteToMove = false;
+                                     cpu.calculateOwnPieces();
+                                     cpu.generateRandomMove();
+                                     cpu.makeMove();
+                                     whiteToMove=true;
+                                } else {
                                     System.out.println("Not a legal move!");
                                 }
-                            }else if(!whiteToMove&&piece.getColor() == Constants.BLACK_PIECE_COLOR){
-                                if (board.isLegal(piece, tile[i][j])) {
-                                    board.move(piece, tile[i][j]);
-                                    whiteToMove = true;
-                                }else{
-                                    System.out.println("Not a legal move!");
-                                }
-                            }
+                           }
+//                           else if (!whiteToMove && piece.getColor() == Constants.BLACK_PIECE_COLOR) {
+//                                if (board.isLegal(piece, tile[i][j])) {
+//                                    board.move(piece, tile[i][j]);
+//                                    whiteToMove = true;
+//                                } else {
+//                                    System.out.println("Not a legal move!");
+//                                }
+//                            }
                         }
                     } else {
                         selectedTile = tile[i][j];
                     }
                     selected = !selected;
+                    System.out.println("s:" + selected);
+                    System.out.println(whiteToMove);
                 }
             }
         }
