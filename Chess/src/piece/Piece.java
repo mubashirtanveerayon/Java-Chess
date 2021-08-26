@@ -5,6 +5,7 @@ import board.Tile;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import util.Constants;
+import util.ResourceLoader;
 import util.Util;
 
 public class Piece {
@@ -22,7 +23,7 @@ public class Piece {
         this.name=name;
         pieceChar=name.charAt(0);
         white=Util.isUpperCase(name.charAt(0));
-        img=white?new ImageIcon(Constants.WHITE_IMG_PATH+name.toLowerCase()+".png"):new ImageIcon(Constants.BLACK_IMG_PATH+name.toLowerCase()+".png");
+        img=white?new ImageIcon(ResourceLoader.load(Constants.WHITE_IMG_PATH+name.toLowerCase()+".png")):new ImageIcon(ResourceLoader.load(Constants.BLACK_IMG_PATH+name.toLowerCase()+".png"));
         this.position=position;
         generateOffset();
     }

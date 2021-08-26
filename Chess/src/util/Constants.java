@@ -42,9 +42,9 @@ public class Constants {
 
     public static final char BLACK_KING = 'k';
     
-    public static final String WHITE_IMG_PATH="src"+File.separator+"images"+File.separator+"white"+File.separator;
+    public static final String WHITE_IMG_PATH="images"+File.separator+"white"+File.separator;
 
-    public static final String BLACK_IMG_PATH="src"+File.separator+"images"+File.separator+"black"+File.separator;
+    public static final String BLACK_IMG_PATH="images"+File.separator+"black"+File.separator;
 
     public static final String WHITE_PAWN_IMG_PATH = "src"+File.separator+"images"+File.separator+"white"+File.separator+"pawn.png";
 
