@@ -49,6 +49,18 @@ public class Util {
         return a[0]==b[0]&&a[1]==b[1];
     }
     
+    public static boolean sameoffset(int[][] dir1,int[][] dir2){
+        if(dir1.length!=dir2.length){
+            return false;
+        }
+        for (int i = 0; i < dir1.length; i++) {
+            if(!samePosition(dir1[i],dir2[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+    
     public static String loadFenFromBoard(Board board){
         StringBuilder sb = new StringBuilder();
         Tile[][] boardTiles = board.boardTiles;

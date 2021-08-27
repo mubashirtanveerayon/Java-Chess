@@ -73,20 +73,23 @@ public class Piece {
             char prev=board.boardChars[iter[0]][iter[1]];
             board.boardChars[position[0]][position[1]]=' ';
             board.boardChars[iter[0]][iter[1]]=pieceChar;
-            int[] target = board.getKingPosition(white);
             for(int f=0;f<Constants.NUM_OF_COLUMNS;f++){
                 for(int r=0;r<Constants.NUM_OF_ROWS;r++){
                     if(board.boardChars[f][r]!=' '){
                         if(white){
                             if(!Util.isUpperCase(board.boardChars[f][r])){
                                Piece piece = new Piece(board.boardChars[f][r],new int[]{f,r});
+                               int[] target = board.getKingPosition(white);
                                int dx=target[0]-piece.position[0];
                                int dy=target[1]-piece.position[1];
                                ArrayList<int[]> dir=Util.getDirection(dx, dy, piece.offset,piece.pieceChar);
+                               if(f==4&&r==3&&piece.pieceChar=='p'){
+                                    //System.out.println("p:"+dir.get(0)[0]+","+dir.get(0)[1]+";"+dir.get(1)[0]+","+dir.get(1)[1]);
+                               }
                                piece.generatePseudoLegalMoves(dir, board);
                                for(int[] d:piece.pseudoLegalMoves){
                                    if(Util.samePosition(d,target)){
-                                       System.out.println(pieceChar+":"+iter[0]+","+iter[1]);
+                                       //System.out.println(pieceChar+":"+iter[0]+","+iter[1]);
                                        toRemove.add(iter);
                                        break;
                                    }
@@ -95,13 +98,14 @@ public class Piece {
                         }else{
                             if(Util.isUpperCase(board.boardChars[f][r])){
                                 Piece piece = new Piece(board.boardChars[f][r],new int[]{f,r});
+                                int[] target = board.getKingPosition(white);
                                 int dx=target[0]-piece.position[0];
-                               int dy=target[1]-piece.position[1];
+                                int dy=target[1]-piece.position[1];
                                 ArrayList<int[]> dir=Util.getDirection(dx, dy, piece.offset,piece.pieceChar);
                                 piece.generatePseudoLegalMoves(dir, board);
                                 for(int[] d:piece.pseudoLegalMoves){
                                    if(Util.samePosition(d,target)){
-                                       System.out.println(pieceChar+":"+iter[0]+","+iter[1]);
+                                       //System.out.println(pieceChar+":"+iter[0]+","+iter[1]);
                                        toRemove.add(iter);
                                        break;
                                    }
@@ -139,7 +143,7 @@ public class Piece {
                 }
                 break;
             }case Constants.WHITE_PAWN:{
-                int length=(white&&position[1]==6)||(!white&&position[1]==1)?legaldir.length:legaldir.length-1;
+                int length=!((white&&position[1]==6)||(!white&&position[1]==1))&&Util.sameoffset(legaldir,offset)?legaldir.length-1:legaldir.length;
                 for(int i=0;i<length;i++){
                     int file = position[0];
                     int rank = position[1];

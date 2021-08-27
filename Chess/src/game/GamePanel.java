@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements ActionListener{
                             Piece piece = selectedTile.piece;
                             ArrayList<int[]> legalMoves=piece.getLegalMoves(board);
                             for(int[] p:legalMoves){
-                                if(Util.samePosition(p,board.boardTiles[i][j].position)){
+                                if(Util.samePosition(p,board.boardTiles[i][j].position)&&Util.toUpper(board.boardChars[i][j])!=Constants.WHITE_KING){
                                     board.move(board.boardTiles[i][j], piece);
                                     break;
                                 }
