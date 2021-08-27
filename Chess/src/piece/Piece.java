@@ -67,13 +67,13 @@ public class Piece {
         
     public ArrayList<int[]> getLegalMoves(Board board){
         generatePseudoLegalMoves(offset,board);
-        int[] target = board.getKingPosition(white);
         board.refactorBoardChars();
         ArrayList<int[]> toRemove = new ArrayList<>();
         for(int[] iter:pseudoLegalMoves){
             char prev=board.boardChars[iter[0]][iter[1]];
             board.boardChars[position[0]][position[1]]=' ';
             board.boardChars[iter[0]][iter[1]]=pieceChar;
+            int[] target = board.getKingPosition(white);
             for(int f=0;f<Constants.NUM_OF_COLUMNS;f++){
                 for(int r=0;r<Constants.NUM_OF_ROWS;r++){
                     if(board.boardChars[f][r]!=' '){
@@ -82,7 +82,7 @@ public class Piece {
                                Piece piece = new Piece(board.boardChars[f][r],new int[]{f,r});
                                int dx=target[0]-piece.position[0];
                                int dy=target[1]-piece.position[1];
-                               ArrayList<int[]> dir=Util.getShortestPath(dx, dy, piece.offset,piece.pieceChar);
+                               ArrayList<int[]> dir=Util.getDirection(dx, dy, piece.offset,piece.pieceChar);
                                piece.generatePseudoLegalMoves(dir, board);
                                for(int[] d:piece.pseudoLegalMoves){
                                    if(Util.samePosition(d,target)){
@@ -97,7 +97,7 @@ public class Piece {
                                 Piece piece = new Piece(board.boardChars[f][r],new int[]{f,r});
                                 int dx=target[0]-piece.position[0];
                                int dy=target[1]-piece.position[1];
-                                ArrayList<int[]> dir=Util.getShortestPath(dx, dy, piece.offset,piece.pieceChar);
+                                ArrayList<int[]> dir=Util.getDirection(dx, dy, piece.offset,piece.pieceChar);
                                 piece.generatePseudoLegalMoves(dir, board);
                                 for(int[] d:piece.pseudoLegalMoves){
                                    if(Util.samePosition(d,target)){
@@ -167,7 +167,7 @@ public class Piece {
                      if(Util.isValid(file, rank)){
                          if(board.boardChars[file][rank]==' '){
                               pseudoLegalMoves.add(new int[]{file, rank});
-                         }else if(!isAlly(board.boardChars[file][rank])&&Util.toUpper(board.boardChars[file][rank])!=Constants.WHITE_KING){
+                         }else if(!isAlly(board.boardChars[file][rank])){
                               pseudoLegalMoves.add(new int[]{file, rank});
                          }
                      }

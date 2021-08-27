@@ -72,8 +72,7 @@ public class GamePanel extends JPanel implements ActionListener{
                     }else{
                         selectedTile=board.boardTiles[i][j];
                         if(selectedTile.isOccupied()){
-                            selectedTile.piece.generatePseudoLegalMoves(selectedTile.piece.offset, board);
-                            ArrayList<int[]> pos=selectedTile.piece.pseudoLegalMoves;
+                            ArrayList<int[]> pos = selectedTile.piece.getLegalMoves(board);
                             for(int[] d:pos){
                                 board.getTile(d).setBackground(Color.red);
                             }

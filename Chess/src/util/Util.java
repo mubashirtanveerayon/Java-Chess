@@ -104,7 +104,7 @@ public class Util {
         return board;
     }
     
-    public static ArrayList<int[]> getShortestPath(int dx,int dy,int[][] offset,char pieceChar){
+    public static ArrayList<int[]> getDirection(int dx,int dy,int[][] offset,char pieceChar){
         ArrayList<int[]> path=new ArrayList<>();
         if(toUpper(pieceChar)==Constants.WHITE_PAWN){
             for (int i = 0; i < offset.length-2; i++) {
