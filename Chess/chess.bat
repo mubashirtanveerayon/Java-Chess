@@ -1,0 +1,1 @@
+java -jar dist/Chess1.1.jar
