@@ -6,6 +6,7 @@
 package game;
 
 import board.Board;
+import board.Move;
 import board.Tile;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -17,19 +18,17 @@ import piece.Piece;
 import util.Constants;
 import util.Util;
 
-/**
- *
- * @author ayon2
- */
 public class GamePanel extends JPanel implements ActionListener{
     
     Board board;
     Tile selectedTile;
+    Move move;
 
     public GamePanel(Board board){
         super(new GridLayout(Constants.NUM_OF_COLUMNS,Constants.NUM_OF_ROWS));
         setSize(600,500);
         this.board=board;
+        move = new Move(board);
         for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
             for(int j=0;j<Constants.NUM_OF_ROWS;j++){
                 board.boardTiles[j][i].addActionListener(this);
@@ -55,12 +54,8 @@ public class GamePanel extends JPanel implements ActionListener{
                     if(selectedTile!=null){
                         if(selectedTile.isOccupied()){
                             Piece piece = selectedTile.piece;
-                            ArrayList<int[]> legalMoves=piece.getLegalMoves(board);
-                            for(int[] p:legalMoves){
-                                if(Util.samePosition(p,board.boardTiles[i][j].position)&&Util.toUpper(board.boardChars[i][j])!=Constants.WHITE_KING){
-                                    board.move(board.boardTiles[i][j], piece);
-                                    break;
-                                }
+                            if(!move.move(board.boardTiles[i][j], piece)){
+                                System.out.println("Not a legal move!");
                             }
                         }
                         selectedTile=null;
@@ -72,7 +67,7 @@ public class GamePanel extends JPanel implements ActionListener{
                     }else{
                         selectedTile=board.boardTiles[i][j];
                         if(selectedTile.isOccupied()){
-                            ArrayList<int[]> pos = selectedTile.piece.getLegalMoves(board);
+                            ArrayList<int[]> pos =move.generateMove(selectedTile.piece.pieceChar,selectedTile.position,false); //selectedTile.piece.getLegalMoves(board);
                             for(int[] d:pos){
                                 board.getTile(d).setBackground(Color.red);
                             }

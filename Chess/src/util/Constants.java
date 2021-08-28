@@ -42,6 +42,8 @@ public class Constants {
 
     public static final char BLACK_KING = 'k';
     
+    public static final char EMPTY_CHAR = ' ';
+    
     public static final String WHITE_IMG_PATH="images"+File.separator+"white"+File.separator;
 
     public static final String BLACK_IMG_PATH="images"+File.separator+"black"+File.separator;

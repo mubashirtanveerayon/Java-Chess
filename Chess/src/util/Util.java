@@ -68,7 +68,11 @@ public class Util {
             int gap=0;
             for(int j=0;j<Constants.NUM_OF_ROWS;j++){
                 if(boardTiles[j][i].isOccupied()){
+                    if (gap != 0) {
+                        sb.append(gap);
+                    }
                     sb.append(boardTiles[j][i].getPieceChar());
+                    gap = 0;
                 }else{
                     gap++;
                 }
@@ -85,7 +89,6 @@ public class Util {
     
     public static Board loadBoardFromFen(String Fen){
         String fen=Fen.split(" ")[0];
-        System.out.println(fen);
         Tile[][] boardTiles=new Tile[Constants.NUM_OF_COLUMNS][Constants.NUM_OF_ROWS];
         for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
             for(int j=0;j<Constants.NUM_OF_ROWS;j++){
@@ -144,5 +147,13 @@ public class Util {
             newList.add(from.get(i));
         }
         return newList;
+    }
+    
+    public static int[][] copyArrayList(ArrayList<int[]> from){
+        int[][] nList = new int[from.size()][];
+        for(int i=0;i<from.size();i++){
+            nList[i] = from.get(i);
+        }
+        return nList;
     }
 }
