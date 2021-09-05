@@ -24,11 +24,12 @@ public class GamePanel extends JPanel implements ActionListener{
     Tile selectedTile;
     Move move;
 
-    public GamePanel(Board board){
+    public GamePanel(String fen){
         super(new GridLayout(Constants.NUM_OF_COLUMNS,Constants.NUM_OF_ROWS));
         setSize(600,500);
-        this.board=board;
-        move = new Move(board);
+        this.board=Util.loadBoardFromFen(fen);
+        boolean toMove = fen.split(" ")[1].equals(String.valueOf(Constants.WHITE));
+        move = new Move(board,toMove,fen);
         for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
             for(int j=0;j<Constants.NUM_OF_ROWS;j++){
                 board.boardTiles[j][i].addActionListener(this);
@@ -66,18 +67,20 @@ public class GamePanel extends JPanel implements ActionListener{
                         }
                     }else{
                         selectedTile=board.boardTiles[i][j];
-                        selectedTile.setBackground(Color.green);
+                        selectedTile.setBackground(new Color(0,255,0));
                         if(selectedTile.isOccupied()){
                             ArrayList<int[]> pos =move.generateMove(selectedTile.piece.pieceChar,selectedTile.position,false); //selectedTile.piece.getLegalMoves(board);
                             for(int[] d:pos){
-                                board.getTile(d).setBackground(Color.red);
+                                board.getTile(d).setBackground(new Color(255,0,0));
                             }
                         }
                     }
                 }
             }
         }
-         renderBoard();
+        System.out.println("evaluation : "+board.evaluateBoard());
+        board.printBoard();
+        renderBoard();
     }
     
 }

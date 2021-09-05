@@ -17,8 +17,7 @@ import util.Util;
 public class Main extends JFrame{
     
     public Main(){
-        Board board = Util.loadBoardFromFen(Constants.STARTING_FEN);
-        GamePanel gamePanel = new GamePanel(board);
+        GamePanel gamePanel = new GamePanel(Constants.STARTING_FEN);
         setDefaultCloseOperation(3);
         add(gamePanel);
         pack();

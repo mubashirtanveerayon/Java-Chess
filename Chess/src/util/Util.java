@@ -6,6 +6,7 @@
 package util;
 
 import board.Board;
+import board.Move;
 import board.Tile;
 import java.util.ArrayList;
 import piece.Piece;
@@ -84,6 +85,11 @@ public class Util {
                 sb.append('/');
             }
         }
+        if(Move.whiteToMove){
+            sb.append(" w");
+        }else{
+            sb.append(" b");
+        }
         return sb.toString();
     }    
     
@@ -115,7 +121,6 @@ public class Util {
             }
         }
         Board board= new Board(boardTiles);
-        board.refactorBoardChars();
         return board;
     }
     
