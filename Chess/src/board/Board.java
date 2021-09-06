@@ -28,14 +28,14 @@ public class Board {
     
     public void refactorBoard(){
         for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
-            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
-                boardChars[i][j]=boardTiles[i][j].getPieceChar();
-            }
             if(boardChars[i][0]==Constants.WHITE_PAWN){
                 boardTiles[i][0].piece = new Piece(Constants.WHITE_QUEEN,new int[]{i,0});
             }
             if(boardChars[i][7]==Constants.BLACK_PAWN){
                 boardTiles[i][7].piece = new Piece(Constants.BLACK_QUEEN,new int[]{i,7});
+            }
+            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
+                boardChars[i][j]=boardTiles[i][j].getPieceChar();
             }
         }
     }

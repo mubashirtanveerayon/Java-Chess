@@ -322,6 +322,9 @@ public class Move {
         ArrayList<int[]> legalMoves = generateMove(mPiece.pieceChar, mPiece.position, getOffset(mPiece.pieceChar), false);
         for (int[] pos : legalMoves) {
             if (Util.samePosition(pos, mTile.position)) {
+                fen = Util.loadFenFromBoard(board);
+                history.add(fen);
+                System.out.println(fen);
                 Tile pTile = board.getTile(mPiece.position);;
                 pTile.setIcon(null);
                 pTile.piece.position = null;
@@ -332,9 +335,6 @@ public class Move {
                 mTile.setIcon(mTile.piece.img);
                 board.refactorBoard();
                 whiteToMove = !whiteToMove;
-                fen = Util.loadFenFromBoard(board);
-                history.add(fen);
-                System.out.println(fen);
                 return true;
             }
         }
@@ -355,7 +355,7 @@ public class Move {
 
     public boolean[] generateCastlingMove(Board board, boolean white) {
         boolean queenSideCastling , kingSideCastling;
-        String cFen = history.get(0).split(" ")[2];
+        String cFen = fen.split(" ")[2];
         char king = white ? Constants.WHITE_KING : Constants.BLACK_KING;
         char queen = white?Constants.WHITE_QUEEN:Constants.BLACK_QUEEN;
         int k,length = cFen.length();
@@ -420,75 +420,6 @@ public class Move {
                 }
             }
         }
-        
-//        System.out.println("queen : "+queenSideCastling);
-//        System.out.println("king : "+kingSideCastling);
-            
-//        if (!isKingInCheck) {
-//            int rank = white ? 7 : 0;
-//            int[] kPos = new int[]{4, rank};
-//            int[] qrPos = new int[]{0, rank};
-//            int[] rPos = new int[]{7, rank};
-//            char king = white ? Constants.WHITE_KING : Constants.BLACK_KING;
-//            char rook = white ? Constants.WHITE_ROOK : Constants.BLACK_ROOK;
-//            boolean kingInPosition = board.boardChars[kPos[0]][kPos[1]] == Constants.WHITE_KING;
-//            boolean qrookInPosition = board.boardChars[qrPos[0]][qrPos[1]] == Constants.WHITE_ROOK;
-//            boolean rookInPosition = board.boardChars[rPos[0]][rPos[1]] == Constants.WHITE_ROOK;
-//            boolean queenSideUnoccupied = board.boardChars[1][rank] == Constants.EMPTY_CHAR
-//                    && board.boardChars[2][rank] == Constants.EMPTY_CHAR
-//                    && board.boardChars[3][rank] == Constants.EMPTY_CHAR;
-//            boolean rookSideUnoccupied = board.boardChars[5][rank] == Constants.EMPTY_CHAR
-//                    && board.boardChars[6][rank] == Constants.EMPTY_CHAR;
-//            if (kingInPosition && qrookInPosition && rookInPosition && (queenSideUnoccupied || rookSideUnoccupied)) {
-//                int score = 0, length = history.size() - 1;
-//                for (int i = 0; i < length; i++) {
-//                    boolean kingMoved = history.get(i).split(" ")[0].indexOf(king) != history.get(i + 1).split(" ")[0].indexOf(king);
-//                    boolean qrookMoved = history.get(i).split(" ")[0].indexOf(rook) != history.get(i + 1).split(" ")[0].indexOf(rook);
-//                    boolean rookMoved = history.get(i).split(" ")[0].lastIndexOf(rook) != history.get(i + 1).split(" ")[0].lastIndexOf(rook);
-//                    if (kingMoved || qrookMoved || rookMoved) {
-//                        break;
-//                    }
-//                    score++;
-//                }
-//                if (score == length) {
-//                    char kingChar = white ? Constants.WHITE_KING : Constants.BLACK_KING;
-//                    if (queenSideUnoccupied) {
-//                        for (int i = 2; i < 4; i++) {
-//                            board.boardChars[i][rank] = kingChar;
-//                            board.boardChars[kPos[0]][kPos[1]] = Constants.EMPTY_CHAR;
-//                            boolean check = isKingInCheck(board, true);
-//                            board.boardChars[kPos[0]][kPos[1]] = kingChar;
-//                            board.boardChars[i][rank] = Constants.EMPTY_CHAR;
-//                            if (check) {
-//                                queenSideCastling = false;
-//                                break;
-//                            }
-//                        }
-//                    }else if (rookSideUnoccupied) {
-//                        for (int i = 5; i < 7; i++) {
-//                            board.boardChars[i][rank] = kingChar;
-//                            board.boardChars[kPos[0]][kPos[1]] = Constants.EMPTY_CHAR;
-//                            boolean check = isKingInCheck(board, true);
-//                            board.boardChars[i][rank] = Constants.EMPTY_CHAR;
-//                            board.boardChars[kPos[0]][kPos[1]] = kingChar;
-//                            if (check) {
-//                                rookSideCastling = false;
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }else{
-//                    queenSideCastling = false; 
-//                    rookSideCastling = false;
-//                }
-//            }else{
-//                queenSideCastling = false; 
-//                rookSideCastling = false;
-//            }
-//        }else{
-//            queenSideCastling = false; 
-//            rookSideCastling = false;
-//        }
         return new boolean[]{queenSideCastling, kingSideCastling};
     }
 }
