@@ -17,19 +17,25 @@ public class Board {
                 boardTiles[i][j]=new Tile(i,j);
             }
         }
-        refactorBoardChars();
+        refactorBoard();
     }
     
     public Board(Tile[][] board){
         boardTiles=board;
         boardChars=new char[Constants.NUM_OF_COLUMNS][Constants.NUM_OF_ROWS];
-        refactorBoardChars();
+        refactorBoard();
     }
     
-    public void refactorBoardChars(){
+    public void refactorBoard(){
         for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
             for(int j=0;j<Constants.NUM_OF_ROWS;j++){
                 boardChars[i][j]=boardTiles[i][j].getPieceChar();
+            }
+            if(boardChars[i][0]==Constants.WHITE_PAWN){
+                boardTiles[i][0].piece = new Piece(Constants.WHITE_QUEEN,new int[]{i,0});
+            }
+            if(boardChars[i][7]==Constants.BLACK_PAWN){
+                boardTiles[i][7].piece = new Piece(Constants.BLACK_QUEEN,new int[]{i,7});
             }
         }
     }
@@ -57,7 +63,7 @@ public class Board {
         mTile.piece=mPiece;
         mPiece.position=Util.copyPosition(mTile.position);
         mTile.setIcon(mTile.piece.img);
-        refactorBoardChars();
+        refactorBoard();
     }
     
     public Tile getKingTile(boolean white){
@@ -82,6 +88,67 @@ public class Board {
             }
         }
         return null;
+    }
+    
+    public int evaluateBoard(){
+        refactorBoard();
+        int eval=0;
+        for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
+            for (int j = 0; j < Constants.NUM_OF_ROWS; j++) {
+             if(boardChars[i][j]!=Constants.EMPTY_CHAR){   
+                    switch(boardChars[i][j]){
+                        case Constants.WHITE_PAWN:
+                            eval-=Constants.PAWN_VALUE;
+                            break;
+                        case Constants.WHITE_KING:
+                            eval-=Constants.KING_VALUE;
+                            break;
+                        case Constants.WHITE_QUEEN:
+                            eval-=Constants.QUEEN_VALUE;
+                            break;
+                         case Constants.WHITE_ROOK:
+                            eval-=Constants.ROOK_VALUE;
+                            break;
+                        case Constants.WHITE_BISHOP:
+                            eval-=Constants.BISHOP_VALUE;
+                            break;
+                        case Constants.WHITE_KNIGHT:
+                            eval-=Constants.KNIGHT_VALUE;
+                            break;
+                        case Constants.BLACK_PAWN:
+                            eval+=Constants.PAWN_VALUE;
+                            break;
+                        case Constants.BLACK_KING:
+                            eval+=Constants.KING_VALUE;
+                            break;
+                        case Constants.BLACK_QUEEN:
+                            eval+=Constants.QUEEN_VALUE;
+                            break;
+                         case Constants.BLACK_ROOK:
+                            eval+=Constants.ROOK_VALUE;
+                            break;
+                        case Constants.BLACK_BISHOP:
+                            eval+=Constants.BISHOP_VALUE;
+                            break;
+                        case Constants.BLACK_KNIGHT:
+                            eval+=Constants.KNIGHT_VALUE;
+                            break;
+                    }
+                }
+            }
+        }
+        return eval;
+    }
+    
+    public void printBoard(){
+        System.out.println("Printing board :");
+        for(int i=0;i<Constants.NUM_OF_ROWS;i++){
+            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
+                System.out.print(boardChars[j][i]);
+            }
+            System.out.println("");
+        }
+        System.out.println("finished");
     }
     
 }

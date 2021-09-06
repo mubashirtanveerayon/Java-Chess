@@ -8,6 +8,7 @@ package board;
 import java.awt.Color;
 import javax.swing.JButton;
 import piece.Piece;
+import util.Constants;
 import util.Util;
 
 /**
@@ -39,7 +40,7 @@ public class Tile extends JButton{
     }
     
     public char getPieceChar(){
-        return isOccupied()?piece.pieceChar:' ';
+        return isOccupied()?piece.pieceChar:Constants.EMPTY_CHAR;
     }
     
     public Tile copy(){
