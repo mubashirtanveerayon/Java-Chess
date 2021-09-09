@@ -5,10 +5,7 @@
  */
 package game;
 
-import board.Board;
 import javax.swing.JFrame;
-import util.Constants;
-import util.Util;
 
 /**
  *
