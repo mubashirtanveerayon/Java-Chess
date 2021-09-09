@@ -19,13 +19,12 @@ public class Move {
     Board board;
     String fen;
     public static boolean whiteToMove;
-    public ArrayList<String> history;
+    public static ArrayList<String> history = new ArrayList<>();
 
     public Move(Board board, boolean toMove, String fen) {
         this.board = board;
         this.fen = fen;
         whiteToMove = toMove;
-        history = new ArrayList<>();
         history.add(this.fen);
     }
 
@@ -325,16 +324,15 @@ public class Move {
                 fen = Util.loadFenFromBoard(board);
                 history.add(fen);
                 System.out.println(fen);
-                Tile pTile = board.getTile(mPiece.position);;
+                Tile pTile = board.getTile(mPiece.position);
                 pTile.setIcon(null);
                 pTile.piece.position = null;
                 pTile.piece = null;
                 mTile.piece = mPiece;
                 mPiece.position = mTile.position;
                 mPiece.moved = true;
-                mTile.setIcon(mTile.piece.img);
-                board.refactorBoard();
                 whiteToMove = !whiteToMove;
+                board.refactorBoard();
                 return true;
             }
         }
@@ -353,9 +351,10 @@ public class Move {
         board.refactorBoard();
     }
 
-    public boolean[] generateCastlingMove(Board board, boolean white) {
+    //index 0 returns if qSide castling is possible
+    public static boolean[] generateCastlingMove(Board board, boolean white) {
         boolean queenSideCastling , kingSideCastling;
-        String cFen = fen.split(" ")[2];
+        String cFen = history.get(history.size()-1).split(" ")[2];
         char king = white ? Constants.WHITE_KING : Constants.BLACK_KING;
         char queen = white?Constants.WHITE_QUEEN:Constants.BLACK_QUEEN;
         int k,length = cFen.length();

@@ -40,11 +40,7 @@ public class GamePanel extends JPanel implements ActionListener{
     }
     
     public void renderBoard(){
-        for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
-            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
-                board.boardTiles[i][j].showPiece();
-            }
-        }
+        board.showBoard();
     }
 
     @Override
@@ -56,7 +52,7 @@ public class GamePanel extends JPanel implements ActionListener{
                         if(selectedTile.isOccupied()){
                             Piece piece = selectedTile.piece;
                             if(!move.move(board.boardTiles[i][j], piece)){
-                                //System.out.println("Not a legal move!");
+                                System.out.println("Not a legal move!");
                             }
                         }
                         selectedTile=null;
@@ -78,8 +74,8 @@ public class GamePanel extends JPanel implements ActionListener{
                 }
             }
         }
-//        System.out.println("evaluation : "+board.evaluateBoard());
-//        board.printBoard();
+        System.out.println("evaluation : "+board.evaluateBoard());
+        board.printBoard();
         renderBoard();
     }
     
