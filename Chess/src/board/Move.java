@@ -319,11 +319,28 @@ public class Move {
             return false;
         }
         ArrayList<int[]> legalMoves = generateMove(mPiece.pieceChar, mPiece.position, getOffset(mPiece.pieceChar), false);
-        for (int[] pos : legalMoves) {
+        int size = legalMoves.size();
+        for (int i=0;i<size;i++) {
+            int[] pos = legalMoves.get(i);
             if (Util.samePosition(pos, mTile.position)) {
                 fen = Util.loadFenFromBoard(board);
                 history.add(fen);
-                System.out.println(fen);
+                if(Util.toUpper(mPiece.pieceChar)==Constants.WHITE_KING){
+                    int diff = Math.abs(mPiece.position[0]-mTile.position[0]);
+                    if(diff==2){
+                        int toFile = mTile.position[0];
+                        int rank = mPiece.position[1];
+                        if(toFile == 2){
+                            board.boardTiles[3][rank].piece = board.boardTiles[0][rank].piece;
+                            board.boardTiles[3][rank].piece.position = board.boardTiles[3][rank].position;
+                            board.boardTiles[0][rank].piece = null;
+                        }else if(toFile == 6){
+                            board.boardTiles[5][rank].piece = board.boardTiles[7][rank].piece;
+                            board.boardTiles[5][rank].piece.position = board.boardTiles[5][rank].position;
+                            board.boardTiles[7][rank].piece = null;
+                        }
+                    }
+                }
                 Tile pTile = board.getTile(mPiece.position);
                 pTile.setIcon(null);
                 pTile.piece.position = null;
@@ -331,8 +348,11 @@ public class Move {
                 mTile.piece = mPiece;
                 mPiece.position = mTile.position;
                 mPiece.moved = true;
-                whiteToMove = !whiteToMove;
+                if(Util.toUpper(mPiece.pieceChar)==Constants.WHITE_KING){
+                    
+                }
                 board.refactorBoard();
+                whiteToMove = !whiteToMove;
                 return true;
             }
         }

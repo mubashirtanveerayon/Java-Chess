@@ -91,73 +91,41 @@ public class Util {
             sb.append(" b");
         }
         
-        String fen = sb.toString();
-        String prevFen = Move.history.get(Move.history.size()-1);
+        String prevFen = Move.history.get(Move.history.size()-1).split(" ")[0];
+
         char[][] prevBoardChars = new char[Constants.NUM_OF_COLUMNS][Constants.NUM_OF_ROWS];
         
-        int f = 0;
-        int r = 0;
+        int file = 0;
+        int rank = 0;
         for (int i = 0; i < prevFen.length(); i++) {
-            if(Character.isDigit(prevFen.charAt(i))){
-                f+=getNumericValue(prevFen.charAt(i));
+            char c=prevFen.charAt(i);
+            if(c=='/'){
+                file=0;
+                rank++;
+            }else if(Character.isDigit(c)){
+                file+=getNumericValue(c);
             }else{
-                if(prevFen.charAt(i)=='/'){
-                    r++;
-                    f = 0;
-                }else{
-                    prevBoardChars[f][r] = prevFen.charAt(i);
-                }
-                f++;
+                prevBoardChars[file][rank] = c;
+                file++;
             }
         }
         
         String cFen = Move.history.get(Move.history.size()-1).split(" ")[2];
-        boolean castlingPossible = castlingPossible = !cFen.equals("-");
+        boolean castlingPossible = !cFen.equals("-");
         sb.append(" ");
-//        boolean whiteQueenSide=false,whiteKingSide = false,blackQueenSide=false,blackKingSide=false;
         if(castlingPossible){
-//            for(int i=0;i<cFen.length();i++){
-//                switch(cFen.charAt(i)){
-//                    case Constants.WHITE_QUEEN:
-//                        whiteQueenSide = true;
-//                        break;
-//                    case Constants.BLACK_QUEEN:
-//                        blackQueenSide = true;
-//                        break;
-//                    case Constants.WHITE_KING:
-//                        whiteKingSide = true;
-//                        break;
-//                    case Constants.BLACK_KING:
-//                        whiteKingSide = true;
-//                        break;
-//                }
-//            }
             boolean wKingInPosition = board.boardChars[4][7] == Constants.WHITE_KING;
             boolean bKingInPosition = board.boardChars[4][0] == Constants.BLACK_KING;
             boolean wQRookInPosition = board.boardChars[0][7] == Constants.WHITE_ROOK;
             boolean wKRookInPosition = board.boardChars[7][7] == Constants.WHITE_ROOK;
             boolean bQRookInPosition = board.boardChars[0][0] == Constants.BLACK_ROOK;
             boolean bKRookInPosition = board.boardChars[7][0] == Constants.BLACK_ROOK;
-            boolean wKingMoved = !(prevBoardChars[4][7]!=Constants.WHITE_KING);
-            boolean bKingMoved = !(prevBoardChars[4][0]!=Constants.BLACK_KING);
-            boolean wQRookMoved = !(prevBoardChars[0][7]!=Constants.WHITE_ROOK);
-            boolean wKRookMoved = !(prevBoardChars[7][7]!=Constants.WHITE_ROOK);
-            boolean bQRookMoved = !(prevBoardChars[0][0]!=Constants.BLACK_ROOK);
-            boolean bKRookMoved = !(prevBoardChars[7][0]!=Constants.BLACK_ROOK);
-            
-//            int prevWK = prevFen.indexOf(String.valueOf(Constants.WHITE_KING));
-//            int prevBK = prevFen.indexOf(String.valueOf(Constants.BLACK_KING));
-//            int prevWKRook = prevFen.lastIndexOf(String.valueOf(Constants.WHITE_ROOK));
-//            int prevWQRook = prevFen.indexOf(String.valueOf(Constants.WHITE_ROOK));
-//            int prevBKRook = prevFen.lastIndexOf(String.valueOf(Constants.BLACK_ROOK));
-//            int prevBQRook = prevFen.indexOf(String.valueOf(Constants.BLACK_ROOK));
-//            
-//            int WK = fen.indexOf(String.valueOf(Constants.WHITE_KING));
-//            int BK = fen.indexOf(String.valueOf(Constants.BLACK_KING));
-//            int WKRook = fen.lastIndexOf(String.valueOf(Constants.WHITE_ROOK));
-//            int WQRook = fen.indexOf(String.valueOf(Constants.WHITE_ROOK));
-//            int BKRook = fen.lastIndexOf(String.valueOf(Constants.BLACK_ROOK));
-//            int BQRook = fen.indexOf(String.valueOf(Constants.BLACK_ROOK));
+            boolean wKingMoved = (prevBoardChars[4][7]!=Constants.WHITE_KING);
+            boolean bKingMoved = (prevBoardChars[4][0]!=Constants.BLACK_KING);
+            boolean wQRookMoved = (prevBoardChars[0][7]!=Constants.WHITE_ROOK);
+            boolean wKRookMoved = (prevBoardChars[7][7]!=Constants.WHITE_ROOK);
+            boolean bQRookMoved = (prevBoardChars[0][0]!=Constants.BLACK_ROOK);
+            boolean bKRookMoved = (prevBoardChars[7][0]!=Constants.BLACK_ROOK);
             
             if(wKingInPosition&&wKRookInPosition&&!wKingMoved&&!wKRookMoved){
                 sb.append(Constants.WHITE_KING);
@@ -173,76 +141,12 @@ public class Util {
                 sb.append(Constants.BLACK_QUEEN);
             }
             
-        }else{
+        }
+        
+        if(!castlingPossible||sb.charAt(sb.length()-1)==' '){
             sb.append("-");
         }
         
-        
-//        
-//        String cFen = Move.history.get(Move.history.size()-1).split(" ")[2];
-//        
-//        boolean whiteQueenSide=false,whiteKingSide = false,blackQueenSide=false,blackKingSide=false,castlingPossible = !cFen.equals("-");
-//        if(castlingPossible){
-//            for(int i=0;i<cFen.length();i++){
-//                switch(cFen.charAt(i)){
-//                    case Constants.WHITE_QUEEN:
-//                        whiteQueenSide = true;
-//                        break;
-//                    case Constants.BLACK_QUEEN:
-//                        blackQueenSide = true;
-//                        break;
-//                    case Constants.WHITE_KING:
-//                        whiteKingSide = true;
-//                        break;
-//                    case Constants.BLACK_KING:
-//                        whiteKingSide = true;
-//                        break;
-//                }
-//            }
-//        }
-//        
-//        String newCastlingFen=" ";
-//        String tFen = sb.toString();
-//        String lfen = Move.history.get(Move.history.size()-1).split(" ")[0];
-//        
-//        boolean wkingInPlace = board.boardChars[4][7]==Constants.WHITE_KING&&lfen.indexOf(Constants.WHITE_KING) == tFen.indexOf(Constants.WHITE_KING);
-//        boolean bkingInPlace = board.boardChars[4][0]==Constants.BLACK_KING&&lfen.indexOf(Constants.BLACK_KING) == tFen.indexOf(Constants.BLACK_KING);
-//        
-//        int i=0;
-//        
-//        if(whiteKingSide&&wkingInPlace){
-//            boolean rookInPlace = board.boardChars[7][7]==Constants.WHITE_ROOK&&lfen.lastIndexOf(Constants.WHITE_ROOK) == tFen.lastIndexOf(Constants.WHITE_ROOK);
-//            if (rookInPlace) {
-//                i++;
-//                newCastlingFen += String.valueOf(Constants.WHITE_KING);
-//            }
-//        }
-//        if(whiteQueenSide&&wkingInPlace){
-//            boolean rookInPlace = board.boardChars[0][7]==Constants.WHITE_ROOK&&lfen.indexOf(Constants.WHITE_ROOK) == tFen.indexOf(Constants.WHITE_ROOK);
-//            if (rookInPlace) {
-//                i++;
-//                newCastlingFen += String.valueOf(Constants.WHITE_QUEEN);
-//            }
-//        }
-//        
-//        if(blackKingSide&&bkingInPlace){
-//            boolean rookInPlace = board.boardChars[7][0]==Constants.BLACK_ROOK&&lfen.lastIndexOf(Constants.BLACK_ROOK) == tFen.lastIndexOf(Constants.BLACK_ROOK);
-//            if (rookInPlace) {
-//                i++;
-//                newCastlingFen += String.valueOf(Constants.BLACK_KING);
-//            }
-//        }
-//        if(blackQueenSide&&bkingInPlace){
-//            boolean rookInPlace = board.boardChars[0][0]==Constants.BLACK_ROOK&&lfen.indexOf(Constants.BLACK_ROOK) == tFen.indexOf(Constants.BLACK_ROOK);
-//            if (rookInPlace) {
-//                i++;
-//                newCastlingFen += String.valueOf(Constants.BLACK_QUEEN);
-//            }
-//        }
-//        if(i==0){
-//            newCastlingFen=" -";
-//        }
-//        sb.append(newCastlingFen);
         return sb.toString();
     }    
     
