@@ -27,14 +27,7 @@ public class Board {
     }
     
     public void showBoard(){
-        for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
-            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
-                boardTiles[i][j].showPiece();
-                if(boardTiles[i][j].isOccupied()&&i==0&&j==0){
-                    boardTiles[i][j].setIcon(boardTiles[i][j].piece.img);
-                }
-            }
-        }
+        
     }
     
     public void refactorBoard(){

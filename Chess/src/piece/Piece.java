@@ -1,7 +1,6 @@
 package piece;
 
 import board.Tile;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import util.Constants;
 import util.ResourceLoader;
@@ -16,7 +15,6 @@ public class Piece {
     public String name;
     public char pieceChar;
     public int[][] offset;
-    public ArrayList<int[]> pseudoLegalMoves;
     public boolean moved;
     
     public Piece(String name,int[] position){
@@ -57,6 +55,7 @@ public class Piece {
                 offset=Constants.KNIGHT_OFFSET;
                 break;
             case Constants.WHITE_ROOK:
+                value = Constants.ROOK_VALUE;
                 offset=Constants.ROOK_OFFSET;
                 break;
             case Constants.WHITE_BISHOP:
@@ -67,7 +66,6 @@ public class Piece {
                 value = Constants.PAWN_VALUE;
                 offset=white?Constants.WHITE_PAWN_OFFSET:Constants.BLACK_PAWN_OFFSET;
         }
-        pseudoLegalMoves=new ArrayList<>();
     }
     
     public Piece copy(){

@@ -40,7 +40,14 @@ public class GamePanel extends JPanel implements ActionListener{
     }
     
     public void renderBoard(){
-        board.showBoard();
+        for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
+            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
+                board.boardTiles[i][j].showPiece();
+                if(board.boardTiles[i][j].isOccupied()&&i==0&&j==0){
+                    board.boardTiles[i][j].setIcon(board.boardTiles[i][j].piece.img);
+                }
+            }
+        }
     }
 
     @Override
