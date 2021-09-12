@@ -20,6 +20,7 @@ public class Move {
     String fen;
     public static boolean whiteToMove;
     public static ArrayList<String> history = new ArrayList<>();
+    public static ArrayList<String> moves = new ArrayList<>();
 
     public Move(Board board, boolean toMove, String fen) {
         this.board = board;
@@ -266,6 +267,21 @@ public class Move {
                 }
             }
         }
+        
+        String enPassantTile = Util.loadFenFromBoard(board).split(" ")[3];
+        if(!enPassantTile.equals("-")){
+            if(Util.toUpper(pieceChar) == Constants.WHITE_PAWN){
+                if(white){
+                    if(position[1] == 3){
+                        int fDiff = Math.abs(Constants.FILES.indexOf(enPassantTile.charAt(0))-position[0]);
+                        if(fDiff == 1){
+                            pseudoLegalMoves.add(new int[]{Constants.FILES.indexOf(enPassantTile.charAt(0)),Constants.RANKS.indexOf(enPassantTile.charAt(1))});
+                        }
+                    }
+                }
+            }
+        }
+        
         if (pseudoLegal) {
             return pseudoLegalMoves;
         }
@@ -308,6 +324,9 @@ public class Move {
         if (mTile.isOccupied() && Util.toUpper(mTile.piece.pieceChar) == Constants.WHITE_KING) {
             return false;
         }
+        StringBuilder move = new StringBuilder();
+        move.append(Constants.FILES.charAt(mPiece.position[0]));
+        move.append(Constants.RANKS.charAt(mPiece.position[1]));
         ArrayList<int[]> legalMoves = generateMove(mPiece.pieceChar, mPiece.position, Util.getOffset(mPiece.pieceChar), false);
         int size = legalMoves.size();
         for (int i = 0; i < size; i++) {
@@ -330,6 +349,8 @@ public class Move {
                             board.boardTiles[7][rank].piece = null;
                         }
                     }
+                }else if(Util.toUpper(mPiece.pieceChar) == Constants.WHITE_PAWN){
+                    String enPassantTile = Util.loadFenFromBoard(board).split(" ")[3];
                 }
                 Tile pTile = board.getTile(mPiece.position);
                 pTile.setIcon(null);
@@ -338,6 +359,9 @@ public class Move {
                 mTile.piece = mPiece;
                 mPiece.position = mTile.position;
                 mPiece.moved = true;
+                move.append(Constants.FILES.charAt(mPiece.position[0]));
+                move.append(Constants.RANKS.charAt(mPiece.position[1]));
+                moves.add(move.toString());
                 board.refactorBoard();
                 whiteToMove = !whiteToMove;
                 return true;
@@ -357,5 +381,5 @@ public class Move {
         board.boardTiles = Util.loadBoardFromFen(fen).boardTiles;
         board.refactorBoard();
     }
-
+    
 }

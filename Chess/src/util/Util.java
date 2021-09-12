@@ -111,52 +111,81 @@ public class Util {
                 sb.append('/');
             }
         }
+        sb.append(" ");
         if (Move.whiteToMove) {
-            sb.append(" w");
+            sb.append(Constants.WHITE);
         } else {
-            sb.append(" b");
+            sb.append(Constants.BLACK);
         }
-        
-        String lastCastlingFen = Move.history.get(Move.history.size()-1).split(" ")[2];
+
+        String lastCastlingFen = Move.history.get(Move.history.size() - 1).split(" ")[2];
         boolean castlingPossible = !lastCastlingFen.equals("-");
         sb.append(" ");
-        if(castlingPossible){    
-            
+        if (castlingPossible) {
+
             boolean wKingInPosition = board.boardChars[4][7] == Constants.WHITE_KING;
             boolean bKingInPosition = board.boardChars[4][0] == Constants.BLACK_KING;
-            if(wKingInPosition){
+            if (wKingInPosition) {
                 boolean wKRookInPosition = board.boardChars[7][7] == Constants.WHITE_ROOK;
                 boolean wQRookInPosition = board.boardChars[0][7] == Constants.WHITE_ROOK;
-                if(wKRookInPosition){
-                    if(lastCastlingFen.contains(String.valueOf(Constants.WHITE_KING))){
+                if (wKRookInPosition) {
+                    if (lastCastlingFen.contains(String.valueOf(Constants.WHITE_KING))) {
                         sb.append(Constants.WHITE_KING);
                     }
                 }
-                if(wQRookInPosition){
-                    if(lastCastlingFen.contains(String.valueOf(Constants.WHITE_QUEEN))){
+                if (wQRookInPosition) {
+                    if (lastCastlingFen.contains(String.valueOf(Constants.WHITE_QUEEN))) {
                         sb.append(Constants.WHITE_QUEEN);
                     }
                 }
             }
-            if(bKingInPosition){
-                boolean bKRookInPosition = board.boardChars[7][7] == Constants.BLACK_ROOK;
-                boolean bQRookInPosition = board.boardChars[0][7] == Constants.BLACK_ROOK;
-                if(bKRookInPosition){
-                    if(lastCastlingFen.contains(String.valueOf(Constants.BLACK_KING))){
+            if (bKingInPosition) {
+                boolean bKRookInPosition = board.boardChars[7][0] == Constants.BLACK_ROOK;
+                boolean bQRookInPosition = board.boardChars[0][0] == Constants.BLACK_ROOK;
+                if (bKRookInPosition) {
+                    if (lastCastlingFen.contains(String.valueOf(Constants.BLACK_KING))) {
                         sb.append(Constants.BLACK_KING);
                     }
                 }
-                if(bQRookInPosition){
-                    if(lastCastlingFen.contains(String.valueOf(Constants.BLACK_QUEEN))){
+                if (bQRookInPosition) {
+                    if (lastCastlingFen.contains(String.valueOf(Constants.BLACK_QUEEN))) {
                         sb.append(Constants.BLACK_QUEEN);
                     }
                 }
             }
         }
-        
+
         if (!castlingPossible || sb.charAt(sb.length() - 1) == ' ') {
             sb.append("-");
         }
+
+        sb.append(" ");
+
+        if (Move.moves.isEmpty()) {
+            sb.append("-");
+        } else {
+            String lastMove = Move.moves.get(Move.moves.size() - 1);
+
+            int[] lastPosition = new int[]{Constants.FILES.indexOf(lastMove.charAt(2)), Constants.RANKS.indexOf(lastMove.charAt(3))};
+
+            if (Util.toUpper(board.boardChars[lastPosition[0]][lastPosition[1]]) == Constants.WHITE_PAWN) {
+                int rDiff = Math.abs(Constants.RANKS.indexOf(lastPosition[1]) - Constants.RANKS.indexOf(lastMove.charAt(1)));
+                System.out.println(rDiff);
+                if (rDiff == 2) {
+                    sb.append(Constants.FILES.charAt(lastPosition[0]));
+                    if (Util.isUpperCase(board.boardChars[lastPosition[0]][lastPosition[1]])) {
+                        sb.append(Constants.RANKS.charAt(lastPosition[1] + 1));
+                    } else {
+                        sb.append(Constants.RANKS.charAt(lastPosition[1] - 1));
+                    }
+                } else {
+                    sb.append("-");
+                }
+            } else {
+                sb.append("-");
+            }
+        }
+
 //
 //        String cFen = Move.history.get(Move.history.size() - 1).split(" ")[2];
 //        boolean castlingPossible = !cFen.equals("-");
@@ -243,7 +272,6 @@ public class Util {
 //        if (!castlingPossible || sb.charAt(sb.length() - 1) == ' ') {
 //            sb.append("-");
 //        }
-
         return sb.toString();
     }
 

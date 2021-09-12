@@ -114,6 +114,10 @@ public class Constants {
     
     public static final int CHECKMATE_VALUE = Integer.MAX_VALUE;
     
+    public static final String FILES = "ABCDEFGH";
+    
+    public static final String RANKS = "12345678";
+    
     public static final  String STARTING_FEN="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     
     public static final String[] PIECE_NAMES={"pawn", "PAWN", "bishop", "BISHOP", "night", "NIGHT", "rook", "ROOK", "queen", "QUEEN", "king", "KING"};
