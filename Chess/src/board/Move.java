@@ -351,6 +351,15 @@ public class Move {
                     }
                 }else if(Util.toUpper(mPiece.pieceChar) == Constants.WHITE_PAWN){
                     String enPassantTile = Util.loadFenFromBoard(board).split(" ")[3];
+                    String mTilePosition = String.valueOf(Constants.FILES.charAt(mTile.position[0]))+String.valueOf(Constants.RANKS.charAt(mTile.position[1]));
+                    if(enPassantTile.equals(mTilePosition)){
+                        int file = Constants.FILES.indexOf(enPassantTile.charAt(0));
+                        if(Util.isUpperCase(mPiece.pieceChar)){
+                            board.boardTiles[file][Constants.RANKS.indexOf(enPassantTile.charAt(1))+1].piece = null;
+                        }else{
+                            board.boardTiles[file][Constants.RANKS.indexOf(enPassantTile.charAt(1))-1].piece = null;
+                        }
+                    }
                 }
                 Tile pTile = board.getTile(mPiece.position);
                 pTile.setIcon(null);

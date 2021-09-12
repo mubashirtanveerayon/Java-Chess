@@ -166,10 +166,11 @@ public class Util {
         } else {
             String lastMove = Move.moves.get(Move.moves.size() - 1);
 
+            int[] initPosition = new int[]{Constants.FILES.indexOf(lastMove.charAt(0)),Constants.RANKS.indexOf(lastMove.charAt(1))};
             int[] lastPosition = new int[]{Constants.FILES.indexOf(lastMove.charAt(2)), Constants.RANKS.indexOf(lastMove.charAt(3))};
 
             if (Util.toUpper(board.boardChars[lastPosition[0]][lastPosition[1]]) == Constants.WHITE_PAWN) {
-                int rDiff = Math.abs(Constants.RANKS.indexOf(lastPosition[1]) - Constants.RANKS.indexOf(lastMove.charAt(1)));
+                int rDiff = Math.abs(lastPosition[1] - initPosition[1]);
                 System.out.println(rDiff);
                 if (rDiff == 2) {
                     sb.append(Constants.FILES.charAt(lastPosition[0]));
