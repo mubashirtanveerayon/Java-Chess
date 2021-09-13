@@ -118,11 +118,19 @@ public class Util {
             sb.append(Constants.BLACK);
         }
 
+        sb.append(" ");
+        sb.append(getCastlingRights(board));
+        sb.append(" ");
+        sb.append(getEnPassantSquare(board));
+
+        return sb.toString();
+    }
+    
+    public static String getCastlingRights(Board board){
+        StringBuilder sb = new StringBuilder();
         String lastCastlingFen = Move.history.get(Move.history.size() - 1).split(" ")[2];
         boolean castlingPossible = !lastCastlingFen.equals("-");
-        sb.append(" ");
         if (castlingPossible) {
-
             boolean wKingInPosition = board.boardChars[4][7] == Constants.WHITE_KING;
             boolean bKingInPosition = board.boardChars[4][0] == Constants.BLACK_KING;
             if (wKingInPosition) {
@@ -158,20 +166,21 @@ public class Util {
         if (!castlingPossible || sb.charAt(sb.length() - 1) == ' ') {
             sb.append("-");
         }
-
-        sb.append(" ");
-
+        return sb.toString();
+    }
+    
+    public static String getEnPassantSquare(Board board){
+        StringBuilder sb = new StringBuilder();
         if (Move.moves.isEmpty()) {
-            sb.append("-");
+            return Move.history.get(Move.history.size()-1).split(" ")[3];
         } else {
             String lastMove = Move.moves.get(Move.moves.size() - 1);
 
-            int[] initPosition = new int[]{Constants.FILES.indexOf(lastMove.charAt(0)),Constants.RANKS.indexOf(lastMove.charAt(1))};
-            int[] lastPosition = new int[]{Constants.FILES.indexOf(lastMove.charAt(2)), Constants.RANKS.indexOf(lastMove.charAt(3))};
+            int[] initPosition = cvtPosition(new StringBuffer(lastMove).delete(2, 4).toString());
+            int[] lastPosition = cvtPosition(new StringBuffer(lastMove).delete(0, 2).toString());
 
             if (Util.toUpper(board.boardChars[lastPosition[0]][lastPosition[1]]) == Constants.WHITE_PAWN) {
                 int rDiff = Math.abs(lastPosition[1] - initPosition[1]);
-                System.out.println(rDiff);
                 if (rDiff == 2) {
                     sb.append(Constants.FILES.charAt(lastPosition[0]));
                     if (Util.isUpperCase(board.boardChars[lastPosition[0]][lastPosition[1]])) {
@@ -186,93 +195,6 @@ public class Util {
                 sb.append("-");
             }
         }
-
-//
-//        String cFen = Move.history.get(Move.history.size() - 1).split(" ")[2];
-//        boolean castlingPossible = !cFen.equals("-");
-//        sb.append(" ");
-//        if (castlingPossible) {
-//            
-//            //index 0 = qSide, 1 = king itself
-//            int[] bScore = new int[3],wScore = new int[3];
-//            int length = Move.history.size() - 1;
-//            for (int i = 0; i < length; i++) {
-//                String pFen = Move.history.get(i).split(" ")[0];
-//                char[][] pBoardChars = new char[Constants.NUM_OF_COLUMNS][Constants.NUM_OF_ROWS];
-//                int file = 0;
-//                int rank = 0;
-//                for(int j=0;j<pFen.length();j++){
-//                    char c = pFen.charAt(j);
-//                    if(c == '/'){
-//                        file = 0;
-//                        rank ++;
-//                    }else if(Character.isDigit(c)){
-//                        file += getNumericValue(c);
-//                    }else{
-//                        pBoardChars[file][rank] = c;
-//                    }
-//                    file ++;
-//                }
-//                boolean wKingMoved = (pBoardChars[4][7] != Constants.WHITE_KING);
-//                boolean bKingMoved = (pBoardChars[4][0] != Constants.BLACK_KING);
-//                boolean wQRookMoved = (pBoardChars[0][7] != Constants.WHITE_ROOK);
-//                boolean wKRookMoved = (pBoardChars[7][7] != Constants.WHITE_ROOK);
-//                boolean bQRookMoved = (pBoardChars[0][0] != Constants.BLACK_ROOK);
-//                boolean bKRookMoved = (pBoardChars[7][0] != Constants.BLACK_ROOK);
-//                
-//                if(!wKingMoved){
-//                    if(!wKRookMoved){
-//                        wScore[2] ++;
-//                    }
-//                    if(!wQRookMoved){
-//                        wScore[0] ++;
-//                    }
-//                    wScore[1] ++;
-//                }
-//                if(!bKingMoved){
-//                    if(!bKRookMoved){
-//                        bScore[2] ++;
-//                    }
-//                    if(!bQRookMoved){
-//                        bScore[0] ++;
-//                    }
-//                    bScore[1] ++;
-//                }
-//                
-//            }
-//
-//            boolean wKingInPosition = board.boardChars[4][7] == Constants.WHITE_KING;
-//            boolean bKingInPosition = board.boardChars[4][0] == Constants.BLACK_KING;
-//            boolean wQRookInPosition = board.boardChars[0][7] == Constants.WHITE_ROOK && cFen.contains(String.valueOf(Constants.WHITE_QUEEN));
-//            boolean wKRookInPosition = board.boardChars[7][7] == Constants.WHITE_ROOK && cFen.contains(String.valueOf(Constants.WHITE_KING));
-//            boolean bQRookInPosition = board.boardChars[0][0] == Constants.BLACK_ROOK && cFen.contains(String.valueOf(Constants.BLACK_QUEEN));
-//            boolean bKRookInPosition = board.boardChars[7][0] == Constants.BLACK_ROOK && cFen.contains(String.valueOf(Constants.BLACK_KING));
-//            boolean wKingMoved = wScore[1] != length-1;
-//            boolean bKingMoved = bScore[1] != length-1;
-//            boolean wQRookMoved = wScore[0] != length-1;
-//            boolean wKRookMoved = wScore[2] != length-1;
-//            boolean bQRookMoved = bScore[0] != length-1;
-//            boolean bKRookMoved = bScore[2] != length-1;
-//
-//            if (wKingInPosition && wKRookInPosition && !wKingMoved && !wKRookMoved) {
-//                sb.append(Constants.WHITE_KING);
-//            }
-//            if (wKingInPosition && wQRookInPosition && !wKingMoved && !wQRookMoved) {
-//                sb.append(Constants.WHITE_QUEEN);
-//            }
-//
-//            if (bKingInPosition && bKRookInPosition && !bKingMoved && !bKRookMoved) {
-//                sb.append(Constants.BLACK_KING);
-//            }
-//            if (bKingInPosition && bQRookInPosition && !bKingMoved && !bQRookMoved) {
-//                sb.append(Constants.BLACK_QUEEN);
-//            }
-//
-//        }
-//
-//        if (!castlingPossible || sb.charAt(sb.length() - 1) == ' ') {
-//            sb.append("-");
-//        }
         return sb.toString();
     }
 
@@ -324,6 +246,10 @@ public class Util {
     public static boolean isValid(int file, int rank) {
         return file >= 0 && rank >= 0 && file < Constants.NUM_OF_COLUMNS && rank < Constants.NUM_OF_ROWS;
     }
+    
+    public static boolean isValid(int[] position) {
+        return isValid(position[0],position[1]);
+    }
 
     public static ArrayList<int[]> copy(ArrayList<int[]> from) {
         ArrayList<int[]> newList = new ArrayList<>();
@@ -339,5 +265,23 @@ public class Util {
             nList[i] = from.get(i);
         }
         return nList;
+    }
+    
+    public static int[] cvtPosition(String strPos){
+        int file, rank;
+        try {
+            file = Constants.FILES.indexOf(strPos.charAt(0));
+            rank = Constants.RANKS.indexOf(strPos.charAt(1));
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            file = -1;
+            rank = -1;
+        }
+        return new int[]{file, rank};
+    }
+    
+    public static String toString(int[] position){
+        String file  = String.valueOf(Constants.FILES.charAt(position[0]));
+        String rank  = String.valueOf(Constants.RANKS.charAt(position[1]));
+        return file+rank;
     }
 }

@@ -337,28 +337,13 @@ public class Move {
                 if (Util.toUpper(mPiece.pieceChar) == Constants.WHITE_KING) {
                     int diff = Math.abs(mPiece.position[0] - mTile.position[0]);
                     if (diff == 2) {
-                        int toFile = mTile.position[0];
-                        int rank = mPiece.position[1];
-                        if (toFile == 2) {
-                            board.boardTiles[3][rank].piece = board.boardTiles[0][rank].piece;
-                            board.boardTiles[3][rank].piece.position = board.boardTiles[3][rank].position;
-                            board.boardTiles[0][rank].piece = null;
-                        } else if (toFile == 6) {
-                            board.boardTiles[5][rank].piece = board.boardTiles[7][rank].piece;
-                            board.boardTiles[5][rank].piece.position = board.boardTiles[5][rank].position;
-                            board.boardTiles[7][rank].piece = null;
-                        }
+                        castle(mTile);
                     }
                 }else if(Util.toUpper(mPiece.pieceChar) == Constants.WHITE_PAWN){
                     String enPassantTile = Util.loadFenFromBoard(board).split(" ")[3];
                     String mTilePosition = String.valueOf(Constants.FILES.charAt(mTile.position[0]))+String.valueOf(Constants.RANKS.charAt(mTile.position[1]));
                     if(enPassantTile.equals(mTilePosition)){
-                        int file = Constants.FILES.indexOf(enPassantTile.charAt(0));
-                        if(Util.isUpperCase(mPiece.pieceChar)){
-                            board.boardTiles[file][Constants.RANKS.indexOf(enPassantTile.charAt(1))+1].piece = null;
-                        }else{
-                            board.boardTiles[file][Constants.RANKS.indexOf(enPassantTile.charAt(1))-1].piece = null;
-                        }
+                        enPassant();
                     }
                 }
                 Tile pTile = board.getTile(mPiece.position);
@@ -389,6 +374,33 @@ public class Move {
     public void undoMove() {
         board.boardTiles = Util.loadBoardFromFen(fen).boardTiles;
         board.refactorBoard();
+    }
+    
+    public void castle(Tile mTile){
+        int file = mTile.position[0];
+        int rank = mTile.position[1];
+        if(file == 2){
+            board.boardTiles[3][rank].piece = board.boardTiles[0][rank].piece;
+            board.boardTiles[3][rank].piece.position = board.boardTiles[3][rank].position;
+            board.boardTiles[0][rank].piece = null;
+        }else if(file == 6){
+            board.boardTiles[5][rank].piece = board.boardTiles[7][rank].piece;
+            board.boardTiles[5][rank].piece.position = board.boardTiles[5][rank].position;
+            board.boardTiles[7][rank].piece = null;
+        }
+    }
+    
+    public void enPassant(){
+        int[] enPassantTile = Util.cvtPosition(fen.split(" ")[3]);
+        if(Util.isValid(enPassantTile)){
+            int file = enPassantTile[0];
+            int rank = enPassantTile[1];
+            if(rank == 2){
+                board.boardTiles[file][rank+1].piece = null;
+            }else if(rank == 5){
+                board.boardTiles[file][rank-1].piece = null;
+            }
+        }
     }
     
 }
