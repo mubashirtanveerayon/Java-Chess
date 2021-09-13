@@ -278,6 +278,13 @@ public class Move {
                             pseudoLegalMoves.add(new int[]{Constants.FILES.indexOf(enPassantTile.charAt(0)),Constants.RANKS.indexOf(enPassantTile.charAt(1))});
                         }
                     }
+                }else{
+                    if(position[1] == 4){
+                        int fDiff = Math.abs(Constants.FILES.indexOf(enPassantTile.charAt(0))-position[0]);
+                        if(fDiff == 1){
+                            pseudoLegalMoves.add(new int[]{Constants.FILES.indexOf(enPassantTile.charAt(0)),Constants.RANKS.indexOf(enPassantTile.charAt(1))});
+                        }
+                    }
                 }
             }
         }
