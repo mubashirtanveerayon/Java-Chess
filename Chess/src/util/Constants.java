@@ -116,7 +116,7 @@ public class Constants {
     
     public static final String FILES = "ABCDEFGH";
     
-    public static final String RANKS = "12345678";
+    public static final String RANKS = "87654321";
     
     public static final  String STARTING_FEN="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     
@@ -132,9 +132,9 @@ public class Constants {
 
     public static final int[][] KNIGHT_OFFSET= {{2, -1}, {1, -2}, {1, 2}, {-2, -1}, {-2, 1}, {-1, -2}, {-1, 2},{2,1}};
 
-    public static final int[][] BLACK_PAWN_OFFSET= {{-1,1},{1,1},{0,1},{0,2}};
+    public static final int[][] BLACK_PAWN_OFFSET= {{-1,1},{1,1},{0,1}};
 
-    public static final int[][] WHITE_PAWN_OFFSET= {{-1,-1},{1,-1},{0,-1},{0,-2}};
+    public static final int[][] WHITE_PAWN_OFFSET= {{-1,-1},{1,-1},{0,-1}};
     
     public static final int[] WHITE_QUEEN_SIDE_CASTLING = {2,7};
 

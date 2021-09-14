@@ -122,7 +122,12 @@ public class Util {
         sb.append(getCastlingRights(board));
         sb.append(" ");
         sb.append(getEnPassantSquare(board));
-
+        
+        sb.append(" ");
+        sb.append(Move.halfMove);
+        sb.append(" ");
+        sb.append(Move.fullMove);
+        
         return sb.toString();
     }
 

@@ -21,12 +21,16 @@ public class Move {
     public static boolean whiteToMove;
     public static ArrayList<String> history = new ArrayList<>();
     public static ArrayList<String> moves = new ArrayList<>();
+    public static int halfMove = 0;
+    public static int fullMove = 1;
 
     public Move(Board board, boolean toMove, String fen) {
         this.board = board;
         this.fen = fen;
         whiteToMove = toMove;
         history.add(this.fen);
+        halfMove = Integer.parseInt(Move.history.get(Move.history.size()-1).split(" ")[4]);
+        fullMove = Integer.parseInt(Move.history.get(Move.history.size()-1).split(" ")[5]);
     }
 
     public boolean[] generateCastlingMove(boolean white) {
@@ -218,8 +222,16 @@ public class Move {
                     rank += direction[i][1];
                     if (Util.isValid(file, rank)) {
                         if (i > 1) {
-                            if (board.boardChars[file][rank] == Constants.EMPTY_CHAR) {
-                                pseudoLegalMoves.add(new int[]{file, rank});
+                            int n = 1;
+                            while(n<3 && Util.isValid(file, rank)){
+                                if(board.boardChars[file][rank] == Constants.EMPTY_CHAR){
+                                    pseudoLegalMoves.add(new int[]{file, rank});
+                                }else{
+                                    break;
+                                }
+                                file += direction[i][0];
+                                rank += direction[i][1];
+                                n++;
                             }
                         } else {
                             if (board.boardChars[file][rank] != Constants.EMPTY_CHAR && !Util.isAlly(pieceChar, board.boardChars[file][rank])) {
@@ -357,6 +369,10 @@ public class Move {
                 pTile.setIcon(null);
                 pTile.piece.position = null;
                 pTile.piece = null;
+                halfMove++;
+                if(mTile.isOccupied()){
+                    halfMove = 0;
+                }
                 mTile.piece = mPiece;
                 mPiece.position = mTile.position;
                 mPiece.moved = true;
@@ -364,6 +380,9 @@ public class Move {
                 move.append(Constants.RANKS.charAt(mPiece.position[1]));
                 moves.add(move.toString());
                 board.refactorBoard();
+                if(!whiteToMove){
+                    fullMove++;
+                }
                 whiteToMove = !whiteToMove;
                 return true;
             }
@@ -404,8 +423,10 @@ public class Move {
             int rank = enPassantTile[1];
             if(rank == 2){
                 board.boardTiles[file][rank+1].piece = null;
+                halfMove = 0;
             }else if(rank == 5){
                 board.boardTiles[file][rank-1].piece = null;
+                halfMove = 0;
             }
         }
     }
