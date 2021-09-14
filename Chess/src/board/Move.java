@@ -99,7 +99,7 @@ public class Move {
                     if (!Util.isAlly(king, board.boardChars[i][j])) {
                         int dx = targetPos[0] - i;
                         int dy = targetPos[1] - j;
-                        int[][] dir = Util.getDirection(dx, dy, Util.getOffset(board.boardChars[i][j]), board.boardChars[i][j]);
+                        int[][] dir = Util.getDirection(dx, dy,board.boardChars[i][j]);
                         ArrayList<int[]> captures = generateCaptureMove(board.boardChars[i][j], new int[]{i, j}, dir);
                         for (int[] capture : captures) {
                             if (Util.samePosition(capture, targetPos)) {
@@ -214,16 +214,16 @@ public class Move {
             }
             case Constants.WHITE_PAWN: {
                 int[][] defoffset = Util.getOffset(pieceChar);
-                int length = !((Util.isUpperCase(pieceChar) && position[1] == 6) || (!Util.isUpperCase(pieceChar) && position[1] == 1)) && Util.sameoffset(defoffset, direction) ? direction.length - 1 : direction.length;
-                for (int i = 0; i < length; i++) {
+                int limit = !((Util.isUpperCase(pieceChar) && position[1] == 6) || (!Util.isUpperCase(pieceChar) && position[1] == 1)) && Util.sameoffset(defoffset, direction) ?  1 : 2;
+                for (int i = 0; i < defoffset.length; i++) {
                     int file = position[0];
                     int rank = position[1];
                     file += direction[i][0];
                     rank += direction[i][1];
                     if (Util.isValid(file, rank)) {
                         if (i > 1) {
-                            int n = 1;
-                            while(n<3 && Util.isValid(file, rank)){
+                            int n = 0;
+                            while(n<limit && Util.isValid(file, rank)){
                                 if(board.boardChars[file][rank] == Constants.EMPTY_CHAR){
                                     pseudoLegalMoves.add(new int[]{file, rank});
                                 }else{
@@ -370,7 +370,7 @@ public class Move {
                 pTile.piece.position = null;
                 pTile.piece = null;
                 halfMove++;
-                if(mTile.isOccupied()){
+                if(mTile.isOccupied() || Util.toUpper(mPiece.pieceChar) == Constants.WHITE_PAWN){
                     halfMove = 0;
                 }
                 mTile.piece = mPiece;

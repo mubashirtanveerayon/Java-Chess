@@ -233,10 +233,11 @@ public class Util {
         return board;
     }
 
-    public static int[][] getDirection(int dx, int dy, int[][] offset, char pieceChar) {
+    public static int[][] getDirection(int dx, int dy, char pieceChar) {
         ArrayList<int[]> path = new ArrayList<>();
+        int[][] offset = getOffset(pieceChar);
         if (toUpper(pieceChar) == Constants.WHITE_PAWN) {
-            for (int i = 0; i < offset.length - 2; i++) {
+            for (int i = 0; i < offset.length - 1; i++) {
                 if (isOfSameDir(offset[i][0], dx) && isOfSameDir(offset[i][1], dy)) {
                     path.add(offset[i]);
                 }
