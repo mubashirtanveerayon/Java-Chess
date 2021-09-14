@@ -125,8 +125,8 @@ public class Util {
 
         return sb.toString();
     }
-    
-    public static String getCastlingRights(Board board){
+
+    public static String getCastlingRights(Board board) {
         StringBuilder sb = new StringBuilder();
         String lastCastlingFen = Move.history.get(Move.history.size() - 1).split(" ")[2];
         boolean castlingPossible = !lastCastlingFen.equals("-");
@@ -162,17 +162,20 @@ public class Util {
                 }
             }
         }
-
-        if (!castlingPossible || sb.charAt(sb.length() - 1) == ' ') {
+        try {
+            if (!castlingPossible || sb.length() == 0 || sb.charAt(sb.length() - 1) == ' ') {
+                sb.append("-");
+            }
+        } catch (Exception ex) {
             sb.append("-");
         }
         return sb.toString();
     }
-    
-    public static String getEnPassantSquare(Board board){
+
+    public static String getEnPassantSquare(Board board) {
         StringBuilder sb = new StringBuilder();
         if (Move.moves.isEmpty()) {
-            return Move.history.get(Move.history.size()-1).split(" ")[3];
+            return Move.history.get(Move.history.size() - 1).split(" ")[3];
         } else {
             String lastMove = Move.moves.get(Move.moves.size() - 1);
 
@@ -246,9 +249,9 @@ public class Util {
     public static boolean isValid(int file, int rank) {
         return file >= 0 && rank >= 0 && file < Constants.NUM_OF_COLUMNS && rank < Constants.NUM_OF_ROWS;
     }
-    
+
     public static boolean isValid(int[] position) {
-        return isValid(position[0],position[1]);
+        return isValid(position[0], position[1]);
     }
 
     public static ArrayList<int[]> copy(ArrayList<int[]> from) {
@@ -266,8 +269,8 @@ public class Util {
         }
         return nList;
     }
-    
-    public static int[] cvtPosition(String strPos){
+
+    public static int[] cvtPosition(String strPos) {
         int file, rank;
         try {
             file = Constants.FILES.indexOf(strPos.charAt(0));
@@ -278,10 +281,10 @@ public class Util {
         }
         return new int[]{file, rank};
     }
-    
-    public static String toString(int[] position){
-        String file  = String.valueOf(Constants.FILES.charAt(position[0]));
-        String rank  = String.valueOf(Constants.RANKS.charAt(position[1]));
-        return file+rank;
+
+    public static String toString(int[] position) {
+        String file = String.valueOf(Constants.FILES.charAt(position[0]));
+        String rank = String.valueOf(Constants.RANKS.charAt(position[1]));
+        return file + rank;
     }
 }
