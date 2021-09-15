@@ -112,7 +112,7 @@ public class Util {
             }
         }
         sb.append(" ");
-        if (Move.whiteToMove) {
+        if (GameParameter.whiteToMove) {
             sb.append(Constants.WHITE);
         } else {
             sb.append(Constants.BLACK);
@@ -124,16 +124,16 @@ public class Util {
         sb.append(getEnPassantSquare(board));
         
         sb.append(" ");
-        sb.append(Move.halfMove);
+        sb.append(GameParameter.halfMove);
         sb.append(" ");
-        sb.append(Move.fullMove);
+        sb.append(GameParameter.fullMove);
         
         return sb.toString();
     }
 
     public static String getCastlingRights(Board board) {
         StringBuilder sb = new StringBuilder();
-        String lastCastlingFen = Move.history.get(Move.history.size() - 1).split(" ")[2];
+        String lastCastlingFen = GameParameter.history.get(GameParameter.history.size() - 1).split(" ")[2];
         boolean castlingPossible = !lastCastlingFen.equals("-");
         if (castlingPossible) {
             boolean wKingInPosition = board.boardChars[4][7] == Constants.WHITE_KING;
@@ -179,13 +179,15 @@ public class Util {
 
     public static String getEnPassantSquare(Board board) {
         StringBuilder sb = new StringBuilder();
-        if (Move.moves.isEmpty()) {
-            return Move.history.get(Move.history.size() - 1).split(" ")[3];
+        if (GameParameter.moves.isEmpty()) {
+            return GameParameter.history.get(GameParameter.history.size() - 1).split(" ")[3];
         } else {
-            String lastMove = Move.moves.get(Move.moves.size() - 1);
+            String lastMoveStr = GameParameter.moves.get(GameParameter.moves.size() - 1);
 
-            int[] initPosition = cvtPosition(new StringBuffer(lastMove).delete(2, 4).toString());
-            int[] lastPosition = cvtPosition(new StringBuffer(lastMove).delete(0, 2).toString());
+            int[][] lastMove = parseMove(lastMoveStr);
+            
+            int[] initPosition = lastMove[0];
+            int[] lastPosition = lastMove[1];
 
             if (Util.toUpper(board.boardChars[lastPosition[0]][lastPosition[1]]) == Constants.WHITE_PAWN) {
                 int rDiff = Math.abs(lastPosition[1] - initPosition[1]);
@@ -292,5 +294,11 @@ public class Util {
         String file = String.valueOf(Constants.FILES.charAt(position[0]));
         String rank = String.valueOf(Constants.RANKS.charAt(position[1]));
         return file + rank;
+    }
+    
+    public static int[][] parseMove(String bestMove){
+        int[] initPosition = cvtPosition(new StringBuffer(bestMove).delete(2, 4).toString());
+        int[] finalPosition = cvtPosition(new StringBuffer(bestMove).delete(0, 2).toString());
+        return new int[][]{initPosition,finalPosition};
     }
 }

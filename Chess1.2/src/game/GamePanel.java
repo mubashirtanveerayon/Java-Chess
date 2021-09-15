@@ -17,30 +17,43 @@ import javax.swing.JPanel;
 import piece.Piece;
 import stockfish.Stockfish;
 import util.Constants;
+import util.GameParameter;
 import util.Util;
 
 public class GamePanel extends JPanel implements ActionListener {
 
     public Board board;
-    Tile selectedTile;
-    Move move;
-
+    public Tile selectedTile;
+    public Move move;
+    
     Stockfish ai;
 
-    public GamePanel(String fen) {
-        super(new GridLayout(Constants.NUM_OF_COLUMNS, Constants.NUM_OF_ROWS));
-        setSize(600, 500);
-        this.board = Util.loadBoardFromFen(fen);
+    public GamePanel(String fen){
+        super(new GridLayout(Constants.NUM_OF_COLUMNS,Constants.NUM_OF_ROWS));
+        setSize(600,500);
+        this.board=Util.loadBoardFromFen(fen);
         boolean toMove = fen.split(" ")[1].equals(String.valueOf(Constants.WHITE));
-        move = new Move(board, toMove, fen);
-        for (int i = 0; i < Constants.NUM_OF_COLUMNS; i++) {
-            for (int j = 0; j < Constants.NUM_OF_ROWS; j++) {
+        move = new Move(board,toMove,fen);
+        ai = new Stockfish();
+        registerComponent();
+        renderBoard();
+    }
+    
+    public void registerComponent(){
+        for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
+            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
                 board.boardTiles[j][i].addActionListener(this);
                 add(board.boardTiles[j][i]);
             }
         }
-        ai = new Stockfish();
-        renderBoard();
+    }
+
+    public void removeComponent(){
+        for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
+            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
+                remove(board.boardTiles[i][j]);
+            }
+        }
     }
 
     public void renderBoard() {
@@ -87,7 +100,7 @@ public class GamePanel extends JPanel implements ActionListener {
             for (int j = 0; j < Constants.NUM_OF_ROWS; j++) {
                 if (e.getSource() == board.boardTiles[i][j]) {
                     if (selectedTile != null) {
-                        if (Move.whiteToMove && move.move(selectedTile, board.boardTiles[i][j])) {
+                        if (GameParameter.whiteToMove && move.move(selectedTile, board.boardTiles[i][j])) {
                             cpu().start();
                         } else {
                             System.out.println("Not a legal move!");

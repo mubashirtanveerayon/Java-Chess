@@ -20,9 +20,9 @@ import util.Util;
 
 public class GamePanel extends JPanel implements ActionListener{
     
-    Board board;
-    Tile selectedTile;
-    Move move;
+    public Board board;
+    public Tile selectedTile;
+    public Move move;
 
     public GamePanel(String fen){
         super(new GridLayout(Constants.NUM_OF_COLUMNS,Constants.NUM_OF_ROWS));
@@ -30,17 +30,28 @@ public class GamePanel extends JPanel implements ActionListener{
         this.board=Util.loadBoardFromFen(fen);
         boolean toMove = fen.split(" ")[1].equals(String.valueOf(Constants.WHITE));
         move = new Move(board,toMove,fen);
+        registerComponent();
+        renderBoard();
+    }
+    
+    public void registerComponent(){
         for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
             for(int j=0;j<Constants.NUM_OF_ROWS;j++){
                 board.boardTiles[j][i].addActionListener(this);
                 add(board.boardTiles[j][i]);
             }
         }
-        renderBoard();
+    }
+
+    public void removeComponent(){
+        for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
+            for(int j=0;j<Constants.NUM_OF_ROWS;j++){
+                remove(board.boardTiles[i][j]);
+            }
+        }
     }
     
     public void renderBoard(){
-        board.refactorBoard();
         for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
             for(int j=0;j<Constants.NUM_OF_ROWS;j++){
                 board.boardTiles[i][j].showPiece();

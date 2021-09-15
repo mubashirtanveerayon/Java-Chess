@@ -15,6 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import util.Constants;
+import util.GameParameter;
 import util.Util;
 
 /**
@@ -33,26 +34,27 @@ public class Main extends JFrame implements ActionListener {
 
     public Main() {
         gamePanel = new GamePanel(Constants.STARTING_FEN);//r1bqk2r/pppppp1p/2n2npb/8/8/BPNP4/P1PQPPPP/R3KBNR b Constants.STARTING_FEN
-
+           
         menuBar = new JMenuBar();
 
         option = new JMenu("Option");
 
         save = new JMenuItem("Save");
-        //load = new JMenuItem("Load");
+        load = new JMenuItem("Load");
         exit = new JMenuItem("Exit");
 
         save.addActionListener(this);
-        //load.addActionListener(this);
+        load.addActionListener(this);
         exit.addActionListener(this);
 
         option.add(save);
-        //option.add(load);
+        option.add(load);
         option.add(exit);
 
         menuBar.add(option);
 
         setDefaultCloseOperation(3);
+        setJMenuBar(menuBar);
         add(gamePanel);
         pack();
     }
@@ -85,7 +87,10 @@ public class Main extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, ex);
                 }
             }
+        }else if(src == load){
+            String fen = JOptionPane.showInputDialog(null,"FEN :");
+            GameParameter.loadGame(gamePanel, fen);
         }
     }
-
+    
 }

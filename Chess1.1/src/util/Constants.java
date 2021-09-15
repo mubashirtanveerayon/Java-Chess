@@ -114,7 +114,7 @@ public class Constants {
     
     public static final int CHECKMATE_VALUE = Integer.MAX_VALUE;
     
-    public static final String FILES = "ABCDEFGH";
+    public static final String FILES = "abcdefgh";
     
     public static final String RANKS = "87654321";
     

@@ -5,7 +5,6 @@
  */
 package game;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -16,6 +15,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import util.Constants;
+import util.GameParameter;
 import util.Util;
 
 /**
@@ -40,15 +40,15 @@ public class Main extends JFrame implements ActionListener {
         option = new JMenu("Option");
 
         save = new JMenuItem("Save");
-        //load = new JMenuItem("Load");
+        load = new JMenuItem("Load");
         exit = new JMenuItem("Exit");
 
         save.addActionListener(this);
-        //load.addActionListener(this);
+        load.addActionListener(this);
         exit.addActionListener(this);
 
         option.add(save);
-        //option.add(load);
+        option.add(load);
         option.add(exit);
 
         menuBar.add(option);
@@ -87,6 +87,9 @@ public class Main extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, ex);
                 }
             }
+        }else if(src == load){
+            String fen = JOptionPane.showInputDialog(null,"FEN :");
+            GameParameter.loadGame(gamePanel, fen);
         }
     }
 

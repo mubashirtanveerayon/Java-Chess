@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Local%20D/Projects/Java-Chess/Chess1.2/src/util/Util.java</file>
             <file>file:/E:/Local%20D/Projects/Java-Chess/Chess1.2/src/game/Main.java</file>
-            <file>file:/E:/Local%20D/Projects/Java-Chess/Chess1.2/src/board/Move.java</file>
             <file>file:/E:/Local%20D/Projects/Java-Chess/Chess1.2/src/game/GamePanel.java</file>
-            <file>file:/E:/Local%20D/Projects/Java-Chess/Chess1.2/src/stockfish/Stockfish.java</file>
-            <file>file:/E:/Local%20D/Projects/Java-Chess/Chess1.2/src/util/Constants.java</file>
+            <file>file:/E:/Local%20D/Projects/Java-Chess/Chess1.2/src/util/GameParameter.java</file>
         </group>
     </open-files>
 </project-private>

@@ -8,6 +8,7 @@ package board;
 import java.util.ArrayList;
 import piece.Piece;
 import util.Constants;
+import util.GameParameter;
 import util.Util;
 
 /**
@@ -18,24 +19,20 @@ public class Move {
 
     Board board;
     String fen;
-    public static boolean whiteToMove;
-    public static ArrayList<String> history = new ArrayList<>();
-    public static ArrayList<String> moves = new ArrayList<>();
-    public static int halfMove = 0;
-    public static int fullMove = 1;
+    
 
     public Move(Board board, boolean toMove, String fen) {
         this.board = board;
         this.fen = fen;
-        whiteToMove = toMove;
-        history.add(this.fen);
-        halfMove = Integer.parseInt(Move.history.get(Move.history.size()-1).split(" ")[4]);
-        fullMove = Integer.parseInt(Move.history.get(Move.history.size()-1).split(" ")[5]);
+        GameParameter.whiteToMove = toMove;
+        GameParameter.history.add(this.fen);
+        GameParameter.halfMove = Integer.parseInt(GameParameter.history.get(GameParameter.history.size()-1).split(" ")[4]);
+        GameParameter.fullMove = Integer.parseInt(GameParameter.history.get(GameParameter.history.size()-1).split(" ")[5]);
     }
 
     public boolean[] generateCastlingMove(boolean white) {
         boolean queenSideCastling, kingSideCastling;
-        String cFen = Move.history.get(Move.history.size() - 1).split(" ")[2];
+        String cFen = GameParameter.history.get(GameParameter.history.size() - 1).split(" ")[2];
         char king = white ? Constants.WHITE_KING : Constants.BLACK_KING;
         char queen = white ? Constants.WHITE_QUEEN : Constants.BLACK_QUEEN;
         kingSideCastling = cFen.contains(String.valueOf(king));
@@ -337,7 +334,7 @@ public class Move {
     }
 
     public boolean move(Tile mTile, Piece mPiece) {
-        if (!((mPiece.white && whiteToMove) || (!mPiece.white && !whiteToMove))) {
+        if (!((mPiece.white && GameParameter.whiteToMove) || (!mPiece.white && !GameParameter.whiteToMove))) {
             return false;
         }
         if (mTile.isOccupied() && Util.toUpper(mTile.piece.pieceChar) == Constants.WHITE_KING) {
@@ -352,7 +349,7 @@ public class Move {
             int[] pos = legalMoves.get(i);
             if (Util.samePosition(pos, mTile.position)) {
                 fen = Util.loadFenFromBoard(board);
-                history.add(fen);
+                GameParameter.history.add(fen);
                 if (Util.toUpper(mPiece.pieceChar) == Constants.WHITE_KING) {
                     int diff = Math.abs(mPiece.position[0] - mTile.position[0]);
                     if (diff == 2) {
@@ -369,21 +366,21 @@ public class Move {
                 pTile.setIcon(null);
                 pTile.piece.position = null;
                 pTile.piece = null;
-                halfMove++;
+                GameParameter.halfMove++;
                 if(mTile.isOccupied() || Util.toUpper(mPiece.pieceChar) == Constants.WHITE_PAWN){
-                    halfMove = 0;
+                    GameParameter.halfMove = 0;
                 }
                 mTile.piece = mPiece;
                 mPiece.position = mTile.position;
                 mPiece.moved = true;
                 move.append(Constants.FILES.charAt(mPiece.position[0]));
                 move.append(Constants.RANKS.charAt(mPiece.position[1]));
-                moves.add(move.toString());
+                GameParameter.moves.add(move.toString());
                 board.refactorBoard();
-                if(!whiteToMove){
-                    fullMove++;
+                if(!GameParameter.whiteToMove){
+                    GameParameter.fullMove++;
                 }
-                whiteToMove = !whiteToMove;
+                GameParameter.whiteToMove = !GameParameter.whiteToMove;
                 return true;
             }
         }
@@ -423,10 +420,10 @@ public class Move {
             int rank = enPassantTile[1];
             if(rank == 2){
                 board.boardTiles[file][rank+1].piece = null;
-                halfMove = 0;
+                GameParameter.halfMove = 0;
             }else if(rank == 5){
                 board.boardTiles[file][rank-1].piece = null;
-                halfMove = 0;
+                GameParameter.halfMove = 0;
             }
         }
     }
