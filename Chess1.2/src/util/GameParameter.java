@@ -31,6 +31,9 @@ public class GameParameter {
         gamePanel.move = new Move(gamePanel.board,toMove,fen);
         gamePanel.registerComponent();
         gamePanel.renderBoard();
+        if(!whiteToMove){
+            gamePanel.cpu().start();
+        }
     }
     
 }
