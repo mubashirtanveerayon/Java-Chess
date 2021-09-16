@@ -90,6 +90,8 @@ public class GamePanel extends JPanel implements ActionListener {
                     board.refactorBoard();
                     renderBoard();
                     System.out.println(Util.loadFenFromBoard(board));
+                }else{
+                    System.out.println("Engine could not start!");
                 }
             }
         };

@@ -6,6 +6,10 @@ import javax.swing.ImageIcon;
 
 public class Constants {
 
+    public static final String STOCKFISH_WINDOWS = "stockfish.exe";
+
+    public static final String STOCKFISH_LINUX = "stockfish_linux_x64";
+
     public static final int NUM_OF_ROWS = 8;
 
     public static final int NUM_OF_COLUMNS = 8;

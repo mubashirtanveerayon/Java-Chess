@@ -9,6 +9,8 @@ package stockfish;
  *
  * @author ayon2
  */
+import game.Main;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +29,7 @@ public class Stockfish {
     private BufferedReader processReader;
     private OutputStreamWriter processWriter;
 
-    private static final String PATH = "src"+File.separator+"engine"+File.separator+"stockfish.exe";
+    private static final String PATH = Main.ENGINE_PATH;
 
     /**
      * Starts Stockfish engine as a process and initializes it

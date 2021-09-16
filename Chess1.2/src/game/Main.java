@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -31,6 +32,8 @@ public class Main extends JFrame implements ActionListener {
     public JMenuItem save, load, exit;
 
     GamePanel gamePanel;
+
+    public static String ENGINE_PATH = "src"+ File.separator + "engine" + File.separator;
 
     public Main() {
         gamePanel = new GamePanel(Constants.STARTING_FEN);//r1bqk2r/pppppp1p/2n2npb/8/8/BPNP4/P1PQPPPP/R3KBNR b Constants.STARTING_FEN
@@ -60,6 +63,12 @@ public class Main extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
+        String osName = System.getProperty("os.name").toLowerCase();
+        if(osName.contains("windows")){
+            ENGINE_PATH += Constants.STOCKFISH_WINDOWS;
+        }else if(osName.contains("linux")){
+            ENGINE_PATH += Constants.STOCKFISH_LINUX;
+        }
         Thread thread = new Thread() {
             public void run() {
                 new Main().setVisible(true);

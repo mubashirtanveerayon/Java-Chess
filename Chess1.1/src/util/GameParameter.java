@@ -5,8 +5,13 @@
  */
 package util;
 
+import board.Board;
 import board.Move;
-import game.GamePanel;
+import gui.GamePanel;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +36,21 @@ public class GameParameter {
         gamePanel.move = new Move(gamePanel.board,toMove,fen);
         gamePanel.registerComponent();
         gamePanel.renderBoard();
+    }
+
+    public static void saveGame(Board board){
+        String path = JOptionPane.showInputDialog(null, "File path :", "FEN.txt");
+        if (path != null || !path.isEmpty()) {
+            String fen = Util.loadFenFromBoard(board);
+            try {
+                File file = new File(path);
+                FileWriter fw = new FileWriter(file);
+                fw.write(fen);
+                fw.close();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        }
     }
     
 }
