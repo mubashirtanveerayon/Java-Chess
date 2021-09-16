@@ -387,7 +387,7 @@ public class Move {
         return false;
     }
 
-    public boolean move(Tile mTile, Tile pTile) {
+    public boolean move(Tile pTile, Tile mTile) {
         if (pTile.isOccupied()) {
             return move(mTile, pTile.piece);
         }

@@ -87,7 +87,9 @@ public class GamePanel extends JPanel implements ActionListener {
                         System.out.println("Not a legal move!");
                     }
                     ai.stopEngine();
+                    board.refactorBoard();
                     renderBoard();
+                    System.out.println(Util.loadFenFromBoard(board));
                 }
             }
         };
@@ -124,9 +126,8 @@ public class GamePanel extends JPanel implements ActionListener {
                 }
             }
         }
-        //System.out.println("evaluation : "+board.evaluateBoard());
-        //board.printBoard();
         System.out.println(Util.loadFenFromBoard(board));
+        board.refactorBoard();
         renderBoard();
     }
 
