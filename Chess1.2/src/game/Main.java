@@ -5,6 +5,7 @@
  */
 package game;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -29,27 +30,30 @@ public class Main extends JFrame implements ActionListener {
 
     public JMenu option;
 
-    public JMenuItem save, load, exit;
+    public JMenuItem newGame, save, load, exit;
 
     GamePanel gamePanel;
 
     public static String ENGINE_PATH = "src"+ File.separator + "engine" + File.separator;
 
     public Main() {
-        gamePanel = new GamePanel(Constants.STARTING_FEN);//r1bqk2r/pppppp1p/2n2npb/8/8/BPNP4/P1PQPPPP/R3KBNR b Constants.STARTING_FEN
+        gamePanel = new GamePanel(Constants.STARTING_FEN);
 
         menuBar = new JMenuBar();
 
         option = new JMenu("Option");
 
+        newGame = new JMenuItem("New Game");
         save = new JMenuItem("Save");
         load = new JMenuItem("Load");
         exit = new JMenuItem("Exit");
 
+        newGame.addActionListener(this);
         save.addActionListener(this);
         load.addActionListener(this);
         exit.addActionListener(this);
 
+        option.add(newGame);
         option.add(save);
         option.add(load);
         option.add(exit);
@@ -99,6 +103,8 @@ public class Main extends JFrame implements ActionListener {
         }else if(src == load){
             String fen = JOptionPane.showInputDialog(null,"FEN :");
             GameParameter.loadGame(gamePanel, fen);
+        }else if(src == newGame){
+            GameParameter.loadGame(gamePanel,Constants.STARTING_FEN);
         }
     }
 

@@ -32,7 +32,7 @@ public class Main extends JFrame implements ActionListener {
 
     public JMenu option;
 
-    public JMenuItem save, load, exit;
+    public JMenuItem newGame, save, load, exit;
 
     public JPanel gameParent;
 
@@ -48,14 +48,17 @@ public class Main extends JFrame implements ActionListener {
         option = new JMenu("Option");
         option.setForeground(Color.white);
 
+        newGame = new JMenuItem("New Game");
         save = new JMenuItem("Save");
         load = new JMenuItem("Load");
         exit = new JMenuItem("Exit");
 
+        newGame.addActionListener(this);
         save.addActionListener(this);
         load.addActionListener(this);
         exit.addActionListener(this);
 
+        option.add(newGame);
         option.add(save);
         option.add(load);
         option.add(exit);
@@ -88,7 +91,13 @@ public class Main extends JFrame implements ActionListener {
             GameParameter.saveGame(gamePanel.board);
         }else if(src == load){
             String fen = JOptionPane.showInputDialog(null,"FEN :");
-            GameParameter.loadGame(gamePanel, fen);
+            if(Util.checkFen(fen)){
+                GameParameter.loadGame(gamePanel, fen);
+            }else{
+                JOptionPane.showMessageDialog(null,"Invalid FEN!");
+            }
+        }else if(src == newGame){
+            GameParameter.loadGame(gamePanel, Constants.STARTING_FEN);
         }
     }
     

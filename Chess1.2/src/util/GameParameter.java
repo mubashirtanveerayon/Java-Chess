@@ -24,13 +24,15 @@ public class GameParameter {
     public static void loadGame(GamePanel gamePanel,String fen){
         history.clear();
         moves.clear();
-        gamePanel.removeComponent();
-        gamePanel.board = Util.loadBoardFromFen(fen);
         history.add(fen);
-        boolean toMove = fen.split(" ")[1].equals(String.valueOf(Constants.WHITE));
-        gamePanel.move = new Move(gamePanel.board,toMove,fen);
-        gamePanel.registerComponent();
-        gamePanel.renderBoard();
+        if(gamePanel != null){
+            gamePanel.removeComponent();
+            gamePanel.board = Util.loadBoardFromFen(fen);
+            boolean toMove = fen.split(" ")[1].equals(String.valueOf(Constants.WHITE));
+            gamePanel.move = new Move(gamePanel.board,toMove,fen);
+            gamePanel.registerComponent();
+            gamePanel.renderBoard();
+        }
         if(!whiteToMove){
             gamePanel.cpu().start();
         }
