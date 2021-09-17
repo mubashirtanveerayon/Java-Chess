@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Chess1.2:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2f7217d5-e0be-4573-bdef-8efc3e7d5f18" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/artifacts/Chess1_1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/libraries/Chess1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/Chess1.1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/gui/Main$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/gui/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Chess1.1/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Chess1_2_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Chess1_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Chess1.2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/game/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/gui/GamePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/game/Main$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/game/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/util/GameParameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/util/GameParameter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/util/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/util/Util.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/manifest.mf" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/manifest.mf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/nbproject/project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/game/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/gui/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/gui/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/util/GameParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/util/GameParameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/util/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/util/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FEN.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/game/GamePanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/GamePanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/game/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/GamePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/game/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/Main$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/game/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/stockfish/Stockfish.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/stockfish/Stockfish.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/util/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/util/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/util/GameParameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/util/GameParameter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/Chess1.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine/stockfish_linux_x64" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/README.TXT" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/build-impl.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/build-impl.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/piece/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/piece/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stockfish/Stockfish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stockfish/Stockfish.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/GameParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/GameParameter.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1yGY8yZNr4OfnutgiqoeSpJ4ZB5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="game.Main" />
+      <module name="Chess1.2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2f7217d5-e0be-4573-bdef-8efc3e7d5f18" name="Changes" comment="" />
+      <created>1631879248836</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1631879248836</updated>
+    </task>
+    <servers />
+  </component>
+</project>

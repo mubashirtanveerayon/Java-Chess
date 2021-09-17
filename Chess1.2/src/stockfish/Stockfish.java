@@ -9,11 +9,10 @@ package stockfish;
  *
  * @author ayon2
  */
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import game.Main;
+import resourcefinder.Resources;
+
+import java.io.*;
 
 /**
  * A simple and efficient client to run Stockfish from Java
@@ -27,8 +26,6 @@ public class Stockfish {
     private BufferedReader processReader;
     private OutputStreamWriter processWriter;
 
-    private static final String PATH = "src"+File.separator+"engine"+File.separator+"stockfish.exe";
-
     /**
      * Starts Stockfish engine as a process and initializes it
      *
@@ -37,7 +34,7 @@ public class Stockfish {
      */
     public boolean startEngine() {
         try {
-            engineProcess = Runtime.getRuntime().exec(PATH);
+            engineProcess = Runtime.getRuntime().exec(Resources.ENGINE_PATH);
             processReader = new BufferedReader(new InputStreamReader(
                     engineProcess.getInputStream()));
             processWriter = new OutputStreamWriter(

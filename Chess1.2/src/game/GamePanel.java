@@ -76,20 +76,24 @@ public class GamePanel extends JPanel implements ActionListener {
                             bestMove = ai.getBestMove(fen, waitTime);
                             break;
                         } catch (Exception ex) {
-                            waitTime += 100;
+                            waitTime += 50;
                             tried++;
                         }
                     }
-                    int[][] bestMovePosition = Util.parseMove(bestMove);
-                    Tile from = board.boardTiles[bestMovePosition[0][0]][bestMovePosition[0][1]];
-                    Tile to = board.boardTiles[bestMovePosition[1][0]][bestMovePosition[1][1]];
-                    if (!move.move(from, to)) {
-                        System.out.println("Not a legal move!");
+                    if(bestMove != null){
+                        int[][] bestMovePosition = Util.parseMove(bestMove);
+                        Tile from = board.boardTiles[bestMovePosition[0][0]][bestMovePosition[0][1]];
+                        Tile to = board.boardTiles[bestMovePosition[1][0]][bestMovePosition[1][1]];
+                        if (!move.move(from, to)) {
+                            System.out.println("Not a legal move!");
+                        }
                     }
                     ai.stopEngine();
                     board.refactorBoard();
                     renderBoard();
                     System.out.println(Util.loadFenFromBoard(board));
+                }else{
+                    System.out.println("Engine could not start!");
                 }
             }
         };
