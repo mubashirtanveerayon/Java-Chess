@@ -14,7 +14,6 @@ import java.util.zip.*;
 
 public class Resources {
 
-    public static String ENGINE_PATH = "src" + File.separator + "engine" + File.separator;
     public static File files = new File("src");
 
     public static void extractArchive(String archiveFilePath, String destinationPath) throws IOException {
@@ -54,10 +53,7 @@ public class Resources {
                     .toURI()
                     .getPath();
         if (osName.contains("windows")) {
-            ENGINE_PATH += Constants.STOCKFISH_WINDOWS;
-            self = String.valueOf(self.subSequence(1, self.length()));
-        } else if (osName.contains("linux")) {
-            ENGINE_PATH += Constants.STOCKFISH_LINUX;
+            self = self.substring(1);
         }
         String dst = "src";
         if(files.exists()){
@@ -82,5 +78,29 @@ public class Resources {
             // delete files and empty subfolders
             subfile.delete();
         }
+    }
+
+    public static boolean acquirePermission(String filePath){
+        String osName = System.getProperty("os.name").toLowerCase();
+        if(osName.contains("linux")){
+            try{
+                Runtime.getRuntime().exec("chmod +x " + filePath);
+            }catch(Exception ex){
+                System.out.println("in permission " +ex);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static String getEnginePath(){
+        String osName = System.getProperty("os.name").toLowerCase();
+        String path = "src" + File.separator + "engine" + File.separator;
+        if (osName.contains("windows")) {
+            path += Constants.STOCKFISH_WINDOWS;
+        } else if (osName.contains("linux")) {
+            path += Constants.STOCKFISH_LINUX;
+        }
+        return path;
     }
 }

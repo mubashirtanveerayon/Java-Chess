@@ -33,8 +33,9 @@ public class Stockfish {
      * @return True on success. False otherwise
      */
     public boolean startEngine() {
+        String ENGINE_PATH = Resources.getEnginePath();
         try {
-            engineProcess = Runtime.getRuntime().exec(Resources.ENGINE_PATH);
+            engineProcess = Runtime.getRuntime().exec(ENGINE_PATH);
             processReader = new BufferedReader(new InputStreamReader(
                     engineProcess.getInputStream()));
             processWriter = new OutputStreamWriter(

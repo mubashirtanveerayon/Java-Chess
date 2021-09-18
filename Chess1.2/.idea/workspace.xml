@@ -7,38 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f7217d5-e0be-4573-bdef-8efc3e7d5f18" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/artifacts/Chess1_1_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/libraries/Chess1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/Chess1.1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/gui/Main$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/gui/Main.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Chess1.1/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Chess1_2_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Chess1_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Chess1.2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/game/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/gui/GamePanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/game/Main$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/game/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/util/GameParameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/util/GameParameter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/build/classes/util/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/build/classes/util/Util.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/manifest.mf" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/manifest.mf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/nbproject/private/private.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/nbproject/project.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/game/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/gui/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/gui/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/util/GameParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/util/GameParameter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/util/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/util/Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FEN.txt" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resourcefinder/Resources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/game/GamePanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/GamePanel$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/game/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/GamePanel.class" afterDir="false" />
@@ -47,8 +17,6 @@
       <change beforePath="$PROJECT_DIR$/build/classes/stockfish/Stockfish.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/stockfish/Stockfish.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/util/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/util/Constants.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/util/GameParameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/util/GameParameter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/Chess1.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine/stockfish_linux_x64" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/README.TXT" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/nbproject/build-impl.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/build-impl.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />

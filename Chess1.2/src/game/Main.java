@@ -73,6 +73,16 @@ public class Main extends JFrame implements ActionListener {
               }catch(Exception ex){
                   JOptionPane.showMessageDialog(null,ex);
               }
+              boolean engineWorking = found;
+              if(found){
+                    if(GameParameter.testEngine()){
+                        engineWorking = true;
+                    }else{
+                        Resources.acquirePermission(Resources.getEnginePath());
+                        engineWorking = GameParameter.testEngine();
+                    }
+              }
+              found = found && engineWorking;
               if(!found){
                   JOptionPane.showMessageDialog(null,"Could not load necessary files!");
               }
@@ -83,7 +93,7 @@ public class Main extends JFrame implements ActionListener {
                 new Main().setVisible(true);
             }
         };
-        JOptionPane.showMessageDialog(null,"The program needs to check necessary files to run.");
+        JOptionPane.showMessageDialog(null,"The program needs to check for necessary files to run.");
         thread1.start();
         try {
             thread1.join();

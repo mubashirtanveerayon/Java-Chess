@@ -7,6 +7,8 @@ package util;
 
 import board.Move;
 import game.GamePanel;
+import stockfish.Stockfish;
+
 import java.util.ArrayList;
 
 /**
@@ -37,5 +39,14 @@ public class GameParameter {
             gamePanel.cpu().start();
         }
     }
+
+    public static boolean testEngine(){
+        Stockfish sf = new Stockfish();
+        boolean engineStarted = sf.startEngine();
+        if(engineStarted)sf.stopEngine();
+        return engineStarted;
+    }
+
+
     
 }
