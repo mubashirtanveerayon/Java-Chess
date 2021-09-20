@@ -9,6 +9,8 @@ import board.Board;
 import board.Move;
 import board.Tile;
 import java.util.ArrayList;
+import java.util.Locale;
+
 import piece.Piece;
 
 /**
@@ -235,21 +237,6 @@ public class Util {
         return board;
     }
 
-    public static boolean checkFen(String fen){
-        String[] parts = fen.split(" ");
-        if(parts.length != 6){
-            return false;
-        }
-        try{
-            Board board = loadBoardFromFen(fen);
-            int halfMove = Integer.parseInt(parts[4]);
-            int fullMove = Integer.parseInt(parts[5]);
-        }catch(Exception ex){
-            return false;
-        }
-        return true;
-    }
-
     public static int[][] getDirection(int dx, int dy, char pieceChar) {
         ArrayList<int[]> path = new ArrayList<>();
         int[][] offset = getOffset(pieceChar);
@@ -294,6 +281,7 @@ public class Util {
     }
 
     public static int[] cvtPosition(String strPos) {
+        strPos = strPos.toLowerCase();
         int file, rank;
         try {
             file = Constants.FILES.indexOf(strPos.charAt(0));

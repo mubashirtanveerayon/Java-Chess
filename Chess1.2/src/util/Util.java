@@ -9,6 +9,8 @@ import board.Board;
 import board.Move;
 import board.Tile;
 import java.util.ArrayList;
+import java.util.Locale;
+
 import piece.Piece;
 
 /**
@@ -85,6 +87,23 @@ public class Util {
                 } else {
                     return Constants.BLACK_PAWN_OFFSET;
                 }
+        }
+    }
+
+    public static int getValue(char pieceChar){
+        switch (Util.toUpper(pieceChar)) {
+            case Constants.WHITE_KING:
+                return Constants.KING_VALUE;
+            case Constants.WHITE_KNIGHT:
+                return Constants.KNIGHT_VALUE;
+            case Constants.WHITE_QUEEN:
+                return Constants.QUEEN_VALUE;
+            case Constants.WHITE_ROOK:
+                return Constants.ROOK_VALUE;
+            case Constants.WHITE_BISHOP:
+                return Constants.BISHOP_VALUE;
+            default:
+                return Constants.PAWN_VALUE;
         }
     }
 
@@ -279,6 +298,7 @@ public class Util {
     }
 
     public static int[] cvtPosition(String strPos) {
+        strPos = strPos.toLowerCase();
         int file, rank;
         try {
             file = Constants.FILES.indexOf(strPos.charAt(0));

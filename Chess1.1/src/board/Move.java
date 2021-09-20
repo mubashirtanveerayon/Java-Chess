@@ -113,7 +113,8 @@ public class Move {
     public ArrayList<int[]> generateCaptureMove(char pieceChar, int[] position, int[][] direction) {
         ArrayList<int[]> captureMoves = new ArrayList<>();
         switch (Util.toUpper(pieceChar)) {
-            case Constants.WHITE_KNIGHT: {
+            case Constants.WHITE_KNIGHT:
+            case Constants.WHITE_KING: {
                 for (int[] dir : direction) {
                     int file = position[0];
                     int rank = position[1];
@@ -138,22 +139,6 @@ public class Move {
                     if (Util.isValid(file, rank)) {
                         if (board.boardChars[file][rank] != Constants.EMPTY_CHAR && !Util.isAlly(pieceChar, board.boardChars[file][rank])) {
                             captureMoves.add(new int[]{file, rank});
-                        }
-                    }
-                }
-                break;
-            }
-            case Constants.WHITE_KING: {
-                for (int[] dir : direction) {
-                    int file = position[0];
-                    int rank = position[1];
-                    file += dir[0];
-                    rank += dir[1];
-                    if (Util.isValid(file, rank)) {
-                        if (board.boardChars[file][rank] != Constants.EMPTY_CHAR) {
-                            if (!Util.isAlly(pieceChar, board.boardChars[file][rank])) {
-                                captureMoves.add(new int[]{file, rank});
-                            }
                         }
                     }
                 }
@@ -280,18 +265,19 @@ public class Move {
         String enPassantTile = Util.loadFenFromBoard(board).split(" ")[3];
         if(!enPassantTile.equals("-")){
             if(Util.toUpper(pieceChar) == Constants.WHITE_PAWN){
+                int[] enPassantSquare = Util.cvtPosition(enPassantTile);
                 if(white){
                     if(position[1] == 3){
-                        int fDiff = Math.abs(Constants.FILES.indexOf(enPassantTile.charAt(0))-position[0]);
+                        int fDiff = Math.abs(enPassantSquare[0]-position[0]);
                         if(fDiff == 1){
-                            pseudoLegalMoves.add(new int[]{Constants.FILES.indexOf(enPassantTile.charAt(0)),Constants.RANKS.indexOf(enPassantTile.charAt(1))});
+                            pseudoLegalMoves.add(enPassantSquare);
                         }
                     }
                 }else{
                     if(position[1] == 4){
-                        int fDiff = Math.abs(Constants.FILES.indexOf(enPassantTile.charAt(0))-position[0]);
+                        int fDiff = Math.abs(enPassantSquare[0]-position[0]);
                         if(fDiff == 1){
-                            pseudoLegalMoves.add(new int[]{Constants.FILES.indexOf(enPassantTile.charAt(0)),Constants.RANKS.indexOf(enPassantTile.charAt(1))});
+                            pseudoLegalMoves.add(enPassantSquare);
                         }
                     }
                 }
@@ -387,7 +373,7 @@ public class Move {
         return false;
     }
 
-    public boolean move(Tile pTile, Tile mTile) {
+    public boolean move(Tile pTile,Tile mTile) {
         if (pTile.isOccupied()) {
             return move(mTile, pTile.piece);
         }

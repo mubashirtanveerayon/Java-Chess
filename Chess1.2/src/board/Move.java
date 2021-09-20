@@ -280,18 +280,19 @@ public class Move {
         String enPassantTile = Util.loadFenFromBoard(board).split(" ")[3];
         if(!enPassantTile.equals("-")){
             if(Util.toUpper(pieceChar) == Constants.WHITE_PAWN){
+                int[] enPassantSquare = Util.cvtPosition(enPassantTile);
                 if(white){
                     if(position[1] == 3){
-                        int fDiff = Math.abs(Constants.FILES.indexOf(enPassantTile.charAt(0))-position[0]);
+                        int fDiff = Math.abs(enPassantSquare[0]-position[0]);
                         if(fDiff == 1){
-                            pseudoLegalMoves.add(new int[]{Constants.FILES.indexOf(enPassantTile.charAt(0)),Constants.RANKS.indexOf(enPassantTile.charAt(1))});
+                            pseudoLegalMoves.add(enPassantSquare);
                         }
                     }
                 }else{
                     if(position[1] == 4){
-                        int fDiff = Math.abs(Constants.FILES.indexOf(enPassantTile.charAt(0))-position[0]);
+                        int fDiff = Math.abs(enPassantSquare[0]-position[0]);
                         if(fDiff == 1){
-                            pseudoLegalMoves.add(new int[]{Constants.FILES.indexOf(enPassantTile.charAt(0)),Constants.RANKS.indexOf(enPassantTile.charAt(1))});
+                            pseudoLegalMoves.add(enPassantSquare);
                         }
                     }
                 }

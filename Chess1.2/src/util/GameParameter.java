@@ -42,9 +42,11 @@ public class GameParameter {
 
     public static boolean testEngine(){
         Stockfish sf = new Stockfish();
-        boolean engineStarted = sf.startEngine();
-        if(engineStarted)sf.stopEngine();
-        return engineStarted;
+        if(sf.startEngine()){
+            sf.stopEngine();
+            return true;
+        }
+        return false;
     }
 
 
