@@ -113,7 +113,8 @@ public class Move {
     public ArrayList<int[]> generateCaptureMove(char pieceChar, int[] position, int[][] direction) {
         ArrayList<int[]> captureMoves = new ArrayList<>();
         switch (Util.toUpper(pieceChar)) {
-            case Constants.WHITE_KNIGHT: {
+            case Constants.WHITE_KNIGHT:
+            case Constants.WHITE_KING: {
                 for (int[] dir : direction) {
                     int file = position[0];
                     int rank = position[1];
@@ -138,22 +139,6 @@ public class Move {
                     if (Util.isValid(file, rank)) {
                         if (board.boardChars[file][rank] != Constants.EMPTY_CHAR && !Util.isAlly(pieceChar, board.boardChars[file][rank])) {
                             captureMoves.add(new int[]{file, rank});
-                        }
-                    }
-                }
-                break;
-            }
-            case Constants.WHITE_KING: {
-                for (int[] dir : direction) {
-                    int file = position[0];
-                    int rank = position[1];
-                    file += dir[0];
-                    rank += dir[1];
-                    if (Util.isValid(file, rank)) {
-                        if (board.boardChars[file][rank] != Constants.EMPTY_CHAR) {
-                            if (!Util.isAlly(pieceChar, board.boardChars[file][rank])) {
-                                captureMoves.add(new int[]{file, rank});
-                            }
                         }
                     }
                 }

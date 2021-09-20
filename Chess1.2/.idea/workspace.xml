@@ -7,13 +7,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f7217d5-e0be-4573-bdef-8efc3e7d5f18" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/Engine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/Fen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/board/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/board/Move.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Chess1.1/src/util/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Chess1.1/src/util/Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resourcefinder/Resources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/game/GamePanel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/GamePanel$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/game/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/GamePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/game/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/Main$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/game/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/game/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/stockfish/Stockfish.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/stockfish/Stockfish.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/util/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/util/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/util/GameParameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/util/GameParameter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/build-impl.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/build-impl.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/board/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/board/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/piece/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/piece/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stockfish/Stockfish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/stockfish/Stockfish.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/GameParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/GameParameter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/util/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/Util.java" afterDir="false" />
@@ -32,6 +44,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1yGY8yZNr4OfnutgiqoeSpJ4ZB5" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />

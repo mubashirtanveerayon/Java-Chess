@@ -5,6 +5,8 @@ import board.Move;
 import util.Constants;
 import util.Util;
 
+import java.util.ArrayList;
+
 public class Engine {
 
     char[][] board;
@@ -30,6 +32,51 @@ public class Engine {
             }
             file ++;
         }
+    }
+
+    public boolean isKingInCheck(boolean white){
+
+        return false;
+    }
+
+    ArrayList<int[]> generateMove(char pieceChar,int[] position){
+        ArrayList<int[]> legalMoves = new ArrayList<>();
+
+        return legalMoves;
+    }
+
+    public boolean move(int[] fromSquare,int[] toSquare){
+        char from = board[fromSquare[0]][fromSquare[1]];
+        if(from != Constants.EMPTY_CHAR && Util.toUpper(from) == Constants.WHITE_KING){
+            return false;
+        }
+        ArrayList<int[]> legalMoves = generateMove(from,fromSquare);
+        for(int[] moves : legalMoves){
+            if(Util.samePosition(moves,toSquare)){
+                board[fromSquare[0]][fromSquare[1]] = Constants.EMPTY_CHAR;
+                //need to check for special cases
+                if(Util.toUpper(from) == Constants.WHITE_KING){
+                    int fDiff = Math.abs(fromSquare[0] - toSquare[1]);
+                    if(fDiff == 2){
+                        int rank = fromSquare[1];
+                        if(toSquare[0] == 2){
+                            char rook = board[0][rank];
+                            board[0][rank] = Constants.EMPTY_CHAR;
+                            board[3][rank] = rook;
+                        }else{
+                            char rook = board[7][rank];
+                            board[7][rank] = Constants.EMPTY_CHAR;
+                            board[5][rank] = rook;
+                        }
+                    }
+                }else if(Util.toUpper(from) == Constants.WHITE_PAWN){
+
+                }
+                board[toSquare[0]][toSquare[1]] = from;
+                break;
+            }
+        }
+        return true;
     }
 
     public int evaluateBoard(){
