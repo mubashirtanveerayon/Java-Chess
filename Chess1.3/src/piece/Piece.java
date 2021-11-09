@@ -1,6 +1,5 @@
 package piece;
 
-import main.Main;
 import util.Constants;
 import util.ResourceLoader;
 import util.Util;
@@ -22,7 +21,7 @@ public class Piece {
     public static ImageIcon getImage(char pieceChar){
         boolean white = Util.isUpperCase(pieceChar);
         String name = getName(pieceChar);
-        return white?new ImageIcon(Constants.WHITE_IMG_PATH+name.toLowerCase()+".png"):new ImageIcon(Constants.BLACK_IMG_PATH+name.toLowerCase()+".png");
+        return white?new ImageIcon(ResourceLoader.load(Constants.WHITE_IMG_PATH+name.toLowerCase()+".png")):new ImageIcon(ResourceLoader.load(Constants.BLACK_IMG_PATH+name.toLowerCase()+".png"));
     }
 
     public static String getName(char pieceChar){

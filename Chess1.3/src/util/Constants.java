@@ -66,9 +66,9 @@ public class Constants {
 
     public static final String BLACK_PIECE_CHAR = WHITE_PIECE_CHAR.toLowerCase();
     
-    public static final String WHITE_IMG_PATH="images"+File.separator+"white"+File.separator;
+    public static final String WHITE_IMG_PATH="w"+File.separator;
 
-    public static final String BLACK_IMG_PATH="images"+File.separator+"black"+File.separator;
+    public static final String BLACK_IMG_PATH="b"+File.separator;
 
     public static final float PARTIAL_VALUE = 0.5f;
 

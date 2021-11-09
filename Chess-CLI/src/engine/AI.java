@@ -120,8 +120,8 @@ public class AI {
         return bestScore;
     }
 
-    public static ArrayList<String> getOutput(Engine engine,boolean white){
-        ArrayList<String> moves = new ArrayList<>();
+    public String getOutput(boolean white){
+        String moves="";
         for(int i=0;i<Constants.COLUMNS;i++){
             for(int j=0;j<Constants.ROWS;j++){
                 if(engine.board[i][j] != Constants.EMPTY_CHAR && ((!white&&!Util.isUpperCase(engine.board[i][j])))||(white&&Util.isUpperCase(engine.board[i][j]))){
@@ -129,7 +129,7 @@ public class AI {
                     int[] position = new int[]{i,j};
                     ArrayList<int[]> legalMoves = engine.generateMove(piece,position,Util.getOffset(piece));
                     for(int[] positions:legalMoves){
-                        moves.add(Util.toString(position)+Util.toString(positions));
+                        moves+=(Util.toString(position)+Util.toString(positions))+"\n";
                     }
                 }
             }

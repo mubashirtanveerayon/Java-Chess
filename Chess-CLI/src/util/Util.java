@@ -185,7 +185,7 @@ public class Util {
     }
     
     public static String printBoard(char[][] boardChar){
-        String board = "\n   a   b   c   d   e   f   g   h\n  +---+---+---+---+---+---+---+---+\n";
+        String board = "\n    a   b   c   d   e   f   g   h\n  +---+---+---+---+---+---+---+---+\n";
         for(int i=0;i<Constants.COLUMNS;i++) {
             board+=String.valueOf(Constants.ROWS-i)+" | ";
             for(int j=0;j<Constants.ROWS;j++){
@@ -193,7 +193,7 @@ public class Util {
             }         //r | n | b | q | k | b | n | r |
             board += String.valueOf(Constants.ROWS-i)+"\n  +---+---+---+---+---+---+---+---+\n";
         }
-        board+= "   a   b   c   d   e   f   g   h\n";
+        board+= "    a   b   c   d   e   f   g   h\n";
         return board;
     }
     
