@@ -7,6 +7,7 @@ package engine;
 
 import java.util.ArrayList;
 import util.Constants;
+import util.Map;
 import util.Util;
 
 /**
@@ -15,7 +16,7 @@ import util.Util;
  */
 public class Engine {
     
-    public static final int[] MID_RANKS = {3,4};
+
     public char[][] board;
     
     public String history;
@@ -449,14 +450,14 @@ public class Engine {
         }
         
         long numPositions = 0;
-        
+        ArrayList<int[]> legalMoves = null;
         for(int i=0;i<Constants.COLUMNS;i++){
             for(int j=0;j<Constants.ROWS;j++){
                 char piece = board[i][j];
                 if(piece!=Constants.EMPTY_CHAR){
                     int[] position = new int[]{i,j};
                     if((whiteToMove && Util.isUpperCase(piece)) || (!whiteToMove && !Util.isUpperCase(piece))){
-                        ArrayList<int[]> legalMoves = generateMove(piece,position,Util.getOffset(piece));
+                        legalMoves = generateMove(piece,position,Util.getOffset(piece));
                         char[][] prevBoardChars = Util.copyBoard(board);
                         boolean prevWhiteToMove = whiteToMove;
                         int prevHalfMove = halfMove;
@@ -475,6 +476,7 @@ public class Engine {
                             fullMove = prevFullMove;
                             fen = prevFen;
                         }
+                        legalMoves.clear();
                     }
                 }
             }
@@ -508,72 +510,70 @@ public class Engine {
         for(int i=0;i<Constants.COLUMNS;i++){
             for(int j=0;j<Constants.ROWS;j++){
                 if(board[i][j]!=Constants.EMPTY_CHAR){
-                    char piece = board[i][j];
-                    int[] position = new int[]{i,j};
-                    ArrayList<int[]> dir = new ArrayList<>();
-                    int[][] offset = Util.getOffset(piece);
-                    for(int rank:MID_RANKS){
-                        int dy = rank-j;
-                        for(int[] d:offset){
-                            if(Util.isOfSameDir(d[1],dy)){
-                                dir.add(d);
-                            }
-                        }
-                    }
-                    ArrayList<int[]> legalMoves = generateMove(piece,position,Util.copyArrayList(dir));
-                    float pieceVal = Util.getValue(piece);
-                    if(white){       
-                        //material comparison 
-                        if(Util.isUpperCase(piece)){
-                            eval += pieceVal;
+//                    int[] position = new int[]{i,j};
+//                    ArrayList<int[]> dir = new ArrayList<>();
+//                    int[][] offset = Util.getOffset(piece);
+//                    for(int rank:Map.MID_RANKS){
+//                        int dy = rank-j;
+//                        for(int[] d:offset){
+//                            if(Util.isOfSameDir(d[1],dy)){
+//                                dir.add(d);
+//                            }
+//                        }
+//                    }
+//                    ArrayList<int[]> legalMoves = generateMove(piece,position,Util.copyArrayList(dir));
+                    if(white){
+                        //material comparison and positional advantages
+                        if(Util.isUpperCase(board[i][j])){
+                            eval += (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
                         }else{
-                            eval -= pieceVal;
+                            eval -= (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
                         }
                         //center-control
-                        for(int rank:MID_RANKS){
-                            if(j==rank){
-                                if(Util.isUpperCase(piece)){
-                                    eval += (float)(pieceVal*Constants.PARTIAL_VALUE);
-                                }else{
-                                    eval -= (float)(pieceVal*Constants.PARTIAL_VALUE);
-                                }
-                            }
-                            for(int[] moves:legalMoves){
-                                if(moves[1] == rank){
-                                    if(Util.isUpperCase(piece)){
-                                        eval += (float)(pieceVal*Constants.PARTIAL_VALUE);
-                                    }else{
-                                        eval -= (float)(pieceVal*Constants.PARTIAL_VALUE);
-                                    }
-                                }
-                            }
-                        }
+//                        for(int rank: Map.MID_RANKS){
+//                            if(j==rank){
+//                                if(Util.isUpperCase(piece)){
+//                                    eval += (float)(pieceVal*Constants.PARTIAL_VALUE);
+//                                }else{
+//                                    eval -= (float)(pieceVal*Constants.PARTIAL_VALUE);
+//                                }
+//                            }
+//                            for(int[] moves:legalMoves){
+//                                if(moves[1] == rank){
+//                                    if(Util.isUpperCase(piece)){
+//                                        eval += (float)(pieceVal*Constants.PARTIAL_VALUE);
+//                                    }else{
+//                                        eval -= (float)(pieceVal*Constants.PARTIAL_VALUE);
+//                                    }
+//                                }
+//                            }
+//                        }
                     }else{
-                        //material comparison
-                        if(Util.isUpperCase(piece)){
-                            eval -= pieceVal;
+                        //material comparison and positional advantages
+                        if(Util.isUpperCase(board[i][j])){
+                            eval -= (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
                         }else{
-                            eval += pieceVal;
+                            eval += (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
                         }
                         //center-control
-                        for(int rank:MID_RANKS){
-                            if(j==rank){
-                                if(Util.isUpperCase(piece)){
-                                    eval -= (float)(pieceVal*Constants.PARTIAL_VALUE);
-                                }else{
-                                    eval += (float)(pieceVal*Constants.PARTIAL_VALUE);
-                                }
-                            }
-                            for(int[] moves:legalMoves){
-                                if(moves[1] == rank){
-                                    if(Util.isUpperCase(piece)){
-                                        eval -= pieceVal*Constants.PARTIAL_VALUE;
-                                    }else{
-                                        eval += pieceVal*Constants.PARTIAL_VALUE;
-                                    }
-                                }
-                            }
-                        }
+//                        for(int rank:Map.MID_RANKS){
+//                            if(j==rank){
+//                                if(Util.isUpperCase(piece)){
+//                                    eval -= (float)(pieceVal*Constants.PARTIAL_VALUE);
+//                                }else{
+//                                    eval += (float)(pieceVal*Constants.PARTIAL_VALUE);
+//                                }
+//                            }
+//                            for(int[] moves:legalMoves){
+//                                if(moves[1] == rank){
+//                                    if(Util.isUpperCase(piece)){
+//                                        eval -= pieceVal*Constants.PARTIAL_VALUE;
+//                                    }else{
+//                                        eval += pieceVal*Constants.PARTIAL_VALUE;
+//                                    }
+//                                }
+//                            }
+//                        }
                     }
                 }
             }
