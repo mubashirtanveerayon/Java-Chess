@@ -5,6 +5,8 @@ import engine.Engine;
 import util.Constants;
 import util.Util;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,6 +16,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Engine engine = new Engine(Constants.STARTING_FEN);
         AI ai = new AI(engine);
+        FileWriter fw = null;
         System.out.println("q to exit");
         boolean run = true;
         while(run){
@@ -73,16 +76,25 @@ public class Main {
                 }else if(contents[0].equalsIgnoreCase("evaluate")){
                     boolean white = contents[1].toLowerCase().charAt(0) == Constants.WHITE;
                     System.out.println(engine.evaluateBoard(white));
-                }else if(contents[0].equalsIgnoreCase("generate")){
+                }else if(contents[0].equalsIgnoreCase("go")){
                     try{
                         System.out.println(engine.moveGeneration(Integer.parseInt(contents[1])));
                     }catch(NumberFormatException nx){
 
                     }
+                }else if(contents[0].equalsIgnoreCase("export")){
+                    try{
+                        fw = new FileWriter(new File(contents[1]));
+                        fw.write(engine.fen);
+                        fw.close();
+                    }catch(Exception ex){
+                        System.out.println(ex);
+                    }
                 }
             }
             System.out.println("q to exit");
         }
+        sc.close();
     }
 
 }

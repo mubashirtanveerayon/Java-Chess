@@ -22,12 +22,13 @@ public class AI {
         String bestMove=null;
         boolean white = engine.whiteToMove;
         float score,bestScore = white?Float.MAX_VALUE:-Float.MAX_VALUE;
+        ArrayList<int[]> legalMoves = null;
         for(int i=0;i<Constants.COLUMNS;i++){
             for(int j=0;j<Constants.ROWS;j++){
                 char piece = engine.board[i][j];
                 if(piece != Constants.EMPTY_CHAR &&( (white&&Util.isUpperCase(piece))||(!white&&!Util.isUpperCase(piece)))){
                     int[] position = new int[]{i,j};
-                    ArrayList<int[]> legalMoves = engine.generateMove(piece,position,Util.getOffset(piece));
+                    legalMoves = engine.generateMove(piece,position,Util.getOffset(piece));
                     char[][] prevBoardChars = Util.copyBoard(engine.board);
                     boolean prevWhiteToMove = engine.whiteToMove;
                     int prevHalfMove = engine.halfMove;
@@ -59,6 +60,7 @@ public class AI {
                         engine.fullMove = prevFullMove;
                         engine.fen = prevFen;
                     }
+                    legalMoves.clear();
                 }
             }
         }
@@ -76,12 +78,13 @@ public class AI {
             return engine.evaluateBoard(false);
         }
         float score,bestScore = maximizing?-Float.MAX_VALUE:Float.MAX_VALUE;
+        ArrayList<int[]> legalMoves = null;
         for (int i = 0; i< Constants.COLUMNS; i++){
             for(int j=0;j<Constants.ROWS;j++){
                 char piece = engine.board[i][j];
                 if(piece != Constants.EMPTY_CHAR && ((engine.whiteToMove&&Util.isUpperCase(piece))||(!engine.whiteToMove&&!Util.isUpperCase(piece)))){
                     int[] position = new int[]{i,j};
-                    ArrayList<int[]> legalMoves = engine.generateMove(piece,position,Util.getOffset(piece));
+                    legalMoves = engine.generateMove(piece,position,Util.getOffset(piece));
                     char[][] prevBoardChars = Util.copyBoard(engine.board);
                     boolean prevWhiteToMove = engine.whiteToMove;
                     int prevHalfMove = engine.halfMove;
@@ -114,6 +117,7 @@ public class AI {
                             return bestScore;
                         }
                     }
+                    legalMoves.clear();
                 }
             }
         }

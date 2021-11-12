@@ -23,10 +23,6 @@ public class Util {
         return -1;
     }
 
-    public static boolean isUpperCase(String text) {
-        return text.equals(text.toUpperCase());
-    }
-
     public static boolean isUpperCase(char t) {
         return t == toUpper(t);
     }
@@ -35,28 +31,12 @@ public class Util {
         return String.valueOf(ch).toUpperCase().charAt(0);
     }
 
-    public static int[] copyPosition(int[] position) {
-        return new int[]{position[0], position[1]};
-    }
-
     public static boolean isOfSameDir(int a, int b) {
         return (a < 0 && b < 0) || (a > 0 && b > 0) || (a == 0 && b == 0);
     }
 
     public static boolean samePosition(int[] a, int[] b) {
         return a[0] == b[0] && a[1] == b[1];
-    }
-
-    public static boolean sameoffset(int[][] dir1, int[][] dir2) {
-        if (dir1.length != dir2.length) {
-            return false;
-        }
-        for (int i = 0; i < dir1.length; i++) {
-            if (!samePosition(dir1[i], dir2[i])) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public static boolean isAlly(char ch1, char ch2) {
@@ -124,18 +104,6 @@ public class Util {
         return file >= 0 && rank >= 0 && file < Constants.COLUMNS && rank < Constants.ROWS;
     }
 
-    public static boolean isValid(int[] position) {
-        return isValid(position[0], position[1]);
-    }
-
-    public static ArrayList<int[]> copy(ArrayList<int[]> from) {
-        ArrayList<int[]> newList = new ArrayList<>();
-        for (int i = 0; i < from.size(); i++) {
-            newList.add(from.get(i));
-        }
-        return newList;
-    }
-
     public static int[][] copyArrayList(ArrayList<int[]> from) {
         int[][] nList = new int[from.size()][];
         for (int i = 0; i < from.size(); i++) {
@@ -184,16 +152,16 @@ public class Util {
         return null;
     }
     
-    public static String printBoard(char[][] boardChar){
+    public static String printBoard(char[][] boardChar) {
         String board = "\n    a   b   c   d   e   f   g   h\n  +---+---+---+---+---+---+---+---+\n";
-        for(int i=0;i<Constants.COLUMNS;i++) {
-            board+=String.valueOf(Constants.ROWS-i)+" | ";
-            for(int j=0;j<Constants.ROWS;j++){
-                board += (String.valueOf(boardChar[j][i])+" | ");
+        for (int i = 0; i < Constants.COLUMNS; i++) {
+            board += String.valueOf(Constants.ROWS - i) + " | ";
+            for (int j = 0; j < Constants.ROWS; j++) {
+                board += (String.valueOf(boardChar[j][i]) + " | ");
             }         //r | n | b | q | k | b | n | r |
-            board += String.valueOf(Constants.ROWS-i)+"\n  +---+---+---+---+---+---+---+---+\n";
+            board += String.valueOf(Constants.ROWS - i) + "\n  +---+---+---+---+---+---+---+---+\n";
         }
-        board+= "    a   b   c   d   e   f   g   h\n";
+        board += "    a   b   c   d   e   f   g   h\n";
         return board;
     }
     

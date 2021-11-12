@@ -9,7 +9,6 @@ public class ResourceLoader {
 
         if (input == null) {
             input = ResourceLoader.class.getResource("/" + path);
-            System.out.println(input);
         }
         return input;
     }

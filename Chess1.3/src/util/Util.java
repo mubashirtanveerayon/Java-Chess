@@ -189,13 +189,15 @@ public class Util {
     }
     
     public static String printBoard(char[][] boardChar){
-        String board = "--+---+---+---+---+---+---+---+\n";
+        String board = "\n    a   b   c   d   e   f   g   h\n  +---+---+---+---+---+---+---+---+\n";
         for(int i=0;i<Constants.COLUMNS;i++) {
+            board+=String.valueOf(Constants.ROWS-i)+" | ";
             for(int j=0;j<Constants.ROWS;j++){
                 board += (String.valueOf(boardChar[j][i])+" | ");
             }         //r | n | b | q | k | b | n | r |
-            board += "\n--+---+---+---+---+---+---+---+\n";
+            board += String.valueOf(Constants.ROWS-i)+"\n  +---+---+---+---+---+---+---+---+\n";
         }
+        board+= "    a   b   c   d   e   f   g   h\n";
         return board;
     }
     
