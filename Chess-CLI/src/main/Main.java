@@ -19,6 +19,7 @@ public class Main {
         FileWriter fw = null;
         System.out.println("q to exit");
         boolean run = true;
+        boolean flipped=false;
         while(run){
             String input = sc.nextLine();
             String[] contents = input.split(";");
@@ -30,7 +31,7 @@ public class Main {
                     Constants.SEARCH_DEPTH = Integer.parseInt(String.valueOf(contents[0].charAt(0)));
                 }else if(contents[0].length()==1){
                     if(contents[0].toLowerCase().charAt(0) == 'd'){
-                        System.out.println(Util.printBoard(engine.board));
+                        System.out.println(Util.printBoard(engine.board,flipped));
                     }else if(contents[0].toLowerCase().charAt(0) == 'q') {
                         run = false;
                     }else if(contents[0].toLowerCase().charAt(0) == 's') {
@@ -40,6 +41,8 @@ public class Main {
                     }else if(contents[0].toLowerCase().charAt(0) == 'v') {
                         System.out.println(Constants.VERSION);
                     }
+                }else if(contents[0].equalsIgnoreCase("flip")) {
+                    flipped = !flipped;
                 }else if(contents[0].equalsIgnoreCase("fen")) {
                     System.out.println(engine.fen);
                 }else if(contents[0].equalsIgnoreCase("go")){

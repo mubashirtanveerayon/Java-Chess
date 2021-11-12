@@ -152,17 +152,30 @@ public class Util {
         return null;
     }
     
-    public static String printBoard(char[][] boardChar) {
-        String board = "\n    a   b   c   d   e   f   g   h\n  +---+---+---+---+---+---+---+---+\n";
-        for (int i = 0; i < Constants.COLUMNS; i++) {
-            board += String.valueOf(Constants.ROWS - i) + " | ";
-            for (int j = 0; j < Constants.ROWS; j++) {
-                board += (String.valueOf(boardChar[j][i]) + " | ");
-            }         //r | n | b | q | k | b | n | r |
-            board += String.valueOf(Constants.ROWS - i) + "\n  +---+---+---+---+---+---+---+---+\n";
+    public static String printBoard(char[][] boardChar,boolean flipped) {
+        if(flipped){
+            String board = "\n    h   g   f   e   d   c   b   a\n  +---+---+---+---+---+---+---+---+\n" ;
+            for(int i=Constants.COLUMNS-1;i>=0;i--){
+                board += String.valueOf(Constants.ROWS - i) + " | ";
+                for(int j = Constants.ROWS-1; j >= 0; j--){
+                    board += (String.valueOf(boardChar[j][i]) + " | ");
+                }
+                board += String.valueOf(Constants.ROWS - i) + "\n  +---+---+---+---+---+---+---+---+\n";
+            }
+            board+="    h   g   f   e   d   c   b   a\n";
+            return board;
+        }else{
+            String board = "\n    a   b   c   d   e   f   g   h\n  +---+---+---+---+---+---+---+---+\n";
+            for (int i = 0; i < Constants.COLUMNS; i++) {
+                board += String.valueOf(Constants.ROWS - i) + " | ";
+                for (int j = 0; j < Constants.ROWS; j++) {
+                    board += (String.valueOf(boardChar[j][i]) + " | ");
+                }         //r | n | b | q | k | b | n | r |
+                board += String.valueOf(Constants.ROWS - i) + "\n  +---+---+---+---+---+---+---+---+\n";
+            }
+            board += "    a   b   c   d   e   f   g   h\n";
+            return board;
         }
-        board += "    a   b   c   d   e   f   g   h\n";
-        return board;
     }
     
     public static char[][] loadBoard(String fen){
