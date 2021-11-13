@@ -17,11 +17,53 @@ public class AI {
         this.engine = engine;
     }
 
+    public int[] BestMove(){
+        ArrayList<int[]> moves = engine.getLegalMoves();
+        int size = moves.size();
+        int movesperthread = size/Constants.SEARCH_DEPTH;
+        BestMove[] bestMoves = new BestMove[Constants.SEARCH_DEPTH];
+        for(int i=0;i<bestMoves.length;i++){
+            bestMoves[i] = new BestMove(engine.copy(),moves,movesperthread);
+            bestMoves[i].start();
+        }
+        boolean complete = false;
+        long start = System.nanoTime();
+        while(!complete){
+            int count = 0;
+            for(int i=0;i<bestMoves.length;i++){
+                if(!bestMoves[i].isAlive()){
+                    count++;
+                }
+            }
+            if(count == bestMoves.length){
+                complete = true;
+            }
+            System.out.print("");
+        }
+        System.out.println("Time took to search depth "+Constants.SEARCH_DEPTH+" : "+ (System.nanoTime()/1000000-start/1000000)+" ms");
+        int[] best=null;
+        float bestScore = engine.whiteToMove?Float.POSITIVE_INFINITY:Float.NEGATIVE_INFINITY;
+        for(int i=0;i<bestMoves.length;i++){
+            if(engine.whiteToMove){
+                if(bestMoves[i].finalscore<bestScore){
+                    bestScore = bestMoves[i].finalscore;
+                    best = bestMoves[i].bestMove;
+                }
+            }else{
+                if(bestMoves[i].finalscore>bestScore){
+                    bestScore = bestMoves[i].finalscore;
+                    best = bestMoves[i].bestMove;
+                }
+            }
+        }
+        return best;
+    }
+
     public String getBestMove(){
         long start = System.nanoTime();
         String bestMove=null;
         boolean white = engine.whiteToMove;
-        float score,bestScore = white?Float.MAX_VALUE:-Float.MAX_VALUE;
+        float score,bestScore = white?Float.POSITIVE_INFINITY:Float.NEGATIVE_INFINITY;
         ArrayList<int[]> legalMoves = null;
         for(int i=0;i<Constants.COLUMNS;i++){
             for(int j=0;j<Constants.ROWS;j++){
@@ -37,8 +79,8 @@ public class AI {
                     String prevLastMove = engine.lastMove;
                     String prevFen = engine.fen;
                     for (int[] move : legalMoves){
-                        engine.move(position,move);
-                        score = minimax(-Float.MAX_VALUE,Float.MAX_VALUE,Constants.SEARCH_DEPTH,white);
+                        engine.move(new int[]{position[0],position[1],move[0],move[1]});
+                        score = minimax(Float.NEGATIVE_INFINITY,Float.POSITIVE_INFINITY,Constants.SEARCH_DEPTH,white);
                         if(white){
                             if(score<bestScore){
                                 bestScore = score;
@@ -71,13 +113,13 @@ public class AI {
 
     public float minimax(float alpha,float beta,int depth,boolean maximizing){
         if(engine.checkMate(true)){
-            return Float.MAX_VALUE;
+            return Float.POSITIVE_INFINITY;
         }else if(engine.checkMate(false)){
-            return -Float.MAX_VALUE;
+            return Float.NEGATIVE_INFINITY;
         }else if(depth==0){
             return engine.evaluateBoard(false);
         }
-        float score,bestScore = maximizing?-Float.MAX_VALUE:Float.MAX_VALUE;
+        float score,bestScore = maximizing?Float.NEGATIVE_INFINITY:Float.POSITIVE_INFINITY;
         ArrayList<int[]> legalMoves = null;
         for (int i = 0; i< Constants.COLUMNS; i++){
             for(int j=0;j<Constants.ROWS;j++){
@@ -93,7 +135,7 @@ public class AI {
                     String prevLastMove = engine.lastMove;
                     String prevFen = engine.fen;
                     for (int[] move : legalMoves){
-                        engine.move(position,move);
+                        engine.move(new int[]{position[0],position[1],move[0],move[1]});
                         score =minimax(alpha,beta,depth-1,!maximizing);
                         boolean prune = false;
                         if(maximizing){
@@ -133,11 +175,12 @@ public class AI {
                     int[] position = new int[]{i,j};
                     ArrayList<int[]> legalMoves = engine.generateMove(piece,position,Util.getOffset(piece));
                     for(int[] positions:legalMoves){
-                        moves+=(Util.toString(position)+Util.toString(positions))+"\n";
+                        moves+=(Util.parseMove(position,positions))+"\n";
                     }
                 }
             }
         }
         return moves;
     }
+
 }

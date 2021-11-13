@@ -36,38 +36,38 @@ public class Engine {
         whiteToMove = fen.split(" ")[1].equals(String.valueOf(Constants.WHITE));
     }
     
-    public String move(int[] from,int[] to){
-        boolean legal = board[from[0]][from[1]]!=Constants.EMPTY_CHAR&&((Util.isUpperCase(board[from[0]][from[1]]) && whiteToMove) || (!Util.isUpperCase(board[from[0]][from[1]]) && !whiteToMove));
+    public String move(int[] move){
+        boolean legal = board[move[0]][move[1]]!=Constants.EMPTY_CHAR&&((Util.isUpperCase(board[move[0]][move[1]]) && whiteToMove) || (!Util.isUpperCase(board[move[0]][move[1]]) && !whiteToMove));
         if(!legal){
             return fen;
         }
         history=fen;
-        lastMove=Util.parseMove(from, to);
+        lastMove=Util.parseMove(new int[]{move[0],move[1]}, new int[]{move[2],move[3]});
         halfMove++;
         if(!whiteToMove){
             fullMove++;
         }
         whiteToMove = !whiteToMove;
-        if(Util.toUpper(board[from[0]][from[1]]) == Constants.WHITE_PAWN || board[to[0]][to[1]] != Constants.EMPTY_CHAR){
+        if(Util.toUpper(board[move[0]][move[1]]) == Constants.WHITE_PAWN || board[move[2]][move[3]] != Constants.EMPTY_CHAR){
             halfMove = 0;
         }
-        if(Util.toUpper(board[from[0]][from[1]]) == Constants.WHITE_KING && Math.abs(from[0] - to[0]) == 2){
-            if(to[0] == 2){
-                board[3][to[1]] = board[0][to[1]];
-                board[0][to[1]] = Constants.EMPTY_CHAR;
+        if(Util.toUpper(board[move[0]][move[1]]) == Constants.WHITE_KING && Math.abs(move[0] - move[2]) == 2){
+            if(move[2] == 2){
+                board[3][move[3]] = board[0][move[3]];
+                board[0][move[3]] = Constants.EMPTY_CHAR;
             }else{
-                board[5][to[1]] = board[7][to[1]];
-                board[7][to[1]] = Constants.EMPTY_CHAR;
+                board[5][move[3]] = board[7][move[3]];
+                board[7][move[3]] = Constants.EMPTY_CHAR;
             }
-        }else if(Util.toUpper(board[from[0]][from[1]]) == Constants.WHITE_PAWN && from[0]-to[0] != 0 && board[to[0]][to[1]] == Constants.EMPTY_CHAR){
-            board[to[0]][from[1]] = Constants.EMPTY_CHAR;
+        }else if(Util.toUpper(board[move[0]][move[1]]) == Constants.WHITE_PAWN && move[0]-move[2] != 0 && board[move[2]][move[3]] == Constants.EMPTY_CHAR){
+            board[move[2]][move[1]] = Constants.EMPTY_CHAR;
         }
-        board[to[0]][to[1]] = board[from[0]][from[1]];
-        board[from[0]][from[1]] = Constants.EMPTY_CHAR;
-        if(to[1] == 7 && board[to[0]][to[1]] == Constants.BLACK_PAWN){
-            board[to[0]][to[1]] = Constants.BLACK_QUEEN;
-        }else if(to[1] == 0 && board[to[0]][to[1]] == Constants.WHITE_PAWN){
-            board[to[0]][to[1]] = Constants.WHITE_QUEEN;
+        board[move[2]][move[3]] = board[move[0]][move[1]];
+        board[move[0]][move[1]] = Constants.EMPTY_CHAR;
+        if(move[3] == 7 && board[move[2]][move[3]] == Constants.BLACK_PAWN){
+            board[move[2]][move[3]] = Constants.BLACK_QUEEN;
+        }else if(move[3] == 0 && board[move[2]][move[3]] == Constants.WHITE_PAWN){
+            board[move[2]][move[3]] = Constants.WHITE_QUEEN;
         }
         fen = loadFen();
         return fen;
@@ -455,8 +455,8 @@ public class Engine {
             for(int j=0;j<Constants.ROWS;j++){
                 char piece = board[i][j];
                 if(piece!=Constants.EMPTY_CHAR){
-                    int[] position = new int[]{i,j};
                     if((whiteToMove && Util.isUpperCase(piece)) || (!whiteToMove && !Util.isUpperCase(piece))){
+                        int[] position = new int[]{i,j};
                         legalMoves = generateMove(piece,position,Util.getOffset(piece));
                         char[][] prevBoardChars = Util.copyBoard(board);
                         boolean prevWhiteToMove = whiteToMove;
@@ -466,7 +466,7 @@ public class Engine {
                         String prevHistory = history;
                         String prevLastMove = lastMove;
                         for(int[] move:legalMoves){
-                            move(position,move);
+                            move(new int[]{i,j,move[0],move[1]});
                             numPositions+=moveGeneration(depth-1);
                             board = Util.copyBoard(prevBoardChars);
                             history = prevHistory;
@@ -592,6 +592,31 @@ public class Engine {
         }
         return count;
     }
-    
-   
+
+    public ArrayList<int[]> getLegalMoves(){
+        boolean white = whiteToMove;
+        ArrayList<int[]>moves = new ArrayList<>();
+        ArrayList<int[]> tmoves;
+        for(int i=0;i<Constants.COLUMNS;i++){
+            for(int j=0;j<Constants.ROWS;j++){
+                if(board[i][j]!=Constants.EMPTY_CHAR){
+                    if((white&&Util.isUpperCase(board[i][j]))||(!white&&!Util.isUpperCase(board[i][j]))){
+                        tmoves = generateMove(board[i][j],new int[]{i,j},Util.getOffset(board[i][j]));
+                        for(int[] move:tmoves){
+                            moves.add(new int[]{i,j,move[0],move[1]});
+                        }
+                        tmoves.clear();
+                    }
+                }
+            }
+        }
+        return moves;
+
+    }
+
+    public Engine copy(){
+        return new Engine(fen);
+    }
+
+
 }

@@ -136,8 +136,13 @@ public class Util {
         int[] finalPosition = cvtPosition(new StringBuffer(pos).delete(0, 2).toString());
         return new int[][]{initPosition,finalPosition};
     }
+
     public static String parseMove(int[] from,int[] to){
         return toString(from)+toString(to);
+    }
+
+    public static String parseMove(int[] move ){
+        return toString(new int[]{move[0],move[1]})+toString(new int[]{move[2],move[3]});
     }
 
     public static int[] getKingPosition(char[][] boardChars,boolean white){
