@@ -53,7 +53,8 @@ public class Main {
                     System.out.println("Best move : "+Util.parseMove(bestMove));
                 }else if(contents[0].equalsIgnoreCase("play")){
                     int[] bestMove = ai.BestMove();
-                    try {
+                    try {System.out.println(Util.parseMove(bestMove));
+
                         System.out.println(engine.move(bestMove));
                     } catch (Exception ex) {
                         System.out.println("Couldn't find any best move!");

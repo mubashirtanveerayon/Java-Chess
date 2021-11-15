@@ -18,21 +18,19 @@ public class AI {
     }
 
     public int[] BestMove(){
-        ArrayList<int[]> moves = engine.getLegalMoves();
+        ArrayList<int[]> moves = engine.copy().getLegalMoves();
         int size = moves.size();
-        int movesperthread = size/(Constants.SEARCH_DEPTH);
-        BestMove[] bestMoves = new BestMove[Constants.SEARCH_DEPTH];
+        int movesperthread = size/(Constants.SEARCH_DEPTH+1);
+        BestMove[] bestMoves = new BestMove[Constants.SEARCH_DEPTH+1];
         for(int i=0;i<bestMoves.length;i++){
-		if(i!=bestMoves.length-1){
+            if(i==bestMoves.length-1){
+                bestMoves[i] =new BestMove(engine.copy(),moves,moves.size());
+            }else{
                 bestMoves[i] = new BestMove(engine.copy(),moves,movesperthread);
-		}else{
-		bestMoves[i] = new BestMove(engine.copy(),moves,moves.size());
-		}
-
+            }
             bestMoves[i].start();
         }
         boolean complete = false;
-        long start = System.nanoTime();
         while(!complete){
             int count = 0;
             for(int i=0;i<bestMoves.length;i++){
@@ -45,7 +43,6 @@ public class AI {
             }
             System.out.print("");
         }
-        System.out.println("Time took to search depth "+Constants.SEARCH_DEPTH+" : "+ (System.nanoTime()/1000000-start/1000000)+" ms");
         int[] best=null;
         float bestScore = engine.whiteToMove?Float.POSITIVE_INFINITY:Float.NEGATIVE_INFINITY;
         for(int i=0;i<bestMoves.length;i++){
@@ -61,6 +58,7 @@ public class AI {
                 }
             }
         }
+        System.out.println(Util.parseMove(best));
         return best;
     }
 

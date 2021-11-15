@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Chess1.4:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Chess1_4_jar</output-path>
+    <root id="archive" name="Chess1.4.jar">
+      <element id="module-output" name="Chess1.4" />
+    </root>
+  </artifact>
+</component>
