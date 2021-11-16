@@ -34,14 +34,47 @@ public class BestMove extends Thread{
         return legalmoves;
     }
 
+    public float evaluateCaptures(boolean white){
+        char[][] prevBoardChars = Util.copyBoard(engine.board);
+        boolean prevWhiteToMove = engine.whiteToMove;
+        int prevHalfMove = engine.halfMove;
+        int prevFullMove = engine.fullMove;
+        String prevHistory = engine.history;
+        String prevLastMove = engine.lastMove;
+        String prevFen = engine.fen;
+        float score,bestScore = white?Float.POSITIVE_INFINITY:Float.NEGATIVE_INFINITY;
+        for(int i=0;i<Constants.COLUMNS;i++){
+            for(int j=0;j<Constants.ROWS;j++){
+                if(engine.board[i][j] != Constants.EMPTY_CHAR){
+                    ArrayList<int[]> captureMoves = engine.generateCaptureMove(engine.board[i][j],new int[]{i,j},Util.getOffset(engine.board[i][j]));
+                    for(int[] move:captureMoves){
+                        engine.move(new int[]{i,j,move[0],move[1]});
+                        score = engine.evaluateBoard(white);
+                        bestScore = white?Math.min(score,bestScore):Math.max(score,bestScore);
+                        engine.board = Util.copyBoard(prevBoardChars);
+                        engine.history = prevHistory;
+                        engine.lastMove = prevLastMove;
+                        engine.whiteToMove = prevWhiteToMove;
+                        engine.halfMove = prevHalfMove;
+                        engine.fullMove = prevFullMove;
+                        engine.fen = prevFen;
+                    }
+                }
+            }
+        }
+        return bestScore;
+    }
+
     public float minimax(float alpha,float beta,int depth,boolean maximizing){
         if(engine.checkMate(true)){
             return Float.POSITIVE_INFINITY;
         }else if(engine.checkMate(false)){
             return Float.NEGATIVE_INFINITY;
-        }else if(engine.isDraw()){
-            return 0.0f;
-        }else if(depth==0){
+        }
+//        else if(engine.isDraw()){
+//            return 0.0f;
+//        }
+        else if(depth==0){
             return engine.evaluateBoard(false);
         }
         float score,bestScore = maximizing?Float.NEGATIVE_INFINITY:Float.POSITIVE_INFINITY;

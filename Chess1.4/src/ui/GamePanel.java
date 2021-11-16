@@ -6,9 +6,14 @@ import engine.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import util.*;
 
 import javax.sound.sampled.AudioInputStream;
@@ -32,11 +37,10 @@ public class GamePanel extends JPanel implements ActionListener {
     public JMenuItem newGame,load,saveGame,undo,setDepth,flipBoard;
     public JMenu file;
 
-    AudioInputStream audioStream;
-
-    Clip clip;
-
     public String prevFen;
+
+    InputStream in;
+    AudioStream as;
 
     public GamePanel(String fen){
         super(new GridLayout(Constants.COLUMNS,Constants.ROWS));
@@ -50,6 +54,29 @@ public class GamePanel extends JPanel implements ActionListener {
         registerComponents();
         if(! Parameters.HUMAN_CHOSE_WHITE){
             cpu().start();
+        }
+    }
+
+    public void checkGameStage(){
+        if(engine.checkMate(false)){
+            controlGame(false);
+            JOptionPane.showMessageDialog(null,"White won!");
+        }else if(engine.checkMate(true)){
+            controlGame(false);
+            JOptionPane.showMessageDialog(null,"Black won!");
+        }else if(engine.isDraw()){
+            controlGame(false);
+            JOptionPane.showMessageDialog(null,"Draw!");
+        }else{
+            controlGame(true);
+        }
+    }
+
+    public void controlGame(boolean enable){
+        for(int i=0;i<Constants.COLUMNS;i++){
+            for(int j=0;j<Constants.ROWS;j++){
+                board.boardSquares[j][i].setEnabled(enable);
+            }
         }
     }
 
@@ -77,11 +104,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void initComponents(){
         try{
-            audioStream = AudioSystem.getAudioInputStream(ResourceLoader.load(Constants.AUDIO_PATH));
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
+
         }catch(Exception ex){
-            System.out.println(ex);
+            ex.printStackTrace();
         }
         newGame = new JMenuItem("New Game");
         load = new JMenuItem("Load Game");
@@ -111,6 +136,7 @@ public class GamePanel extends JPanel implements ActionListener {
                     System.out.println(engine.move(bestMove));
                     human = !human;
                     playAudio();
+                    checkGameStage();
                 }catch(Exception ex){
                     JOptionPane.showMessageDialog(null,"There are no moves left to be played or the A.I. player can't look ahead enough for any legal move!");
                     ex.printStackTrace();
@@ -124,9 +150,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void playAudio(){
         try{
-            clip.stop();
-            clip.setMicrosecondPosition(0);
-            clip.start();
+            in = new FileInputStream(Constants.AUDIO_PATH);
+            as = new AudioStream(in);
+            AudioPlayer.player.start(as);
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -178,6 +204,7 @@ public class GamePanel extends JPanel implements ActionListener {
                                         prevFen = engine.fen;
                                         System.out.println(engine.move(new int[]{Constants.COLUMNS-1-selected.position[0],Constants.ROWS-1-selected.position[1],move[0],move[1]}));
                                         playAudio();
+                                        checkGameStage();
                                         System.out.println("white : "+engine.evaluateBoard(true));
                                         System.out.println(Util.printBoard(engine.board,Parameters.FLIP));
                                         human  = !human;
@@ -212,6 +239,7 @@ public class GamePanel extends JPanel implements ActionListener {
                                         prevFen = engine.fen;
                                         System.out.println(engine.move(new int[]{selected.position[0],selected.position[1],move[0],move[1]}));
                                         playAudio();
+                                        checkGameStage();
                                         System.out.println("white : "+engine.evaluateBoard(true));
                                         System.out.println(Util.printBoard(engine.board,Parameters.FLIP));
                                         human  = !human;
@@ -234,10 +262,12 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if(actionEvent.getSource() == newGame){
             Parameters.loadGame(this,Constants.STARTING_FEN);
+            checkGameStage();
         }else if(actionEvent.getSource() == load){
             String fen = JOptionPane.showInputDialog(null,"Fen position :","Enter Fen String",JOptionPane.QUESTION_MESSAGE);
             if(fen!=null&&!fen.isEmpty()&&Util.FENValidator(fen)){
                 Parameters.loadGame(this,fen);
+                checkGameStage();
             }else{
                 JOptionPane.showMessageDialog(null,"Invalid FEN String","Error",JOptionPane.ERROR_MESSAGE);
             }
@@ -258,6 +288,7 @@ public class GamePanel extends JPanel implements ActionListener {
             board.refactor();
         }else if(actionEvent.getSource() == undo){
             Parameters.loadGame(this,prevFen);
+            checkGameStage();
         }
 
     }

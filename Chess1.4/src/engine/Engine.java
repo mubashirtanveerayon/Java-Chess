@@ -497,16 +497,16 @@ public class Engine {
     }
 
     public boolean isDraw(){
-        if(halfMove >= 100 && !getLegalMoves().isEmpty()){
-            return true;
-        }
-        if(isThreeFoldRepetition()){
-            return true;
-        }
-        if(isInsufficientMaterial()){
-            return true;
-        }
-        return false;
+        return isFiftyMove()  || isStaleMate()|| isThreeFoldRepetition() || isInsufficientMaterial();
+    }
+
+    public boolean isFiftyMove(){
+        return halfMove >= 100 && !getLegalMoves().isEmpty();
+    }
+
+
+    public boolean isStaleMate(){
+        return getLegalMoves().isEmpty() && !checkMate(whiteToMove);
     }
 
     public boolean isInsufficientMaterial(){
