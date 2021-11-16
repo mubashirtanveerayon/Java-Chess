@@ -52,11 +52,11 @@ public class Constants {
 
     public static final float KNIGHT_VALUE = 3.0f;
 
-    public static final float BISHOP_VALUE = 3.0f;
+    public static final float BISHOP_VALUE = 3.5f;
 
-    public static final float ROOK_VALUE = 5.0f;
+    public static final float ROOK_VALUE = 5.5f;
 
-    public static final float QUEEN_VALUE = 9.0f;
+    public static final float QUEEN_VALUE = 10.0f;
 
     public static final float KING_VALUE = 1.0f;
 

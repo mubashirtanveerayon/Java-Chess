@@ -4,6 +4,7 @@ import ui.GamePanel;
 import util.*;
 
 import javax.swing.*;
+import java.io.File;
 
 public class Main extends JFrame{
 	public static void main(String[] args){
@@ -30,7 +31,6 @@ public class Main extends JFrame{
         setJMenuBar(menuBar);
 		add(gamePanel);
 	}
-
 
 	
 }

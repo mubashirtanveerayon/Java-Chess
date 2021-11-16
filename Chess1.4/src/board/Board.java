@@ -1,6 +1,8 @@
 package board;
 
 import engine.Engine;
+
+import java.awt.*;
 import java.util.ArrayList;
 import piece.Piece;
 import ui.GamePanel;
@@ -56,17 +58,34 @@ public class Board {
                 }
             }
         }
-    }
-
-    public Square getSquare(int[] pos){
-        for(int i=0;i<Constants.COLUMNS;i++){
-            for(int j=0;j<Constants.ROWS;j++){
-                if(Util.samePosition(boardSquares[i][j].position,pos)){
-                    return boardSquares[i][j];
-                }
+        if(engine.isKingInCheck(engine.whiteToMove)){
+            int[] kingPos = engine.getKingPosition(engine.whiteToMove);
+            if(Parameters.FLIP){
+                boardSquares[Constants.COLUMNS-1-kingPos[0]][Constants.ROWS-1-kingPos[1]].setBackground(Color.red);
+            }else{
+                boardSquares[kingPos[0]][kingPos[1]].setBackground(Color.red);
+            }
+        }else if(engine.isKingInCheck(!engine.whiteToMove)){
+            int[] kingPos = engine.getKingPosition(!engine.whiteToMove);
+            if(Parameters.FLIP){
+                boardSquares[Constants.COLUMNS-1-kingPos[0]][Constants.ROWS-1-kingPos[1]].setBackground(Color.red);
+            }else{
+                boardSquares[kingPos[0]][kingPos[1]].setBackground(Color.red);
             }
         }
-        return null;
+        if(!engine.lastMove.isEmpty()){
+            int[][] lastMove = Util.parseMove(engine.lastMove);
+            if(Parameters.FLIP){
+                boardSquares[Constants.COLUMNS-1-lastMove[0][0]][Constants.ROWS-1-lastMove[0][1]].setBackground(new Color(0,100,70));
+                boardSquares[Constants.COLUMNS-1-lastMove[1][0]][Constants.ROWS-1-lastMove[1][1]].setBackground(new Color(0,100,20));
+            }else{
+                boardSquares[lastMove[0][0]][lastMove[0][1]].setBackground(new Color(0,100,70));
+                boardSquares[lastMove[1][0]][lastMove[1][1]].setBackground(new Color(0,100,30));
+            }
+        }
     }
+
+
+
 
 }

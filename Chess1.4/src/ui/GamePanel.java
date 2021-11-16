@@ -112,6 +112,7 @@ public class GamePanel extends JPanel implements ActionListener {
                     human = !human;
                     playAudio();
                 }catch(Exception ex){
+                    JOptionPane.showMessageDialog(null,"There are no moves left to be played or the A.I. player can't look ahead enough for any legal move!");
                     ex.printStackTrace();
                 }
                 System.out.println("Time took to search depth "+Constants.SEARCH_DEPTH+" : "+ (System.nanoTime()/1000000-start/1000000)+" ms");
@@ -122,9 +123,13 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void playAudio(){
-        clip.stop();
-        clip.setMicrosecondPosition(0);
-        clip.start();
+        try{
+            clip.stop();
+            clip.setMicrosecondPosition(0);
+            clip.start();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     public void registerComponents(){
@@ -230,10 +235,15 @@ public class GamePanel extends JPanel implements ActionListener {
         if(actionEvent.getSource() == newGame){
             Parameters.loadGame(this,Constants.STARTING_FEN);
         }else if(actionEvent.getSource() == load){
-            Parameters.loadGame(this,JOptionPane.showInputDialog(null,"Fen position :","Enter Fen String",JOptionPane.QUESTION_MESSAGE));
+            String fen = JOptionPane.showInputDialog(null,"Fen position :","Enter Fen String",JOptionPane.QUESTION_MESSAGE);
+            if(fen!=null&&!fen.isEmpty()&&Util.FENValidator(fen)){
+                Parameters.loadGame(this,fen);
+            }else{
+                JOptionPane.showMessageDialog(null,"Invalid FEN String","Error",JOptionPane.ERROR_MESSAGE);
+            }
         }else if(actionEvent.getSource() == setDepth){
             try{
-                Constants.SEARCH_DEPTH = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter search depth : (not recommended to enter higher than 3)","Set Search Depth",JOptionPane.QUESTION_MESSAGE));
+                Constants.SEARCH_DEPTH = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter search depth : (not recommended to enter higher than 4)","Set Search Depth",JOptionPane.QUESTION_MESSAGE));
             }catch(NumberFormatException nfe){
                 JOptionPane.showMessageDialog(null,"Digits only!","Error",JOptionPane.ERROR_MESSAGE);
             }

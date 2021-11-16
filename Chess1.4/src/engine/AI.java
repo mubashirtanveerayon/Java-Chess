@@ -58,8 +58,18 @@ public class AI {
                 }
             }
         }
-        System.out.println(Util.parseMove(best));
-        return best;
+        if(best == null){
+            ArrayList<int[]> legalmoves = engine.getLegalMoves();
+            if(legalmoves.isEmpty()){
+                return null;
+            }else{
+                int index = (int)(Math.random()*legalmoves.size());
+                return legalmoves.get(index);
+            }
+        }else{
+            System.out.println(Util.parseMove(best));
+            return best;
+        }
     }
 
     public String getBestMove(){
@@ -119,6 +129,8 @@ public class AI {
             return Float.POSITIVE_INFINITY;
         }else if(engine.checkMate(false)){
             return Float.NEGATIVE_INFINITY;
+        }else if(engine.isDraw()){
+            return 0.0f;
         }else if(depth==0){
             return engine.evaluateBoard(false);
         }

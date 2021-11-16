@@ -39,6 +39,8 @@ public class BestMove extends Thread{
             return Float.POSITIVE_INFINITY;
         }else if(engine.checkMate(false)){
             return Float.NEGATIVE_INFINITY;
+        }else if(engine.isDraw()){
+            return 0.0f;
         }else if(depth==0){
             return engine.evaluateBoard(false);
         }

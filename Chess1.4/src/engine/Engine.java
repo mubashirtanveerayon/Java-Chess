@@ -35,6 +35,18 @@ public class Engine {
         board = Util.loadBoard(fen);
         whiteToMove = fen.split(" ")[1].equals(String.valueOf(Constants.WHITE));
     }
+
+    public int[] getKingPosition(boolean white){
+        char king = white?Constants.WHITE_KING:Constants.BLACK_KING;
+        for(int i=0;i<Constants.COLUMNS;i++){
+            for(int j=0;j<Constants.ROWS;j++){
+                if(board[i][j]!=Constants.EMPTY_CHAR &&board[i][j] == king){
+                    return new int[]{i,j};
+                }
+            }
+        }
+        return null;
+    }
     
     public String move(int[] move){
         boolean legal = board[move[0]][move[1]]!=Constants.EMPTY_CHAR&&((Util.isUpperCase(board[move[0]][move[1]]) && whiteToMove) || (!Util.isUpperCase(board[move[0]][move[1]]) && !whiteToMove));
@@ -482,6 +494,27 @@ public class Engine {
             }
         }
         return numPositions;
+    }
+
+    public boolean isDraw(){
+        if(halfMove >= 100 && !getLegalMoves().isEmpty()){
+            return true;
+        }
+        if(isThreeFoldRepetition()){
+            return true;
+        }
+        if(isInsufficientMaterial()){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isInsufficientMaterial(){
+       return false;
+    }
+
+    public boolean isThreeFoldRepetition(){
+        return false;
     }
 
     public boolean checkMate(boolean white){
