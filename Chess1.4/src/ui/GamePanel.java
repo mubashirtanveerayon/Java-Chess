@@ -138,7 +138,6 @@ public class GamePanel extends JPanel implements ActionListener {
                     playAudio();
                     checkGameStage();
                 }catch(Exception ex){
-                    JOptionPane.showMessageDialog(null,"There are no moves left to be played or the A.I. player can't look ahead enough for any legal move!");
                     ex.printStackTrace();
                 }
                 System.out.println("Time took to search depth "+Constants.SEARCH_DEPTH+" : "+ (System.nanoTime()/1000000-start/1000000)+" ms");

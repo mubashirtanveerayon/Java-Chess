@@ -75,7 +75,7 @@ public class BestMove extends Thread{
 //            return 0.0f;
 //        }
         else if(depth==0){
-            return engine.evaluateBoard(false);
+            return engine.evaluate(false);
         }
         float score,bestScore = maximizing?Float.NEGATIVE_INFINITY:Float.POSITIVE_INFINITY;
         ArrayList<int[]> legalMoves = null;
@@ -142,14 +142,12 @@ public class BestMove extends Thread{
                     bestScore = score;
                     best = move;
                     finalscore = bestScore;
-                    System.out.println(score+" "+Util.parseMove(new int[]{move[0],move[1]},new int[]{move[2],move[3]}));
                 }
             }else{
                 if(score>bestScore){
                     bestScore = score;
                     best = move;
                     finalscore = bestScore;
-                    System.out.println(score+" "+Util.parseMove(new int[]{move[0],move[1]},new int[]{move[2],move[3]}));
                 }
             }
             engine.board = Util.copyBoard(prevBoardChars);

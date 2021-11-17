@@ -40,7 +40,7 @@ public class BestMove extends Thread{
         }else if(engine.checkMate(false)){
             return Float.NEGATIVE_INFINITY;
         }else if(depth==0){
-            return engine.evaluateBoard(false);
+            return engine.evaluate(false);
         }
         float score,bestScore = maximizing?Float.NEGATIVE_INFINITY:Float.POSITIVE_INFINITY;
         ArrayList<int[]> legalMoves = null;

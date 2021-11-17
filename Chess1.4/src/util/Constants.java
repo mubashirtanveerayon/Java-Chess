@@ -4,19 +4,21 @@ import java.io.File;
 
 public class Constants {
 
+    public static final float PARTIAL_VALUE = 0.5f;
+
     public static final String[] PIECE_NAMES={"pawn", "PAWN", "bishop", "BISHOP", "night", "NIGHT", "rook", "ROOK", "queen", "QUEEN", "king", "KING"};
 
     public static final String WHITE_PIECE_CHAR = "PRNBQK";
 
-    public static final String WHITE_IMG_PATH="assets"+File.separator+"white"+File.separator;
+    public static final String WHITE_IMG_PATH="src"+File.separator+"assets"+File.separator+"white"+File.separator;
 
-    public static final String BLACK_IMG_PATH="assets"+File.separator+"black"+File.separator;
+    public static final String BLACK_IMG_PATH="src"+File.separator+"assets"+File.separator+"black"+File.separator;
 
-    public static final String AUDIO_PATH="assets"+File.separator+"audio"+File.separator+"sound.wav";
+    public static final String AUDIO_PATH="src"+File.separator+"assets"+File.separator+"audio"+File.separator+"sound.wav";
 
     public static final String VERSION = "1.4";
 
-    public static int SEARCH_DEPTH = 3;
+    public static int SEARCH_DEPTH = 4;
 
     public static final int ROWS = 8;
 

@@ -581,6 +581,30 @@ public class Engine {
         return eval;
     }
 
+    public float evaluate(boolean white){
+        float eval = 0;
+        String[] fenParts = fen.split(" ");
+        String[] rows = fenParts[0].split("/");
+        for(int i=0;i<rows.length;i++){
+            for(char c:rows[i].toCharArray()){
+                if(!Character.isDigit(c)){
+                    if(Util.isUpperCase(c)){
+                        eval+=white?Util.getValue(c):Util.getValue(c)*-1;
+                        if(i>5){
+                            eval+=white?Util.getValue(c)*Constants.PARTIAL_VALUE:Util.getValue(c)*Constants.PARTIAL_VALUE*-1;
+                        }
+                    }else{
+                        eval-=white?Util.getValue(c):Util.getValue(c)*-1;
+                        if(i<5){
+                            eval-=white?Util.getValue(c)*Constants.PARTIAL_VALUE:Util.getValue(c)*Constants.PARTIAL_VALUE*-1;
+                        }
+                    }
+                }
+            }
+        }
+        return eval;
+    }
+
     public int count() {
         int count = 0;
         for (int i = 0; i < Constants.COLUMNS; i++) {

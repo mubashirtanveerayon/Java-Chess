@@ -24,7 +24,7 @@ public class AI {
         BestMove[] bestMoves = new BestMove[Constants.SEARCH_DEPTH+1];
         for(int i=0;i<bestMoves.length;i++){
             if(i==bestMoves.length-1){
-                bestMoves[i] =new BestMove(engine.copy(),moves,moves.size());
+                bestMoves[i] = new BestMove(engine.copy(),moves,moves.size());
             }else{
                 bestMoves[i] = new BestMove(engine.copy(),moves,movesperthread);
             }
@@ -67,7 +67,6 @@ public class AI {
                 return legalmoves.get(index);
             }
         }else{
-            System.out.println(Util.parseMove(best));
             return best;
         }
     }
@@ -98,13 +97,11 @@ public class AI {
                             if(score<bestScore){
                                 bestScore = score;
                                 bestMove = Util.toString(position)+Util.toString(move);
-                                System.out.println(bestScore+" "+Util.parseMove(position,move));
                             }
                         }else{
                             if(score>bestScore){
                                 bestScore = score;
                                 bestMove = Util.toString(position)+Util.toString(move);
-                                System.out.println(bestScore+" "+Util.parseMove(position,move));
                             }
                         }
                         engine.board = Util.copyBoard(prevBoardChars);
@@ -119,7 +116,6 @@ public class AI {
                 }
             }
         }
-        System.out.println("Time took to search depth "+Constants.SEARCH_DEPTH+" : "+ (System.nanoTime()/1000000-start/1000000)+" ms");
         return bestMove == null? "":bestMove;
     }
 

@@ -77,10 +77,10 @@ public class Board {
             int[][] lastMove = Util.parseMove(engine.lastMove);
             if(Parameters.FLIP){
                 boardSquares[Constants.COLUMNS-1-lastMove[0][0]][Constants.ROWS-1-lastMove[0][1]].setBackground(new Color(0,100,70));
-                boardSquares[Constants.COLUMNS-1-lastMove[1][0]][Constants.ROWS-1-lastMove[1][1]].setBackground(new Color(0,100,20));
+                boardSquares[Constants.COLUMNS-1-lastMove[1][0]][Constants.ROWS-1-lastMove[1][1]].setBackground(new Color(0,100,70));
             }else{
                 boardSquares[lastMove[0][0]][lastMove[0][1]].setBackground(new Color(0,100,70));
-                boardSquares[lastMove[1][0]][lastMove[1][1]].setBackground(new Color(0,100,30));
+                boardSquares[lastMove[1][0]][lastMove[1][1]].setBackground(new Color(0,100,70));
             }
         }
     }

@@ -15,6 +15,7 @@ import util.Util;
  * @author ayon2
  */
 public class Engine {
+    int evalFile,evalRank;
     
 
     public char[][] board;
@@ -584,9 +585,9 @@ public class Engine {
                     }else{
                         //material comparison and positional advantages
                         if(Util.isUpperCase(board[i][j])){
-                            eval -= (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
+                            eval -= (Util.getValue(board[i][j]));//+Map.getPositionalAdvantage(board[i][j],i,j));
                         }else{
-                            eval += (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
+                            eval += (Util.getValue(board[i][j]));//+Map.getPositionalAdvantage(board[i][j],i,j));
                         }
                         //center-control
 //                        for(int rank:Map.MID_RANKS){
@@ -611,6 +612,54 @@ public class Engine {
                 }
             }
         }
+        return eval;
+    }
+
+    public float evaluate(boolean white){
+        float eval = 0f;
+        evalFile = 0;
+        evalRank = 0;
+        for(char c:fen.split(" ")[0].toCharArray()){
+            if(Character.isDigit(c)){
+                evalFile += Util.getNumericValue(c);
+            }else if(c == '/'){
+                evalRank++;
+                evalFile=0;
+            }else{
+                if(Util.isUpperCase(c)){
+                    eval+=white?(Util.getValue(c)+Map.getPositionalAdvantage(c,evalFile,evalRank)):(Util.getValue(c)+Map.getPositionalAdvantage(c,evalFile,evalRank))*-1;
+                }else{
+                    eval-=white?(Util.getValue(c)+Map.getPositionalAdvantage(c,evalFile,evalRank)):(Util.getValue(c)+Map.getPositionalAdvantage(c,evalFile,evalRank))*-1;
+                }
+                evalFile++;
+            }
+
+//            if(!Character.isDigit(c)&&c!='/'){
+//                if(white){
+//                    eval+=Util.isUpperCase(c)?Util.getValue(c):-Util.getValue(c);
+//                }else{
+//                    eval+=Util.isUpperCase(c)?-Util.getValue(c):Util.getValue(c);
+//                }
+//            }
+        }
+//        String[] rows = fenParts[0].split("/");
+//        for(int i=0;i<rows.length;i++){
+//            for(char c:rows[i].toCharArray()){
+//                if(!Character.isDigit(c)){
+//                    if(Util.isUpperCase(c)){
+//                        eval+=white?Util.getValue(c):Util.getValue(c)*-1;
+////                        if(i>5){
+////                            eval+=white?Util.getValue(c)*Constants.PARTIAL_VALUE:Util.getValue(c)*Constants.PARTIAL_VALUE*-1;
+////                        }
+//                    }else{
+//                        eval-=white?Util.getValue(c):Util.getValue(c)*-1;
+////                        if(i<5){
+////                            eval-=white?Util.getValue(c)*Constants.PARTIAL_VALUE:Util.getValue(c)*Constants.PARTIAL_VALUE*-1;
+////                        }
+//                    }
+//                }
+//            }
+//        }
         return eval;
     }
 
