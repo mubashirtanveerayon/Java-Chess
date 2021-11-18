@@ -63,10 +63,10 @@ public class BestMove extends Thread{
                         boolean prune = false;
                         if(maximizing){
                             bestScore = Math.max(score,bestScore);
-                            alpha = Math.max(alpha,bestScore);
+                            alpha = Math.max(alpha,score);
                         }else{
                             bestScore = Math.min(score,bestScore);
-                            beta = Math.min(beta,bestScore);
+                            beta = Math.min(beta,score);
                         }
                         if(beta<=alpha){
                             prune = true;

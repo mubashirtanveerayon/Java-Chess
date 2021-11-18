@@ -18,7 +18,7 @@ public class AI {
     }
 
     public int[] BestMove(){
-        ArrayList<int[]> moves = engine.getLegalMoves();
+        ArrayList<int[]> moves = engine.getOrderedMove();
         int size = moves.size();
         int movesperthread = size/(Constants.SEARCH_DEPTH);
         BestMove[] bestMoves = new BestMove[Constants.SEARCH_DEPTH];
@@ -145,10 +145,10 @@ public class AI {
                         boolean prune = false;
                         if(maximizing){
                             bestScore = Math.max(score,bestScore);
-                            alpha = Math.max(alpha,bestScore);
+                            alpha = Math.max(alpha,score);
                         }else{
                             bestScore = Math.min(score,bestScore);
-                            beta = Math.min(beta,bestScore);
+                            beta = Math.min(beta,score);
                         }
                         if(beta<=alpha){
                             prune = true;
