@@ -18,10 +18,10 @@ public class AI {
     }
 
     public int[] BestMove(){
-        ArrayList<int[]> moves = engine.copy().getLegalMoves();
+        ArrayList<int[]> moves = engine.copy().generateOrderedMove();
         int size = moves.size();
-        int movesperthread = size/(Constants.SEARCH_DEPTH+1);
-        BestMove[] bestMoves = new BestMove[Constants.SEARCH_DEPTH+1];
+        int movesperthread = size/(Constants.SEARCH_DEPTH);
+        BestMove[] bestMoves = new BestMove[Constants.SEARCH_DEPTH];
         for(int i=0;i<bestMoves.length;i++){
             if(i==bestMoves.length-1){
                 bestMoves[i] = new BestMove(engine.copy(),moves,moves.size());
@@ -38,9 +38,7 @@ public class AI {
                     count++;
                 }
             }
-            if(count == bestMoves.length){
-                complete = true;
-            }
+            complete = count == bestMoves.length;
             System.out.print("");
         }
         int[] best=null;

@@ -21,13 +21,13 @@ public class Map {
                                                   1.75f,1.75f,1.75f,1.75f,1.75f,1.75f,1.75f,1.75f,
                                                   Constants.PAWN_VALUE,Constants.PAWN_VALUE,Constants.PAWN_VALUE,Constants.PAWN_VALUE,Constants.PAWN_VALUE,Constants.PAWN_VALUE,Constants.PAWN_VALUE,Constants.PAWN_VALUE};
     public static final float[] KING_MAP = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
-            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
-            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
-            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
-            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
-            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
-            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
-            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
+                                            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
+                                            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
+                                            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
+                                            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
+                                            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
+                                            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
+                                            0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
 
 
     public static final float getPositionalAdvantage(char pieceChar,int file,int rank){

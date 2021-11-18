@@ -8,7 +8,7 @@ public class Constants {
 
     public static final String[] PIECE_NAMES={"pawn", "PAWN", "bishop", "BISHOP", "night", "NIGHT", "rook", "ROOK", "queen", "QUEEN", "king", "KING"};
 
-    public static final String WHITE_PIECE_CHAR = "PRNBQK";
+    public static final String WHITE_PIECE_CHAR = "PNBRQK";
 
     public static final String WHITE_IMG_PATH="src"+File.separator+"assets"+File.separator+"white"+File.separator;
 

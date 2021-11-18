@@ -218,6 +218,49 @@ public class Engine {
         }
         return captureMoves;
     }
+
+    public ArrayList<int[]> generateOrderedMove(){
+        ArrayList<int[]> orderedMove = new ArrayList<>();
+        char[] pieces = whiteToMove ? Constants.WHITE_PIECE_CHAR.toCharArray():Constants.WHITE_PIECE_CHAR.toLowerCase().toCharArray();
+        for(char c:pieces){
+            for(int i=0;i<Constants.COLUMNS;i++){
+                for(int j=0;j<Constants.ROWS;j++){
+                    if(board[i][j] == c){
+                        ArrayList<int[]> legalMoves = generateMove(c,new int[]{i,j},Util.getOffset(c));
+                        for(int[] moves:legalMoves){
+                            orderedMove.add(new int[]{i,j,moves[0],moves[1]});
+                        }
+                    }
+                }
+            }
+        }
+//        for(int i=0;i<Constants.COLUMNS;i++){
+//            if(whiteToMove){
+//                for(char c:Constants.WHITE_PIECE_CHAR.toCharArray()){
+//                    for(int j=0;j<Constants.ROWS;j++){
+//                        if(board[i][j]== c){
+//                            ArrayList<int[]> legalMoves = generateMove(c,new int[]{i,j},Util.getOffset(c));
+//                            for(int[] moves:legalMoves){
+//                                orderedMove.add(new int[]{i,j,moves[0],moves[1]});
+//                            }
+//                        }
+//                    }
+//                }
+//            }else{
+//                for(char c:Constants.WHITE_PIECE_CHAR.toLowerCase().toCharArray()){
+//                    for(int j=0;j<Constants.ROWS;j++){
+//                        if(board[i][j] == c){
+//                            ArrayList<int[]> legalMoves = generateMove(c,new int[]{i,j},Util.getOffset(c));
+//                            for(int[] moves:legalMoves){
+//                                orderedMove.add(new int[]{i,j,moves[0],moves[1]});
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        return orderedMove;
+    }
     
     public ArrayList<int[]> generateMove(char pieceChar,int[] position,int[][] direction){
         ArrayList<int[]> legalMoves = new ArrayList<>();

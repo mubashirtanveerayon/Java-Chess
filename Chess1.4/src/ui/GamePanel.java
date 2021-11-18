@@ -204,7 +204,8 @@ public class GamePanel extends JPanel implements ActionListener {
                                         System.out.println(engine.move(new int[]{Constants.COLUMNS-1-selected.position[0],Constants.ROWS-1-selected.position[1],move[0],move[1]}));
                                         playAudio();
                                         checkGameStage();
-                                        System.out.println("white : "+engine.evaluateBoard(true));
+                                        String side = Parameters.HUMAN_CHOSE_WHITE?"white :":"black :";
+                                        System.out.println(side+engine.evaluateBoard(Parameters.HUMAN_CHOSE_WHITE));
                                         System.out.println(Util.printBoard(engine.board,Parameters.FLIP));
                                         human  = !human;
                                         cpu().start();
@@ -239,7 +240,8 @@ public class GamePanel extends JPanel implements ActionListener {
                                         System.out.println(engine.move(new int[]{selected.position[0],selected.position[1],move[0],move[1]}));
                                         playAudio();
                                         checkGameStage();
-                                        System.out.println("white : "+engine.evaluateBoard(true));
+                                        String side = Parameters.HUMAN_CHOSE_WHITE?"white :":"black :";
+                                        System.out.println(side+engine.evaluateBoard(Parameters.HUMAN_CHOSE_WHITE));
                                         System.out.println(Util.printBoard(engine.board,Parameters.FLIP));
                                         human  = !human;
                                         cpu().start();

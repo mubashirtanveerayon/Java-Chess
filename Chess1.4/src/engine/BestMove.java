@@ -94,17 +94,13 @@ public class BestMove extends Thread{
                     String prevFen = engine.fen;
                     for (int[] move : legalMoves){
                         engine.move(new int[]{position[0],position[1],move[0],move[1]});
-                        score =minimax(alpha,beta,depth-1,!maximizing);
-                        boolean prune = false;
+                        score = minimax(alpha,beta,depth-1,!maximizing);
                         if(maximizing){
                             bestScore = Math.max(score,bestScore);
-                            alpha = Math.max(alpha,bestScore);
+                            alpha = Math.max(alpha,score);
                         }else{
                             bestScore = Math.min(score,bestScore);
-                            beta = Math.min(beta,bestScore);
-                        }
-                        if(beta<=alpha){
-                            prune = true;
+                            beta = Math.min(beta,score);
                         }
                         engine.board = Util.copyBoard(prevBoardChars);
                         engine.history = prevHistory;
@@ -113,7 +109,7 @@ public class BestMove extends Thread{
                         engine.halfMove = prevHalfMove;
                         engine.fullMove = prevFullMove;
                         engine.fen = prevFen;
-                        if(prune){
+                        if(beta<=alpha){
                             return bestScore;
                         }
                     }
