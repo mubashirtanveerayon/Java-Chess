@@ -30,7 +30,7 @@ public class Map {
                                             0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
 
 
-    public static final float getPositionalAdvantage(char pieceChar,int file,int rank){
+    public static float getPositionalAdvantage(char pieceChar,int file,int rank){
         switch(Util.toUpper(pieceChar)){
             case Constants.WHITE_KING:
                 return 0.0f;
@@ -38,54 +38,49 @@ public class Map {
             case Constants.WHITE_QUEEN:
             case Constants.WHITE_KNIGHT:
             case Constants.WHITE_BISHOP:
+            case Constants.WHITE_PAWN:
                 float pieceValue = Util.getValue(pieceChar);
                 if(Util.isUpperCase(pieceChar)){
                     switch(rank){
                         case 0:
-                            return pieceValue;
+                            return pieceValue*0.325f;
                         case 1:
-                            return pieceValue*0.875f;
+                            return pieceValue*0.3f;
                         case 2:
-                            return pieceValue*0.775f;
+                            return pieceValue*0.275f;
                         case 3:
-                            return pieceValue*0.675f;
+                            return pieceValue*0.25f;
                         case 4:
-                            return pieceValue*0.575f;
+                            return pieceValue*0.225f;
                         case 5:
-                            return pieceValue*0.475f;
+                            return pieceValue*0.2f;
                         case 6:
-                            return pieceValue*0.375f;
+                            return pieceValue*0.175f;
                         default:
                             return 0.0f;
                     }
                 }else{
                     switch(rank){
                         case 7:
-                            return pieceValue;
+                            return pieceValue*0.325f;
                         case 6:
-                            return pieceValue*0.875f;
+                            return pieceValue*0.3f;
                         case 5:
-                            return pieceValue*0.775f;
+                            return pieceValue*0.275f;
                         case 4:
-                            return pieceValue*0.675f;
+                            return pieceValue*0.25f;
                         case 3:
-                            return pieceValue*0.575f;
+                            return pieceValue*0.225f;
                         case 2:
-                            return pieceValue*0.475f;
+                            return pieceValue*0.2f;
                         case 1:
-                            return pieceValue*0.375f;
+                            return pieceValue*0.175f;
                         default:
                             return 0.0f;
                     }
                 }
-
-            default:
-               if(Util.isUpperCase(pieceChar)){
-                   return WHITE_PAWN_MAP[file+rank*Constants.COLUMNS];
-               }else{
-                   return BLACK_PAWN_MAP[file+rank*Constants.COLUMNS];
-               }
         }
+        return 0.0f;
     }
 
 }

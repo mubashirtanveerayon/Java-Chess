@@ -134,6 +134,7 @@ public class GamePanel extends JPanel implements ActionListener {
                     int[] bestMove = ai.BestMove();
                     System.out.println("Best Move "+Util.parseMove(bestMove));
                     System.out.println(engine.move(bestMove));
+                    board.refactor();
                     human = !human;
                     playAudio();
                     checkGameStage();
@@ -142,7 +143,6 @@ public class GamePanel extends JPanel implements ActionListener {
                 }
                 System.out.println("Time took to search depth "+Constants.SEARCH_DEPTH+" : "+ (System.nanoTime()/1000000-start/1000000)+" ms");
                 System.out.println(Util.printBoard(engine.board,false));
-                board.refactor();
             }
         };
     }
@@ -204,7 +204,7 @@ public class GamePanel extends JPanel implements ActionListener {
                                         System.out.println(engine.move(new int[]{Constants.COLUMNS-1-selected.position[0],Constants.ROWS-1-selected.position[1],move[0],move[1]}));
                                         playAudio();
                                         checkGameStage();
-                                        String side = Parameters.HUMAN_CHOSE_WHITE?"white :":"black :";
+                                        String side = Parameters.HUMAN_CHOSE_WHITE?"white : ":"black : ";
                                         System.out.println(side+engine.evaluateBoard(Parameters.HUMAN_CHOSE_WHITE));
                                         System.out.println(Util.printBoard(engine.board,Parameters.FLIP));
                                         human  = !human;
@@ -240,7 +240,7 @@ public class GamePanel extends JPanel implements ActionListener {
                                         System.out.println(engine.move(new int[]{selected.position[0],selected.position[1],move[0],move[1]}));
                                         playAudio();
                                         checkGameStage();
-                                        String side = Parameters.HUMAN_CHOSE_WHITE?"white :":"black :";
+                                        String side = Parameters.HUMAN_CHOSE_WHITE?"white : ":"black : ";
                                         System.out.println(side+engine.evaluateBoard(Parameters.HUMAN_CHOSE_WHITE));
                                         System.out.println(Util.printBoard(engine.board,Parameters.FLIP));
                                         human  = !human;
