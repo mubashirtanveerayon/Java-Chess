@@ -91,7 +91,7 @@ public class Main extends JFrame implements ActionListener {
             GameParameter.saveGame(gamePanel.board);
         }else if(src == load){
             String fen = JOptionPane.showInputDialog(null,"FEN :");
-            if(Util.checkFen(fen)){
+            if(Util.FENValidator(fen)){
                 GameParameter.loadGame(gamePanel, fen);
             }else{
                 JOptionPane.showMessageDialog(null,"Invalid FEN!");

@@ -12,9 +12,13 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import piece.Piece;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import util.Constants;
 import util.Util;
 
@@ -23,6 +27,9 @@ public class GamePanel extends JPanel implements ActionListener{
     public Board board;
     public Tile selectedTile;
     public Move move;
+
+    InputStream in;
+    AudioStream as;
 
     public GamePanel(String fen){
         super(new GridLayout(Constants.NUM_OF_COLUMNS,Constants.NUM_OF_ROWS));
@@ -59,6 +66,16 @@ public class GamePanel extends JPanel implements ActionListener{
         }
     }
 
+    public void playAudio(int type){
+        try{
+            in = type==1?new FileInputStream(Constants.CAPTURE_AUDIO_PATH): new FileInputStream(Constants.AUDIO_PATH);
+            as = new AudioStream(in);
+            AudioPlayer.player.start(as);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
          for(int i=0;i<Constants.NUM_OF_COLUMNS;i++){
@@ -67,8 +84,11 @@ public class GamePanel extends JPanel implements ActionListener{
                     if(selectedTile!=null){
                         if(selectedTile.isOccupied()){
                             Piece piece = selectedTile.piece;
+                            int type = board.boardTiles[i][j].isOccupied()?1:0;
                             if(!move.move(board.boardTiles[i][j], piece)){
                                 System.out.println("Not a legal move!");
+                            }else{
+                                playAudio(type);
                             }
                         }
                         selectedTile=null;

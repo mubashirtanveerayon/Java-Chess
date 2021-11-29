@@ -36,7 +36,7 @@ public class Piece {
             }
         }
         white=Util.isUpperCase(name);
-        img=white?new ImageIcon(ResourceLoader.load(Constants.WHITE_IMG_PATH+name.toLowerCase()+".png")):new ImageIcon(ResourceLoader.load(Constants.BLACK_IMG_PATH+name.toLowerCase()+".png"));
+        img=white?new ImageIcon((Constants.WHITE_IMG_PATH+name.toLowerCase()+".png")):new ImageIcon((Constants.BLACK_IMG_PATH+name.toLowerCase()+".png"));
         generateOffset();
     }
     

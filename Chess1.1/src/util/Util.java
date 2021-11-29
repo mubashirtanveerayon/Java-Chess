@@ -304,4 +304,51 @@ public class Util {
         int[] finalPosition = cvtPosition(new StringBuffer(bestMove).delete(0, 2).toString());
         return new int[][]{initPosition,finalPosition};
     }
+
+    public static boolean FENValidator(String fen){
+        String[] fenParts = fen.split(" ");
+        if(fenParts.length != 6){
+            return false;
+        }
+        if(!fenParts[0].contains(String.valueOf(Constants.WHITE_KING))||!fenParts[0].contains(String.valueOf(Constants.BLACK_KING))){
+            return false;
+        }
+        //rnb1k1nr/pppp1ppp/4p3/8/1b4q1/2N1PN2/PPPP2PP/R1BQKB1R w KQkq - 5 7
+        String[] rows = fenParts[0].split("/");
+        if(rows.length != 8){
+            return false;
+        }
+        for(String row:rows){
+            if(row.length() > 8){
+                return false;
+            }
+            int count = 0;
+            for(char c:row.toCharArray()){
+                if(Character.isDigit(c)){
+                    count+=getNumericValue(c);
+                }else{
+                    count++;
+                }
+            }
+            if(count != 8){
+                return false;
+            }
+        }
+        if(fenParts[1].length() != 1){
+            return false;
+        }
+        if(fenParts[2].length() > 4){
+            return false;
+        }
+        if(fenParts[3].length() > 2){
+            return false;
+        }
+        try{
+            Integer.parseInt(fenParts[4]);
+            Integer.parseInt(fenParts[5]);
+        }catch(NumberFormatException e){
+            return false;
+        }
+        return true;
+    }
 }

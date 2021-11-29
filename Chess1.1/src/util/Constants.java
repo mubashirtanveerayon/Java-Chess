@@ -43,59 +43,15 @@ public class Constants {
     public static final char BLACK_KING = 'k';
     
     public static final char EMPTY_CHAR = ' ';
-    
-    public static final String WHITE_IMG_PATH="images"+File.separator+"white"+File.separator;
 
-    public static final String BLACK_IMG_PATH="images"+File.separator+"black"+File.separator;
+    public static final String CAPTURE_AUDIO_PATH = "src"+File.separator+"assets"+File.separator+"audio"+File.separator+"cap.wav";
 
-    public static final String WHITE_PAWN_IMG_PATH = "src"+File.separator+"images"+File.separator+"white"+File.separator+"pawn.png";
+    public static final String WHITE_IMG_PATH="src"+File.separator+"assets"+File.separator+"white"+File.separator;
 
-    public static final String WHITE_ROOK_IMG_PATH = "src"+File.separator+"images"+File.separator+"white"+File.separator+"rook.png";
+    public static final String BLACK_IMG_PATH="src"+File.separator+"assets"+File.separator+"black"+File.separator;
 
-    public static final String WHITE_KNIGHT_IMG_PATH = "src"+File.separator+"images"+File.separator+"white"+File.separator+"knight.png";
+    public static final String AUDIO_PATH="src"+File.separator+"assets"+File.separator+"audio"+File.separator+"move.wav";
 
-    public static final String WHITE_BISHOP_IMG_PATH = "src"+File.separator+"images"+File.separator+"white"+File.separator+"bishop.png";
-
-    public static final String WHITE_QUEEN_IMG_PATH = "src"+File.separator+"images"+File.separator+"white"+File.separator+"queen.png";
-
-    public static final String WHITE_KING_IMG_PATH = "src"+File.separator+"images"+File.separator+"white"+File.separator+"king.png";
-
-    public static final String BLACK_PAWN_IMG_PATH = "src"+File.separator+"images"+File.separator+"black"+File.separator+"pawn.png";
-
-    public static final String BLACK_ROOK_IMG_PATH = "src"+File.separator+"images"+File.separator+"black"+File.separator+"rook.png";
-
-    public static final String BLACK_KNIGHT_IMG_PATH = "src"+File.separator+"images"+File.separator+"black"+File.separator+"knight.png";
-
-    public static final String BLACK_BISHOP_IMG_PATH = "src"+File.separator+"images"+File.separator+"black"+File.separator+"bishop.png";
-
-    public static final String BLACK_QUEEN_IMG_PATH = "src"+File.separator+"images"+File.separator+"black"+File.separator+"queen.png";
-
-    public static final String BLACK_KING_IMG_PATH = "src"+File.separator+"images"+File.separator+"black"+File.separator+"king.png";
-
-    public static final ImageIcon WHITE_PAWN_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"white"+File.separator+"pawn.png");
-
-    public static final ImageIcon WHITE_ROOK_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"white"+File.separator+"rook.png");
-
-    public static final ImageIcon WHITE_KNIGHT_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"white"+File.separator+"knight.png");
-
-    public static final ImageIcon WHITE_BISHOP_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"white"+File.separator+"bishop.png");
-
-    public static final ImageIcon WHITE_QUEEN_IMG= new ImageIcon("src"+File.separator+"images"+File.separator+"white"+File.separator+"queen.png");
-
-    public static final ImageIcon WHITE_KING_IMG= new ImageIcon("src"+File.separator+"images"+File.separator+"white"+File.separator+"king.png");
-
-    public static final ImageIcon BLACK_PAWN_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"black"+File.separator+"pawn.png");
-
-    public static final ImageIcon BLACK_ROOK_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"black"+File.separator+"rook.png");
-
-    public static final ImageIcon BLACK_KNIGHT_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"black"+File.separator+"knight.png");
-
-    public static final ImageIcon BLACK_BISHOP_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"black"+File.separator+"bishop.png");
-
-    public static final ImageIcon BLACK_QUEEN_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"black"+File.separator+"queen.png");
-
-    public static final ImageIcon BLACK_KING_IMG = new ImageIcon("src"+File.separator+"images"+File.separator+"black"+File.separator+"king.png");
-    
     public static final int PAWN_VALUE = 200;
 
     public static final int KNIGHT_VALUE = 300;
