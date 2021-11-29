@@ -44,7 +44,7 @@ public class Engine {
             return fen;
         }
         history=fen;
-        lastMove=Util.parseMove(new int[]{move[0],move[1]}, new int[]{move[2],move[3]});
+        lastMove=Util.parseMove(new int[]{move[0],move[1],move[2],move[3]});
         halfMove++;
         if(!whiteToMove){
             fullMove++;
@@ -493,39 +493,61 @@ public class Engine {
         if(depth == 0){
             return 1;
         }
-        
         long numPositions = 0;
-        ArrayList<int[]> legalMoves = null;
-        for(int i=0;i<Constants.COLUMNS;i++){
-            for(int j=0;j<Constants.ROWS;j++){
-                char piece = board[i][j];
-                if(piece!=Constants.EMPTY_CHAR){
-                    if((whiteToMove && Util.isUpperCase(piece)) || (!whiteToMove && !Util.isUpperCase(piece))){
-                        int[] position = new int[]{i,j};
-                        legalMoves = generateMove(piece,position,Util.getOffset(piece));
-                        char[][] prevBoardChars = Util.copyBoard(board);
-                        boolean prevWhiteToMove = whiteToMove;
-                        int prevHalfMove = halfMove;
-                        int prevFullMove = fullMove;
-                        String prevFen = fen;
-                        String prevHistory = history;
-                        String prevLastMove = lastMove;
-                        for(int[] move:legalMoves){
-                            move(new int[]{i,j,move[0],move[1]});
-                            numPositions+=moveGeneration(depth-1);
-                            board = Util.copyBoard(prevBoardChars);
-                            history = prevHistory;
-                            lastMove = prevLastMove;
-                            whiteToMove = prevWhiteToMove;
-                            halfMove = prevHalfMove;
-                            fullMove = prevFullMove;
-                            fen = prevFen;
-                        }
-                        legalMoves.clear();
-                    }
-                }
-            }
+        char[][] prevBoardChars = Util.copyBoard(board);
+        boolean prevWhiteToMove = whiteToMove;
+        int prevHalfMove = halfMove;
+        int prevFullMove = fullMove;
+        String prevFen = fen;
+        String prevHistory = history;
+        String prevLastMove = lastMove;
+        ArrayList<int[]> moves = getLegalMoves();
+        for(int[] move : moves){
+            move(move);
+            numPositions+=moveGeneration(depth-1);
+            board = Util.copyBoard(prevBoardChars);
+            history = prevHistory;
+            lastMove = prevLastMove;
+            whiteToMove = prevWhiteToMove;
+            halfMove = prevHalfMove;
+            fullMove = prevFullMove;
+            fen = prevFen;
         }
+
+
+//
+//
+//        ArrayList<int[]> legalMoves = null;
+//        for(int i=0;i<Constants.COLUMNS;i++){
+//            for(int j=0;j<Constants.ROWS;j++){
+//                char piece = board[i][j];
+//                if(piece!=Constants.EMPTY_CHAR){
+//                    if((whiteToMove && Util.isUpperCase(piece)) || (!whiteToMove && !Util.isUpperCase(piece))){
+//                        int[] position = new int[]{i,j};
+//                        legalMoves = generateMove(piece,position,Util.getOffset(piece));
+//                        char[][] prevBoardChars = Util.copyBoard(board);
+//                        boolean prevWhiteToMove = whiteToMove;
+//                        int prevHalfMove = halfMove;
+//                        int prevFullMove = fullMove;
+//                        String prevFen = fen;
+//                        String prevHistory = history;
+//                        String prevLastMove = lastMove;
+//                        for(int[] move:legalMoves){
+//                            move(new int[]{i,j,move[0],move[1]});
+//                            numPositions+=moveGeneration(depth-1);
+//                            board = Util.copyBoard(prevBoardChars);
+//                            history = prevHistory;
+//                            lastMove = prevLastMove;
+//                            whiteToMove = prevWhiteToMove;
+//                            halfMove = prevHalfMove;
+//                            fullMove = prevFullMove;
+//                            fen = prevFen;
+//                        }
+//                        legalMoves.clear();
+//                    }
+//                }
+//            }
+//        }
         return numPositions;
     }
 
@@ -550,127 +572,84 @@ public class Engine {
         }
     }
 
+    public boolean isDraw(){
+        return isFiftyMove()  || isStaleMate()|| isThreeFoldRepetition() || isInsufficientMaterial();
+    }
+
+    public boolean isFiftyMove(){
+        return halfMove >= 100 && !getLegalMoves().isEmpty();
+    }
+
+
+    public boolean isStaleMate(){
+        return getLegalMoves().isEmpty() && !checkMate(whiteToMove);
+    }
+
+    public boolean isInsufficientMaterial(){
+        return false;
+    }
+
+    public boolean isThreeFoldRepetition(){
+        return false;
+    }
+
     public float evaluateBoard(boolean white){
         float eval = 0f;
         for(int i=0;i<Constants.COLUMNS;i++){
             for(int j=0;j<Constants.ROWS;j++){
                 if(board[i][j]!=Constants.EMPTY_CHAR){
-//                    int[] position = new int[]{i,j};
-//                    ArrayList<int[]> dir = new ArrayList<>();
-//                    int[][] offset = Util.getOffset(piece);
-//                    for(int rank:Map.MID_RANKS){
-//                        int dy = rank-j;
-//                        for(int[] d:offset){
-//                            if(Util.isOfSameDir(d[1],dy)){
-//                                dir.add(d);
-//                            }
-//                        }
-//                    }
-//                    ArrayList<int[]> legalMoves = generateMove(piece,position,Util.copyArrayList(dir));
                     if(white){
                         //material comparison and positional advantages
                         if(Util.isUpperCase(board[i][j])){
-                            eval += (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
+                            eval += (Util.getValue(board[i][j]))+count()*0.005*Map.positionalAdvantage(board[i][j],i,j);//+(endGameWeight())*Map.positionalAdvantage(board[i][j],i,j);//+((1.0f/endGameWeight())*Map.positionalAdvantage(board[i][j],i,j)));
                         }else{
-                            eval -= (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
+                            eval -= (Util.getValue(board[i][j]))+count()*0.005*Map.positionalAdvantage(board[i][j],i,j);//+(endGameWeight())*Map.positionalAdvantage(board[i][j],i,j);//+((1.0f/endGameWeight())*Map.positionalAdvantage(board[i][j],i,j)));
                         }
-                        //center-control
-//                        for(int rank: Map.MID_RANKS){
-//                            if(j==rank){
-//                                if(Util.isUpperCase(piece)){
-//                                    eval += (float)(pieceVal*Constants.PARTIAL_VALUE);
-//                                }else{
-//                                    eval -= (float)(pieceVal*Constants.PARTIAL_VALUE);
-//                                }
-//                            }
-//                            for(int[] moves:legalMoves){
-//                                if(moves[1] == rank){
-//                                    if(Util.isUpperCase(piece)){
-//                                        eval += (float)(pieceVal*Constants.PARTIAL_VALUE);
-//                                    }else{
-//                                        eval -= (float)(pieceVal*Constants.PARTIAL_VALUE);
-//                                    }
-//                                }
-//                            }
-//                        }
                     }else{
                         //material comparison and positional advantages
                         if(Util.isUpperCase(board[i][j])){
-                            eval -= (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
+                            eval -= (Util.getValue(board[i][j]))+count()*0.005*Map.positionalAdvantage(board[i][j],i,j);//+(endGameWeight())*Map.positionalAdvantage(board[i][j],i,j);//+((1.0f/endGameWeight())*Map.positionalAdvantage(board[i][j],i,j)));
                         }else{
-                            eval += (Util.getValue(board[i][j])+Map.getPositionalAdvantage(board[i][j],i,j));
+                            eval += (Util.getValue(board[i][j]))+count()*0.005*Map.positionalAdvantage(board[i][j],i,j);//+(endGameWeight())*Map.positionalAdvantage(board[i][j],i,j);//+((1.0f/endGameWeight())*Map.positionalAdvantage(board[i][j],i,j)));
                         }
-                        //center-control
-//                        for(int rank:Map.MID_RANKS){
-//                            if(j==rank){
-//                                if(Util.isUpperCase(piece)){
-//                                    eval -= (float)(pieceVal*Constants.PARTIAL_VALUE);
-//                                }else{
-//                                    eval += (float)(pieceVal*Constants.PARTIAL_VALUE);
-//                                }
-//                            }
-//                            for(int[] moves:legalMoves){
-//                                if(moves[1] == rank){
-//                                    if(Util.isUpperCase(piece)){
-//                                        eval -= pieceVal*Constants.PARTIAL_VALUE;
-//                                    }else{
-//                                        eval += pieceVal*Constants.PARTIAL_VALUE;
-//                                    }
-//                                }
-//                            }
-//                        }
                     }
                 }
             }
         }
-        return eval;
+        return eval+kingSafety(white)+centerControl(white);
+    }
+
+    public float kingSafety(boolean white){
+        int[] kingPos = Util.getKingPosition(board,white);
+        float distFromCenterFile = kingPos[0]-3.5f;
+        float distFromCenterRank = kingPos[1]-3.5f;
+        float distFromCenter = (float)Math.sqrt((distFromCenterFile*distFromCenterFile)+(distFromCenterRank*distFromCenterRank));
+        return -distFromCenter*endGameWeight();
+    }
+
+    public float centerControl(boolean white){
+        return 0;
     }
 
     public float evaluate(boolean white){
         float eval = 0f;
         evalFile = 0;
         evalRank = 0;
-        for(char c:fen.split(" ")[0].toCharArray()){
-            if(Character.isDigit(c)){
+        for(char c:fen.split(" ")[0].toCharArray()) {
+            if (Character.isDigit(c)) {
                 evalFile += Util.getNumericValue(c);
-            }else if(c == '/'){
+            } else if (c == '/') {
                 evalRank++;
-                evalFile=0;
-            }else{
-                if(Util.isUpperCase(c)){
-                    eval+=white?(Util.getValue(c)+Map.getPositionalAdvantage(c,evalFile,evalRank)):(Util.getValue(c)+Map.getPositionalAdvantage(c,evalFile,evalRank))*-1;
-                }else{
-                    eval-=white?(Util.getValue(c)+Map.getPositionalAdvantage(c,evalFile,evalRank)):(Util.getValue(c)+Map.getPositionalAdvantage(c,evalFile,evalRank))*-1;
+                evalFile = 0;
+            } else {
+                if (Util.isUpperCase(c)) {
+                    eval += white ? (Util.getValue(c) + Map.getPositionalAdvantage(c, evalFile, evalRank)) : (Util.getValue(c) + Map.getPositionalAdvantage(c, evalFile, evalRank)) * -1;
+                } else {
+                    eval -= white ? (Util.getValue(c) + Map.getPositionalAdvantage(c, evalFile, evalRank)) : (Util.getValue(c) + Map.getPositionalAdvantage(c, evalFile, evalRank)) * -1;
                 }
                 evalFile++;
             }
-
-//            if(!Character.isDigit(c)&&c!='/'){
-//                if(white){
-//                    eval+=Util.isUpperCase(c)?Util.getValue(c):-Util.getValue(c);
-//                }else{
-//                    eval+=Util.isUpperCase(c)?-Util.getValue(c):Util.getValue(c);
-//                }
-//            }
         }
-//        String[] rows = fenParts[0].split("/");
-//        for(int i=0;i<rows.length;i++){
-//            for(char c:rows[i].toCharArray()){
-//                if(!Character.isDigit(c)){
-//                    if(Util.isUpperCase(c)){
-//                        eval+=white?Util.getValue(c):Util.getValue(c)*-1;
-////                        if(i>5){
-////                            eval+=white?Util.getValue(c)*Constants.PARTIAL_VALUE:Util.getValue(c)*Constants.PARTIAL_VALUE*-1;
-////                        }
-//                    }else{
-//                        eval-=white?Util.getValue(c):Util.getValue(c)*-1;
-////                        if(i<5){
-////                            eval-=white?Util.getValue(c)*Constants.PARTIAL_VALUE:Util.getValue(c)*Constants.PARTIAL_VALUE*-1;
-////                        }
-//                    }
-//                }
-//            }
-//        }
         return eval;
     }
 
@@ -687,24 +666,197 @@ public class Engine {
     }
 
     public ArrayList<int[]> getLegalMoves(){
-        boolean white = whiteToMove;
-        ArrayList<int[]>moves = new ArrayList<>();
-        ArrayList<int[]> tmoves;
+//        ArrayList<int[]>moves = new ArrayList<>();
+//        ArrayList<int[]> tmoves;
+//        for(int i=0;i<Constants.COLUMNS;i++){
+//            for(int j=0;j<Constants.ROWS;j++){
+//                if(board[i][j]!=Constants.EMPTY_CHAR){
+//                    if((whiteToMove&&Util.isUpperCase(board[i][j]))||(!whiteToMove&&!Util.isUpperCase(board[i][j]))){
+//                        tmoves = generateMove(board[i][j],new int[]{i,j},Util.getOffset(board[i][j]));
+//                        for(int[] move:tmoves){
+//                            moves.add(new int[]{i,j,move[0],move[1]});
+//                        }
+//                        tmoves.clear();
+//                    }
+//                }
+//            }
+//        }
+//        return moves;
+        ArrayList<int[]> legalMoves = new ArrayList<>();
+        int file,rank;
         for(int i=0;i<Constants.COLUMNS;i++){
             for(int j=0;j<Constants.ROWS;j++){
                 if(board[i][j]!=Constants.EMPTY_CHAR){
-                    if((white&&Util.isUpperCase(board[i][j]))||(!white&&!Util.isUpperCase(board[i][j]))){
-                        tmoves = generateMove(board[i][j],new int[]{i,j},Util.getOffset(board[i][j]));
-                        for(int[] move:tmoves){
-                            moves.add(new int[]{i,j,move[0],move[1]});
+                    if((whiteToMove&&Util.isUpperCase(board[i][j]))||(!whiteToMove&&!Util.isUpperCase(board[i][j]))){
+                        int[][] direction = Util.getOffset(board[i][j]);
+                        switch(Util.toUpper(board[i][j])){
+                            case Constants.WHITE_KING:{
+                                for(int[] dir:direction){
+                                    file = i;
+                                    rank = j;
+                                    file+=dir[0];
+                                    rank+=dir[1];
+                                    if(Util.isValid(file,rank)){
+                                        if(board[file][rank] == Constants.EMPTY_CHAR){
+                                            board[file][rank] = board[i][j];
+                                            board[i][j] = Constants.EMPTY_CHAR;
+                                            if(!isKingInCheck(whiteToMove)){
+                                                legalMoves.add(new int[]{i,j,file,rank});
+                                            }
+                                            board[i][j] = board[file][rank];
+                                            board[file][rank] = Constants.EMPTY_CHAR;
+                                        }else{
+                                            if(!Util.isAlly(board[i][j],board[file][rank])){
+                                                char piece = board[file][rank];
+                                                board[file][rank] = board[i][j];
+                                                board[i][j] = Constants.EMPTY_CHAR;
+                                                if(!isKingInCheck(whiteToMove)){
+                                                    legalMoves.add(new int[]{i,j,file,rank});
+                                                }
+                                                board[i][j] = board[file][rank];
+                                                board[file][rank] = piece;
+                                            }
+                                        }
+                                    }
+                                }
+                                rank = whiteToMove ? 7:0;
+                                boolean[] castling = generateCastlingMove(whiteToMove);
+                                if(castling[0]){
+                                    legalMoves.add(new int[]{4,rank,2,rank});
+                                }
+                                if(castling[1]){
+                                    legalMoves.add(new int[]{4,rank,6,rank});
+                                }
+                                break;
+                            }case Constants.WHITE_KNIGHT:{
+                                for(int[] dir:direction){
+                                    file = i;
+                                    rank = j;
+                                    file+=dir[0];
+                                    rank+=dir[1];
+                                    if(Util.isValid(file,rank)){
+                                        if(board[file][rank] == Constants.EMPTY_CHAR){
+                                            board[file][rank] = board[i][j];
+                                            board[i][j] = Constants.EMPTY_CHAR;
+                                            if(!isKingInCheck(whiteToMove)){
+                                                legalMoves.add(new int[]{i,j,file,rank});
+                                            }
+                                            board[i][j] = board[file][rank];
+                                            board[file][rank] = Constants.EMPTY_CHAR;
+                                        }else{
+                                            if(!Util.isAlly(board[i][j],board[file][rank])){
+                                                char piece = board[file][rank];
+                                                board[file][rank] = board[i][j];
+                                                board[i][j] = Constants.EMPTY_CHAR;
+                                                if(!isKingInCheck(whiteToMove)){
+                                                    legalMoves.add(new int[]{i,j,file,rank});
+                                                }
+                                                board[i][j] = board[file][rank];
+                                                board[file][rank] = piece;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            } case Constants.WHITE_PAWN:{
+                                int limit = (Util.isUpperCase(board[i][j]) && j == 6) || (!Util.isUpperCase(board[i][j]) && j == 1) ? 2 : 1;
+                                for(int[] dir:direction){
+                                    file = i;
+                                    rank = j;
+                                    file+=dir[0];
+                                    rank+=dir[1];
+                                    if(Util.isValid(file,rank)){
+                                        if(Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1){
+                                            if(board[file][rank] != Constants.EMPTY_CHAR && !Util.isAlly(board[file][rank], board[i][j])){
+                                                char piece = board[file][rank];
+                                                board[file][rank] = board[i][j];
+                                                board[i][j] = Constants.EMPTY_CHAR;
+                                                if(!isKingInCheck(whiteToMove)){
+                                                    legalMoves.add(new int[]{i,j,file,rank});
+                                                }
+                                                board[i][j] = board[file][rank];
+                                                board[file][rank] = piece;
+                                            }
+                                        }else{
+                                            for(int k=0;k<limit && Util.isValid(file,rank);k++){
+                                                if(board[file][rank] == Constants.EMPTY_CHAR){
+                                                    board[file][rank] = board[i][j];
+                                                    board[i][j] = Constants.EMPTY_CHAR;
+                                                    if(!isKingInCheck(whiteToMove)){
+                                                        legalMoves.add(new int[]{i,j,file,rank});
+                                                    }
+                                                    board[i][j] = board[file][rank];
+                                                    board[file][rank] = Constants.EMPTY_CHAR;
+                                                }else{
+                                                    break;
+                                                }
+                                                file+=dir[0];
+                                                rank+=dir[1];
+                                            }
+                                        }
+                                    }
+                                }
+                                String enPassant = fen.split(" ")[3];
+                                if(!enPassant.equals("-")){
+                                    int[] enPassantSquare = Util.cvtPosition(enPassant);
+                                    if(Math.abs(i-enPassantSquare[0]) == 1 && Math.abs(j-enPassantSquare[1]) == 1){
+                                        board[enPassantSquare[0]][enPassantSquare[1]] = board[i][j];
+                                        board[i][j] = Constants.EMPTY_CHAR;
+                                        char piece = board[enPassantSquare[0]][j];
+                                        board[enPassantSquare[0]][j] = Constants.EMPTY_CHAR;
+                                        if(!isKingInCheck(whiteToMove)){
+                                            legalMoves.add(new int[]{i,j,enPassantSquare[0],enPassantSquare[1]});
+                                        }
+                                        board[i][j] = board[enPassantSquare[0]][enPassantSquare[1]];
+                                        board[enPassantSquare[0]][enPassantSquare[1]] = Constants.EMPTY_CHAR;
+                                        board[enPassantSquare[0]][j] = piece;
+                                    }
+                                }
+                                break;
+                            }default:{
+                                for(int[] dir:direction){
+                                    file = i;
+                                    rank = j;
+                                    file+=dir[0];
+                                    rank+=dir[1];
+                                    while(Util.isValid(file,rank)){
+                                        if(board[file][rank] == Constants.EMPTY_CHAR){
+                                            board[file][rank] = board[i][j];
+                                            board[i][j] = Constants.EMPTY_CHAR;
+                                            if(!isKingInCheck(whiteToMove)) {
+                                                legalMoves.add(new int[]{i, j, file, rank});
+                                            }
+                                            board[i][j] = board[file][rank];
+                                            board[file][rank] = Constants.EMPTY_CHAR;
+                                        }else{
+                                            if(!Util.isAlly(board[file][rank], board[i][j])){
+                                                char piece = board[file][rank];
+                                                board[file][rank] = board[i][j];
+                                                board[i][j] = Constants.EMPTY_CHAR;
+                                                if(!isKingInCheck(whiteToMove)){
+                                                    legalMoves.add(new int[]{i,j,file,rank});
+                                                }
+                                                board[i][j] = board[file][rank];
+                                                board[file][rank] = piece;
+                                            }
+                                            break;
+                                        }
+                                        file+=dir[0];
+                                        rank+=dir[1];
+                                    }
+                                }
+                            }
                         }
-                        tmoves.clear();
                     }
                 }
             }
         }
-        return moves;
+        return legalMoves;
 
+    }
+
+    public float endGameWeight(){
+        return (float)(1.0f/count())*Constants.PARTIAL_VALUE*fullMove;
     }
 
     public Engine copy(){

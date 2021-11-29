@@ -14,21 +14,15 @@ import java.util.ArrayList;
 public class Util {
 
     public static int getNumericValue(char c) {
-        int[] values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-        for (int i = 0; i < values.length; i++) {
-            if (String.valueOf(c).equals(String.valueOf(values[i]))) {
-                return values[i];
-            }
-        }
-        return -1;
+        return Integer.parseInt(Character.toString(c));
     }
 
     public static boolean isUpperCase(char t) {
         return t == toUpper(t);
     }
 
-    public static char toUpper(char ch) {
-        return String.valueOf(ch).toUpperCase().charAt(0);
+    public static char toUpper(char c) {
+        return Character.toString(c).toUpperCase().charAt(0);
     }
 
     public static boolean isOfSameDir(int a, int b) {
@@ -227,6 +221,53 @@ public class Util {
             }
         }
         return newBoard;
+    }
+
+    public static boolean FENValidator(String fen){
+        String[] fenParts = fen.split(" ");
+        if(fenParts.length != 6){
+            return false;
+        }
+        if(!fenParts[0].contains(String.valueOf(Constants.WHITE_KING))||!fenParts[0].contains(String.valueOf(Constants.BLACK_KING))){
+            return false;
+        }
+        //rnb1k1nr/pppp1ppp/4p3/8/1b4q1/2N1PN2/PPPP2PP/R1BQKB1R w KQkq - 5 7
+        String[] rows = fenParts[0].split("/");
+        if(rows.length != 8){
+            return false;
+        }
+        for(String row:rows){
+            if(row.length() > 8){
+                return false;
+            }
+            int count = 0;
+            for(char c:row.toCharArray()){
+                if(Character.isDigit(c)){
+                    count+=getNumericValue(c);
+                }else{
+                    count++;
+                }
+            }
+            if(count != 8){
+                return false;
+            }
+        }
+        if(fenParts[1].length() != 1){
+            return false;
+        }
+        if(fenParts[2].length() > 4){
+            return false;
+        }
+        if(fenParts[3].length() > 2){
+            return false;
+        }
+        try{
+            Integer.parseInt(fenParts[4]);
+            Integer.parseInt(fenParts[5]);
+        }catch(NumberFormatException e){
+            return false;
+        }
+        return true;
     }
 
 }

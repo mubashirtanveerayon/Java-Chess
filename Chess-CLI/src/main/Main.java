@@ -12,6 +12,14 @@ import java.util.Scanner;
 
 public class Main {
 
+    Main(){
+        System.out.println("main object created");
+    }
+
+    public void print(String s){
+        System.out.println(s);
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Engine engine = new Engine(Constants.STARTING_FEN);
@@ -24,8 +32,12 @@ public class Main {
             String input = sc.nextLine();
             String[] contents = input.split(";");
             if(contents.length == 3&&contents[0].equalsIgnoreCase("position")&&contents[1].equalsIgnoreCase("fen")){
-                engine = new Engine(contents[2]);
-                ai = new AI(engine);
+                if(Util.FENValidator(contents[2])){
+                    engine = new Engine(contents[2]);
+                    ai = new AI(engine);
+                }else{
+                    System.out.println("Invalid fen");
+                }
             }else if(contents.length==1) {
                 if(Character.isDigit(contents[0].charAt(0))){
                     Constants.SEARCH_DEPTH = Integer.parseInt(String.valueOf(contents[0].charAt(0)));
@@ -49,13 +61,19 @@ public class Main {
                 }else if(contents[0].equalsIgnoreCase("fen")) {
                     System.out.println(engine.fen);
                 }else if(contents[0].equalsIgnoreCase("go")){
+                    long start = System.nanoTime();
                     int[] bestMove = ai.BestMove();
                     System.out.println("Best move : "+Util.parseMove(bestMove));
+                    System.out.println("Time taken : "+(System.nanoTime()-start)/1000000+"ms");
                 }else if(contents[0].equalsIgnoreCase("play")){
+                    long start = System.nanoTime();
                     int[] bestMove = ai.BestMove();
-                    try {System.out.println(Util.parseMove(bestMove));
-
+                    try {
+                        System.out.println("Best move : "+Util.parseMove(bestMove));
+                        System.out.println("Time taken : "+(System.nanoTime()-start)/1000000+"ms");
                         System.out.println(engine.move(bestMove));
+                        String side = !engine.whiteToMove?"white : ":"black : ";
+                        System.out.println(side+engine.evaluateBoard(!engine.whiteToMove));
                     } catch (Exception ex) {
                         System.out.println("Couldn't find any best move!");
                     }
@@ -68,6 +86,8 @@ public class Main {
                             for(int[] legalmove:legalMoves){
                                 if(Util.samePosition(legalmove,move[1])){
                                     System.out.println(engine.move(new int[]{move[0][0],move[0][1],move[1][0],move[1][1]}));
+                                    String side = !engine.whiteToMove?"white : ":"black : ";
+                                    System.out.println(side+engine.evaluateBoard(!engine.whiteToMove));
                                 }
                             }
                         }
@@ -79,7 +99,6 @@ public class Main {
                 if(contents[0].equalsIgnoreCase("moves")){
                     boolean white = contents[1].toLowerCase().charAt(0) == Constants.WHITE;
                     System.out.println(ai.getOutput(white));
-                    System.out.println(ai.getOutput(white).split("\n").length);
                 }else if(contents[0].equalsIgnoreCase("evaluate")){
                     boolean white = contents[1].toLowerCase().charAt(0) == Constants.WHITE;
                     System.out.println(engine.evaluateBoard(white));

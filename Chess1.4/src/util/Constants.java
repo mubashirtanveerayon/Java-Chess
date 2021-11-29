@@ -4,17 +4,23 @@ import java.io.File;
 
 public class Constants {
 
-    public static final float PARTIAL_VALUE = 0.5f;
+    public static final int MIN_THREADS = 1;
+
+    public static final int MAX_THREADS = Runtime.getRuntime().availableProcessors();
+
+    public static final float PARTIAL_VALUE = 0.05f;
 
     public static final String[] PIECE_NAMES={"pawn", "PAWN", "bishop", "BISHOP", "night", "NIGHT", "rook", "ROOK", "queen", "QUEEN", "king", "KING"};
 
     public static final String WHITE_PIECE_CHAR = "PNBRQK";
 
+    public static final String CAPTURE_AUDIO_PATH = "src"+File.separator+"assets"+File.separator+"audio"+File.separator+"cap.wav";
+
     public static final String WHITE_IMG_PATH="src"+File.separator+"assets"+File.separator+"white"+File.separator;
 
     public static final String BLACK_IMG_PATH="src"+File.separator+"assets"+File.separator+"black"+File.separator;
 
-    public static final String AUDIO_PATH="src"+File.separator+"assets"+File.separator+"audio"+File.separator+"sound.wav";
+    public static final String AUDIO_PATH="src"+File.separator+"assets"+File.separator+"audio"+File.separator+"move.wav";
 
     public static final String VERSION = "1.4";
 

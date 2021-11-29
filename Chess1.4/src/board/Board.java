@@ -59,14 +59,14 @@ public class Board {
             }
         }
         if(engine.isKingInCheck(engine.whiteToMove)){
-            int[] kingPos = engine.getKingPosition(engine.whiteToMove);
+            int[] kingPos = Util.getKingPosition(engine.board,engine.whiteToMove);
             if(Parameters.FLIP){
                 boardSquares[Constants.COLUMNS-1-kingPos[0]][Constants.ROWS-1-kingPos[1]].setBackground(Color.red);
             }else{
                 boardSquares[kingPos[0]][kingPos[1]].setBackground(Color.red);
             }
         }else if(engine.isKingInCheck(!engine.whiteToMove)){
-            int[] kingPos = engine.getKingPosition(!engine.whiteToMove);
+            int[] kingPos = Util.getKingPosition(engine.board,!engine.whiteToMove);
             if(Parameters.FLIP){
                 boardSquares[Constants.COLUMNS-1-kingPos[0]][Constants.ROWS-1-kingPos[1]].setBackground(Color.red);
             }else{

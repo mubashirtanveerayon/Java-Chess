@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public JMenuItem newGame,load,saveGame,undo,setDepth,flipBoard;
     public JMenu file;
 
-    public String prevFen;
+    public ArrayList<String> prevFen;
 
     InputStream in;
     AudioStream as;
@@ -46,7 +46,8 @@ public class GamePanel extends JPanel implements ActionListener {
         super(new GridLayout(Constants.COLUMNS,Constants.ROWS));
         setSize(600,500);
         human = Parameters.HUMAN_CHOSE_WHITE;
-        prevFen = fen;
+        prevFen = new ArrayList<>();
+        prevFen.add(fen);
         board = new Board(fen);
         engine = board.engine;
         ai = new AI(engine);
@@ -133,23 +134,28 @@ public class GamePanel extends JPanel implements ActionListener {
                 try{
                     int[] bestMove = ai.BestMove();
                     System.out.println("Best Move "+Util.parseMove(bestMove));
+                    if(engine.board[bestMove[2]][bestMove[3]]!=Constants.EMPTY_CHAR){
+                        playAudio(1);
+                    }else{
+                        playAudio(0);
+                    }
                     System.out.println(engine.move(bestMove));
                     board.refactor();
                     human = !human;
-                    playAudio();
                     checkGameStage();
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
                 System.out.println("Time took to search depth "+Constants.SEARCH_DEPTH+" : "+ (System.nanoTime()/1000000-start/1000000)+" ms");
                 System.out.println(Util.printBoard(engine.board,false));
+                System.out.println(side+" : "+engine.evaluateBoard(!engine.whiteToMove));
             }
         };
     }
 
-    public void playAudio(){
+    public void playAudio(int type){
         try{
-            in = new FileInputStream(Constants.AUDIO_PATH);
+            in = type==1?new FileInputStream(Constants.CAPTURE_AUDIO_PATH): new FileInputStream(Constants.AUDIO_PATH);
             as = new AudioStream(in);
             AudioPlayer.player.start(as);
         }catch(Exception ex){
@@ -200,9 +206,13 @@ public class GamePanel extends JPanel implements ActionListener {
                                 ArrayList<int[]> legalMoves = engine.generateMove(selected.getPieceChar(),from,Util.getOffset(selected.getPieceChar()));
                                 for(int[] move:legalMoves){
                                     if(Util.samePosition(move,position)){
-                                        prevFen = engine.fen;
+                                        prevFen.add(engine.fen);
+                                        if(engine.board[move[0]][move[1]]!=Constants.EMPTY_CHAR){
+                                            playAudio(1);
+                                        }else{
+                                            playAudio(0);
+                                        }
                                         System.out.println(engine.move(new int[]{Constants.COLUMNS-1-selected.position[0],Constants.ROWS-1-selected.position[1],move[0],move[1]}));
-                                        playAudio();
                                         checkGameStage();
                                         String side = Parameters.HUMAN_CHOSE_WHITE?"white : ":"black : ";
                                         System.out.println(side+engine.evaluateBoard(Parameters.HUMAN_CHOSE_WHITE));
@@ -226,20 +236,23 @@ public class GamePanel extends JPanel implements ActionListener {
                     if(actionEvent.getSource() == board.boardSquares[i][j]){
                         if(selected == null &&  human ){
                             selected = board.boardSquares[i][j];
-                            selected.setBackground(Color.green);
+                            selected.setBackground(new Color(255,112,0));//yellow rgb
                             ArrayList<int[]> legalMoves = selected.isOccupied()?engine.generateMove(selected.getPieceChar(),selected.position,Util.getOffset(selected.getPieceChar())):new ArrayList<>();
                             for(int[] squarePos:legalMoves){
-                                board.boardSquares[squarePos[0]][squarePos[1]].setBackground(Color.red);
+                                board.boardSquares[squarePos[0]][squarePos[1]].setBackground(new Color(100,200,0));
                             }
                         }else{
                             if(selected != board.boardSquares[i][j]&& selected.isOccupied()&& human &&((Util.isUpperCase(selected.getPieceChar())&&Parameters.HUMAN_CHOSE_WHITE)||(!Util.isUpperCase(selected.getPieceChar())&&!Parameters.HUMAN_CHOSE_WHITE))){
                                 ArrayList<int[]> legalMoves = selected.isOccupied()?engine.generateMove(selected.getPieceChar(),selected.position,Util.getOffset(selected.getPieceChar())):new ArrayList<>();
                                 for(int[] move:legalMoves){
                                     if(Util.samePosition(move,board.boardSquares[i][j].position)){
-                                        prevFen = engine.fen;
+                                        prevFen.add(engine.fen);
+                                        if(engine.board[move[0]][move[1]]!=Constants.EMPTY_CHAR){
+                                            playAudio(1);
+                                        }else{
+                                            playAudio(0);
+                                        }
                                         System.out.println(engine.move(new int[]{selected.position[0],selected.position[1],move[0],move[1]}));
-                                        playAudio();
-                                        checkGameStage();
                                         String side = Parameters.HUMAN_CHOSE_WHITE?"white : ":"black : ";
                                         System.out.println(side+engine.evaluateBoard(Parameters.HUMAN_CHOSE_WHITE));
                                         System.out.println(Util.printBoard(engine.board,Parameters.FLIP));
@@ -251,13 +264,14 @@ public class GamePanel extends JPanel implements ActionListener {
                             }
                             selected = null;
                             board.refactor();
+                            checkGameStage();
                         }
                         break;
                     }
                 }
             }
         }
-        //System.out.println(Util.printBoard(engine.board));
+
         //System.out.println(engine.count());
 
 
@@ -288,8 +302,11 @@ public class GamePanel extends JPanel implements ActionListener {
             Parameters.FLIP = !Parameters.FLIP;
             board.refactor();
         }else if(actionEvent.getSource() == undo){
-            Parameters.loadGame(this,prevFen);
-            checkGameStage();
+            if(!prevFen.isEmpty()){
+                Parameters.loadGame(this,prevFen.get(prevFen.size()-1));
+                prevFen.remove(prevFen.size()-1);
+                checkGameStage();
+            }
         }
 
     }

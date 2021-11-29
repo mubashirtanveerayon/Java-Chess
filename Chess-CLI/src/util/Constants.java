@@ -4,11 +4,23 @@ import java.io.File;
 
 public class Constants {
 
-    public static final float PARTIAL_VALUE = 0.5f;
+    public static final float PARTIAL_VALUE = 0.05f;
 
-    public static final String VERSION = "1.3";
+    public static final String[] PIECE_NAMES={"pawn", "PAWN", "bishop", "BISHOP", "night", "NIGHT", "rook", "ROOK", "queen", "QUEEN", "king", "KING"};
 
-    public static int SEARCH_DEPTH = 5;
+    public static final String WHITE_PIECE_CHAR = "PNBRQK";
+
+    public static final String CAPTURE_AUDIO_PATH = "src"+File.separator+"assets"+File.separator+"audio"+File.separator+"cap.wav";
+
+    public static final String WHITE_IMG_PATH="src"+File.separator+"assets"+File.separator+"white"+File.separator;
+
+    public static final String BLACK_IMG_PATH="src"+File.separator+"assets"+File.separator+"black"+File.separator;
+
+    public static final String AUDIO_PATH="src"+File.separator+"assets"+File.separator+"audio"+File.separator+"move.wav";
+
+    public static final String VERSION = "1.4";
+
+    public static int SEARCH_DEPTH = 4;
 
     public static final int ROWS = 8;
 
@@ -40,17 +52,15 @@ public class Constants {
 
     public static final char EMPTY_CHAR = ' ';
 
-    public static final String WHITE_PIECE_CHAR = "PRNBQK";
-
     public static final float PAWN_VALUE = 2.0f;
 
     public static final float KNIGHT_VALUE = 3.0f;
 
-    public static final float BISHOP_VALUE = 3.0f;
+    public static final float BISHOP_VALUE = 3.5f;
 
-    public static final float ROOK_VALUE = 5.0f;
+    public static final float ROOK_VALUE = 5.5f;
 
-    public static final float QUEEN_VALUE = 9.0f;
+    public static final float QUEEN_VALUE = 10.0f;
 
     public static final float KING_VALUE = 1.0f;
 
