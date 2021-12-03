@@ -12,17 +12,9 @@ import java.util.Scanner;
 
 public class Main {
 
-    Main(){
-        System.out.println("main object created");
-    }
-
-    public void print(String s){
-        System.out.println(s);
-    }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Engine engine = new Engine(Constants.STARTING_FEN);
+        Engine engine = new Engine("r2q1b1r/1pk2ppp/p1b2n2/2p2Q2/4PP2/8/PP1P2PP/R1B1KB1R b KQ e3 0 18");
         AI ai = new AI(engine);
         FileWriter fw = null;
         System.out.println("q to exit");
@@ -98,7 +90,9 @@ public class Main {
             }else if(contents.length==2){
                 if(contents[0].equalsIgnoreCase("moves")){
                     boolean white = contents[1].toLowerCase().charAt(0) == Constants.WHITE;
-                    System.out.println(ai.getOutput(white));
+                    String moves = ai.getOutput(white);
+                    System.out.println(moves);
+                    System.out.println(moves.split(" ").length);
                 }else if(contents[0].equalsIgnoreCase("evaluate")){
                     boolean white = contents[1].toLowerCase().charAt(0) == Constants.WHITE;
                     System.out.println(engine.evaluateBoard(white));

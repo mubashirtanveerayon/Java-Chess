@@ -104,11 +104,6 @@ public class GamePanel extends JPanel implements ActionListener {
 
 
     public void initComponents(){
-        try{
-
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
         newGame = new JMenuItem("New Game");
         load = new JMenuItem("Load Game");
         saveGame = new JMenuItem("Save Game");
@@ -195,10 +190,10 @@ public class GamePanel extends JPanel implements ActionListener {
                         int[] position = new int[]{Constants.COLUMNS-1-i,Constants.ROWS-1-j};
                         if(selected == null && human ){
                             selected = board.boardSquares[i][j];
-                            selected.setBackground(Color.green);
+                            selected.setBackground(new Color(255,112,0));;
                             ArrayList<int[]> legalMoves = selected.isOccupied()?engine.generateMove(selected.getPieceChar(),position,Util.getOffset(selected.getPieceChar())):new ArrayList<>();
                             for(int[] squarePos:legalMoves){
-                                board.boardSquares[Constants.COLUMNS-1-squarePos[0]][Constants.COLUMNS-1-squarePos[1]].setBackground(Color.red);
+                                board.boardSquares[Constants.COLUMNS-1-squarePos[0]][Constants.COLUMNS-1-squarePos[1]].setBackground(new Color(100,200,0));
                             }
                         }else{
                             if(selected != board.boardSquares[i][j]&& selected.isOccupied()&&human&&((Util.isUpperCase(selected.getPieceChar())&&Parameters.HUMAN_CHOSE_WHITE)||(!Util.isUpperCase(selected.getPieceChar())&&!Parameters.HUMAN_CHOSE_WHITE))){

@@ -314,24 +314,12 @@ public class AI {
 
     public String getOutput(boolean white){
         String moves="";
-        for(int i=0;i<Constants.COLUMNS;i++){
-            for(int j=0;j<Constants.ROWS;j++){
-                if(engine.board[i][j] != Constants.EMPTY_CHAR && ((!white&&!Util.isUpperCase(engine.board[i][j])))||(white&&Util.isUpperCase(engine.board[i][j]))){
-                    char piece = engine.board[i][j];
-                    int[] position = new int[]{i,j};
-                    ArrayList<int[]> legalMoves = engine.generateMove(piece,position,Util.getOffset(piece));
-                    for(int[] positions:legalMoves){
-                        moves+=(Util.parseMove(position,positions))+"\n";
-                    }
-                }
-            }
+
+        ArrayList<int[]> legalmoves = engine.getLegalMoves();
+        for(int[] move:legalmoves){
+            moves+=Util.parseMove(move)+" ";
         }
 
-
-//        ArrayList<int[]> legalMoves = engine.getLegalMoves();
-//        for(int[] positions:legalMoves){
-//            moves+=(Util.parseMove(positions))+"\n";
-//        }
 
         return moves;
     }
