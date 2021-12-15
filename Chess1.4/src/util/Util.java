@@ -14,21 +14,15 @@ import java.util.ArrayList;
 public class Util {
 
     public static int getNumericValue(char c) {
-        int[] values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-        for (int i = 0; i < values.length; i++) {
-            if (String.valueOf(c).equals(String.valueOf(values[i]))) {
-                return values[i];
-            }
-        }
-        return -1;
+        return Integer.parseInt(Character.toString(c));
     }
 
     public static boolean isUpperCase(char t) {
         return t == toUpper(t);
     }
 
-    public static char toUpper(char ch) {
-        return String.valueOf(ch).toUpperCase().charAt(0);
+    public static char toUpper(char c) {
+        return Character.toString(c).toUpperCase().charAt(0);
     }
 
     public static boolean isOfSameDir(int a, int b) {
@@ -36,7 +30,14 @@ public class Util {
     }
 
     public static boolean samePosition(int[] a, int[] b) {
-        return a[0] == b[0] && a[1] == b[1];
+        if(a.length == b.length){
+            if(a.length==3) {
+                return a[0] == b[0] && a[1] == b[1] && a[2] == b[2];
+            }else {
+                return a[0] == b[0] && a[1] == b[1];
+            }
+        }
+        return false;
     }
 
     public static boolean isAlly(char ch1, char ch2) {
@@ -132,8 +133,13 @@ public class Util {
     }
     
     public static int[][] parseMove(String pos){
-        int[] initPosition = cvtPosition(new StringBuffer(pos).delete(2, 4).toString());
-        int[] finalPosition = cvtPosition(new StringBuffer(pos).delete(0, 2).toString());
+        int[] initPosition = cvtPosition(new StringBuffer(pos).delete(2, pos.length()).toString());
+        int[] finalPosition = null;
+        if(pos.length()==5) {
+            finalPosition = cvtPosition(Character.toString(pos.charAt(2)) + Character.toString(pos.charAt(3)));
+        }
+        else { finalPosition = cvtPosition(new StringBuffer(pos).delete(0, 2).toString());}
+
         return new int[][]{initPosition,finalPosition};
     }
 
@@ -142,6 +148,9 @@ public class Util {
     }
 
     public static String parseMove(int[] move ){
+        if(move.length == 5){
+            return toString(new int[]{move[0],move[1]})+toString(new int[]{move[2],move[3]})+String.valueOf(move[4]);
+        }
         return toString(new int[]{move[0],move[1]})+toString(new int[]{move[2],move[3]});
     }
 

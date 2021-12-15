@@ -173,14 +173,6 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    public void removeComponents(){
-        for(int i=0;i<Constants.COLUMNS;i++){
-            for(int j=0;j<Constants.ROWS;j++){
-                remove(board.boardSquares[j][i]);
-            }
-        }
-    }
-
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(Parameters.FLIP){
@@ -199,6 +191,16 @@ public class GamePanel extends JPanel implements ActionListener {
                             if(selected != board.boardSquares[i][j]&& selected.isOccupied()&&human&&((Util.isUpperCase(selected.getPieceChar())&&Parameters.HUMAN_CHOSE_WHITE)||(!Util.isUpperCase(selected.getPieceChar())&&!Parameters.HUMAN_CHOSE_WHITE))){
                                 int[] from = new int[]{Constants.COLUMNS-1-selected.position[0],Constants.ROWS-1-selected.position[1]};
                                 ArrayList<int[]> legalMoves = engine.generateMove(selected.getPieceChar(),from,Util.getOffset(selected.getPieceChar()));
+                                if(Util.toUpper(selected.getPieceChar()) == Constants.WHITE_PAWN && (engine.whiteToMove&&position[1] == 0||!engine.whiteToMove&&position[1] == 7)){
+                                    String choice = JOptionPane.showInputDialog(null,"Enter \"1\" to promote to a knight, \"2\" to promote to a bishop,\"3\" to promote to a rook, by default the pawn will be promoted to a queen.","Pawn Promotion",JOptionPane.QUESTION_MESSAGE);
+                                    if(choice.length()==1){
+                                        try {
+                                            position = new int[]{position[0], position[1], Integer.parseInt(choice)};
+                                        }catch(Exception ex){
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                }
                                 for(int[] move:legalMoves){
                                     if(Util.samePosition(move,position)){
                                         prevFen.add(engine.fen);
@@ -207,7 +209,8 @@ public class GamePanel extends JPanel implements ActionListener {
                                         }else{
                                             playAudio(0);
                                         }
-                                        System.out.println(engine.move(new int[]{Constants.COLUMNS-1-selected.position[0],Constants.ROWS-1-selected.position[1],move[0],move[1]}));
+                                        String mFen = position.length==2?engine.move(new int[]{Constants.COLUMNS-1-selected.position[0],Constants.ROWS-1-selected.position[1],move[0],move[1]}):engine.move(new int[]{Constants.COLUMNS-1-selected.position[0],Constants.ROWS-1-selected.position[1],move[0],move[1],position[2]});
+                                        System.out.println(mFen);
                                         checkGameStage();
                                         String side = Parameters.HUMAN_CHOSE_WHITE?"white : ":"black : ";
                                         System.out.println(side+engine.evaluateBoard(Parameters.HUMAN_CHOSE_WHITE));
@@ -229,6 +232,7 @@ public class GamePanel extends JPanel implements ActionListener {
             for(int i=0;i<Constants.COLUMNS;i++){
                 for(int j=0;j<Constants.ROWS;j++){
                     if(actionEvent.getSource() == board.boardSquares[i][j]){
+                        int[] position = new int[]{i,j};
                         if(selected == null &&  human ){
                             selected = board.boardSquares[i][j];
                             selected.setBackground(new Color(255,112,0));//yellow rgb
@@ -239,15 +243,26 @@ public class GamePanel extends JPanel implements ActionListener {
                         }else{
                             if(selected != board.boardSquares[i][j]&& selected.isOccupied()&& human &&((Util.isUpperCase(selected.getPieceChar())&&Parameters.HUMAN_CHOSE_WHITE)||(!Util.isUpperCase(selected.getPieceChar())&&!Parameters.HUMAN_CHOSE_WHITE))){
                                 ArrayList<int[]> legalMoves = selected.isOccupied()?engine.generateMove(selected.getPieceChar(),selected.position,Util.getOffset(selected.getPieceChar())):new ArrayList<>();
+                                if(Util.toUpper(selected.getPieceChar()) == Constants.WHITE_PAWN && (engine.whiteToMove&&position[1] == 0||!engine.whiteToMove&&position[1] == 7)){
+                                    String choice = JOptionPane.showInputDialog(null,"Enter \"1\" to promote to a knight, \"2\" to promote to a bishop,\"3\" to promote to a rook, by default the pawn will be promoted to a queen.","Pawn Promotion",JOptionPane.QUESTION_MESSAGE);
+                                    if(choice.length()==1){
+                                        try {
+                                            position = new int[]{position[0], position[1], Integer.parseInt(choice)};
+                                        }catch(Exception ex){
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                }
                                 for(int[] move:legalMoves){
-                                    if(Util.samePosition(move,board.boardSquares[i][j].position)){
+                                    if(Util.samePosition(move,position)){
                                         prevFen.add(engine.fen);
                                         if(engine.board[move[0]][move[1]]!=Constants.EMPTY_CHAR){
                                             playAudio(1);
                                         }else{
                                             playAudio(0);
                                         }
-                                        System.out.println(engine.move(new int[]{selected.position[0],selected.position[1],move[0],move[1]}));
+                                        String mFen = position.length==2?engine.move(new int[]{selected.position[0],selected.position[1],move[0],move[1]}):engine.move(new int[]{selected.position[0],selected.position[1],move[0],move[1],position[2]});
+                                        System.out.println(mFen);
                                         String side = Parameters.HUMAN_CHOSE_WHITE?"white : ":"black : ";
                                         System.out.println(side+engine.evaluateBoard(Parameters.HUMAN_CHOSE_WHITE));
                                         System.out.println(Util.printBoard(engine.board,Parameters.FLIP));

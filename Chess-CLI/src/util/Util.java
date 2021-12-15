@@ -126,8 +126,13 @@ public class Util {
     }
     
     public static int[][] parseMove(String pos){
-        int[] initPosition = cvtPosition(new StringBuffer(pos).delete(2, 4).toString());
-        int[] finalPosition = cvtPosition(new StringBuffer(pos).delete(0, 2).toString());
+        int[] initPosition = cvtPosition(new StringBuffer(pos).delete(2, pos.length()).toString());
+        int[] finalPosition = null;
+        if(pos.length()==5) {
+            finalPosition = cvtPosition(Character.toString(pos.charAt(2)) + Character.toString(pos.charAt(3)));
+        }
+        else { finalPosition = cvtPosition(new StringBuffer(pos).delete(0, 2).toString());}
+
         return new int[][]{initPosition,finalPosition};
     }
 
@@ -136,6 +141,9 @@ public class Util {
     }
 
     public static String parseMove(int[] move ){
+        if(move.length == 5){
+            return toString(new int[]{move[0],move[1]})+toString(new int[]{move[2],move[3]})+String.valueOf(move[4]);
+        }
         return toString(new int[]{move[0],move[1]})+toString(new int[]{move[2],move[3]});
     }
 

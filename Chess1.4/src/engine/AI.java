@@ -3,6 +3,10 @@ package engine;
 import util.Constants;
 import util.Util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class AI {
@@ -13,9 +17,17 @@ public class AI {
 
     Engine engine;
 
+//     FileWriter fw;
+//     File dst = new File("src/learning/eval.txt");
+
 
     public AI(Engine engine)
     {
+//        try{
+//            fw = new FileWriter(dst);
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
         this.engine = engine;
     }
 
@@ -43,10 +55,12 @@ public class AI {
             complete = count == bestMoves.length;
             System.out.print("");
         }
+//        String text = "";
         int[] best=null;
         int leastDepth = -1;
         float bestScore = engine.whiteToMove?Float.POSITIVE_INFINITY:Float.NEGATIVE_INFINITY;
         for(int i=0;i<bestMoves.length;i++){
+           //text+=bestMoves[i].eval_text;
             if(engine.whiteToMove){
                 if(bestMoves[i].finalscore<bestScore){
                     bestScore = bestMoves[i].finalscore;
@@ -56,7 +70,6 @@ public class AI {
                         bestScore = bestMoves[i].finalscore;
                         best = bestMoves[i].bestMove;
                         leastDepth = bestMoves[i].leastDepthReached;
-                        System.out.println(leastDepth);
                     }
                 }
             }else{
@@ -68,11 +81,11 @@ public class AI {
                         bestScore = bestMoves[i].finalscore;
                         best = bestMoves[i].bestMove;
                         leastDepth = bestMoves[i].leastDepthReached;
-                        System.out.println(leastDepth);
                     }
                 }
             }
         }
+        //append(text);
         if(best == null){
             ArrayList<int[]> legalmoves = engine.getLegalMoves();
             if(legalmoves.isEmpty()){
@@ -312,22 +325,37 @@ public class AI {
         return bestScore;
     }
 
-    public String getOutput(boolean white){
+    public String getOutput(){
         String moves="";
-        for(int i=0;i<Constants.COLUMNS;i++){
-            for(int j=0;j<Constants.ROWS;j++){
-                if(engine.board[i][j] != Constants.EMPTY_CHAR && ((!white&&!Util.isUpperCase(engine.board[i][j])))||(white&&Util.isUpperCase(engine.board[i][j]))){
-                    char piece = engine.board[i][j];
-                    int[] position = new int[]{i,j};
-                    ArrayList<int[]> legalMoves = engine.generateMove(piece,position,Util.getOffset(piece));
-                    for(int[] positions:legalMoves){
-                        moves+=(Util.parseMove(position,positions))+"\n";
-                    }
-                }
-            }
+
+        ArrayList<int[]> legalmoves = engine.getLegalMoves();
+        for(int[] move:legalmoves){
+            moves+=Util.parseMove(move)+" ";
         }
+
+
         return moves;
     }
+//
+//    private void append(String text){
+//        try {
+//            fw.write(readFileContent(dst) + text);
+//            fw.close();
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public static String readFileContent(File file) throws Exception{
+//        FileInputStream fileInputStream;
+//        String content;
+//        fileInputStream = new FileInputStream(file);
+//        byte[] value = new byte[(int) file.length()];
+//        fileInputStream.read(value);
+//        fileInputStream.close();
+//        content = new String(value, StandardCharsets.UTF_8);
+//        return content;
+//    }
 
 
 }

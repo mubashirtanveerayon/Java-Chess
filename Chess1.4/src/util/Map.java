@@ -6,8 +6,8 @@ public class Map {
 
     public static final float[] BLACK_PAWN_MAP = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
                                                   0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
-                                                    -0.4f,-0.4f,-0.4f,-0.4f,-0.4f,-0.4f,-0.4f,-0.4f,
-                                                    0.45f,0.45f,0.45f,0.45f,0.5f,0.45f,0.45f,0.45f,
+            -0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f,
+            0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,
                                                     0.4f,0.4f,0.45f,0.45f,0.45f,0.45f,0.4f,0.4f,
                                                     0.46f,0.46f,0.5f,0.5f,0.5f,0.5f,0.46f,0.46f,
                                                     0.55f,0.55f,0.55f,0.55f,0.55f,0.55f,0.55f,0.55f,
@@ -17,8 +17,8 @@ public class Map {
             0.55f,0.55f,0.55f,0.55f,0.55f,0.55f,0.55f,0.55f,
             0.46f,0.46f,0.5f,0.5f,0.5f,0.5f,0.46f,0.46f,
             0.4f,0.4f,0.45f,0.45f,0.45f,0.45f,0.4f,0.4f,
-            0.45f,0.45f,0.45f,0.45f,0.5f,0.45f,0.45f,0.45f,
-            -0.4f,-0.4f,-0.4f,-0.4f,-0.4f,-0.4f,-0.4f,-0.4f,
+            0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,
+            -0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f,-0.5f,
             0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
             0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,};
 
@@ -78,6 +78,70 @@ public class Map {
             0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f};
 
 
+
+//    public static float getPositionalAdvantage(char pieceChar,int file,int rank){
+//
+//        switch(Util.toUpper(pieceChar)){
+//            case Constants.WHITE_KING:
+//                return 0.0f;
+//            case Constants.WHITE_ROOK:
+//            case Constants.WHITE_QUEEN:
+//            case Constants.WHITE_KNIGHT:
+//            case Constants.WHITE_BISHOP:
+//            case Constants.WHITE_PAWN:
+//                float pieceValue = Util.getValue(pieceChar);
+//                if(Util.isUpperCase(pieceChar)){
+//                    switch(rank){
+//                        case 0:
+//                            return pieceValue*0.425f;
+//                        case 1:
+//                            return pieceValue*0.4f;
+//                        case 2:
+//                            return pieceValue*0.375f;
+//                        case 3:
+//                            return pieceValue*0.35f;
+//                        case 4:
+//                            return pieceValue*0.325f;
+//                        case 5:
+//                            return pieceValue*0.3f;
+//                        case 6:
+//                            return pieceValue*0.275f;
+//                        default:
+//                            return 0.0f;
+//                    }
+//                }else{
+//                    switch(rank){
+//                        case 7:
+//                            return pieceValue*0.425f;
+//                        case 6:
+//                            return pieceValue*0.4f;
+//                        case 5:
+//                            return pieceValue*0.375f;
+//                        case 4:
+//                            return pieceValue*0.35f;
+//                        case 3:
+//                            return pieceValue*0.325f;
+//                        case 2:
+//                            return pieceValue*0.3f;
+//                        case 1:
+//                            return pieceValue*0.275f;
+//                        default:
+//                            return 0.0f;
+//                    }
+//                }
+//        }
+//        return 0.0f;
+//    }
+
+
+    public static float[] WP_MAP = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,
+            5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f,
+            1.0f, 1.0f, 2.0f, 3.0f, 3.0f, 2.0f, 1.0f, 1.0f,
+            0.5f, 0.5f, 1.0f, 2.5f, 2.5f, 1.0f, 8.5f, 0.5f,
+            0.0f, 0.0f, 0.0f, 2.0f, 2.0f, 0.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, -1.0f, 0.0f, 0.0f, -1.0f, -0.5f, 0.5f,
+            0.5f, 1.0f, 1.0f, -2.0f, -2.0f, 1.0f, 1.0f, 0.5f,
+            0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
     public static float getPositionalAdvantage(char pieceChar,int file,int rank){
         switch(Util.toUpper(pieceChar)){

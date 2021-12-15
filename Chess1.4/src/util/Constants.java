@@ -4,9 +4,9 @@ import java.io.File;
 
 public class Constants {
 
-    public static final int MIN_THREADS = 1;
+    //public static final int MIN_THREADS = 1;
 
-    public static final int MAX_THREADS = Runtime.getRuntime().availableProcessors();
+    //public static final int MAX_THREADS = Runtime.getRuntime().availableProcessors();
 
     public static final float PARTIAL_VALUE = 0.05f;
 
@@ -22,7 +22,7 @@ public class Constants {
 
     public static final String AUDIO_PATH="src"+File.separator+"assets"+File.separator+"audio"+File.separator+"move.wav";
 
-    public static final String VERSION = "1.4";
+    public static final String VERSION = "1.0";
 
     public static int SEARCH_DEPTH = 4;
 
@@ -54,17 +54,21 @@ public class Constants {
 
     public static final char BLACK_KING = 'k';
 
+    public static final char BLACK_KNIGHT = 'n';
+
+    public static final char BLACK_BISHOP = 'b';
+
     public static final char EMPTY_CHAR = ' ';
 
-    public static final float PAWN_VALUE = 1.0f;
+    public static final float PAWN_VALUE = 1.5f;
 
     public static final float KNIGHT_VALUE = 3.0f;
 
-    public static final float BISHOP_VALUE = 3.5f;
+    public static final float BISHOP_VALUE = 3.0f;
 
     public static final float ROOK_VALUE = 5.5f;
 
-    public static final float QUEEN_VALUE = 9.0f;
+    public static final float QUEEN_VALUE = 8.5f;
 
     public static final float KING_VALUE = 1.0f;
 

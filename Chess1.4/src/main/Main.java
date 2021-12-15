@@ -19,7 +19,7 @@ public class Main extends JFrame{
 	GamePanel gamePanel;
 
 	public Main(){
-		super("Chess 1.4");
+		super("Schneizel 1.o");
 		setDefaultCloseOperation(3);
 		initComponents();
 		pack();

@@ -3,9 +3,13 @@ package engine;
 import util.Constants;
 import util.Util;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class BestMove extends Thread{
+
+    //public String eval_text = "";
 
     public Engine engine;
     public ArrayList<int[]> legalMoves;
@@ -36,37 +40,6 @@ public class BestMove extends Thread{
         return legalmoves;
     }
 
-    public float evaluateCaptures(boolean white){
-        char[][] prevBoardChars = Util.copyBoard(engine.board);
-        boolean prevWhiteToMove = engine.whiteToMove;
-        int prevHalfMove = engine.halfMove;
-        int prevFullMove = engine.fullMove;
-        String prevHistory = engine.history;
-        String prevLastMove = engine.lastMove;
-        String prevFen = engine.fen;
-        float score,bestScore = white?Float.POSITIVE_INFINITY:Float.NEGATIVE_INFINITY;
-        for(int i=0;i<Constants.COLUMNS;i++){
-            for(int j=0;j<Constants.ROWS;j++){
-                if(engine.board[i][j] != Constants.EMPTY_CHAR){
-                    ArrayList<int[]> captureMoves = engine.generateCaptureMove(engine.board[i][j],new int[]{i,j},Util.getOffset(engine.board[i][j]));
-                    for(int[] move:captureMoves){
-                        engine.move(new int[]{i,j,move[0],move[1]});
-                        score = engine.evaluateBoard(white);
-                        bestScore = white?Math.min(score,bestScore):Math.max(score,bestScore);
-                        engine.board = Util.copyBoard(prevBoardChars);
-                        engine.history = prevHistory;
-                        engine.lastMove = prevLastMove;
-                        engine.whiteToMove = prevWhiteToMove;
-                        engine.halfMove = prevHalfMove;
-                        engine.fullMove = prevFullMove;
-                        engine.fen = prevFen;
-                    }
-                }
-            }
-        }
-        return bestScore;
-    }
-
     public float minimax(float alpha,float beta,int depth,boolean maximizing){
         if(engine.checkMate(true)){
             depthReached = depth;
@@ -80,7 +53,9 @@ public class BestMove extends Thread{
         }
         else if(depth==0){
             depthReached = depth;
-            return engine.evaluateBoard(false);
+            float eval = engine.evaluateBoard(false);
+            //eval_text+=engine.fen+" | "+eval+"\n";
+            return eval;
         }
         float score,bestScore = maximizing?Float.NEGATIVE_INFINITY:Float.POSITIVE_INFINITY;
         char[][] prevBoardChars = Util.copyBoard(engine.board);
@@ -298,10 +273,8 @@ public class BestMove extends Thread{
                         case Constants.WHITE_PAWN:{
                             int limit = (Util.isUpperCase(c) && j == 6) || (!Util.isUpperCase(c) && j == 1) ? 2 : 1;
                             for(int[] dir:direction){
-                                file =i;
-                                rank = j;
-                                file+=dir[0];
-                                rank+=dir[1];
+                                file = i + dir[0];
+                                rank = j + dir[1];
                                 if(Util.isValid(file,rank)){
                                     if(Math.abs(dir[0]) == 1 && Math.abs(dir[1]) == 1){
                                         if(engine.board[file][rank] != Constants.EMPTY_CHAR && !Util.isAlly(engine.board[file][rank], c)){
@@ -329,6 +302,30 @@ public class BestMove extends Thread{
                                                 engine.fen = prevFen;
                                                 if(beta<=alpha){
                                                     return bestScore;
+                                                }
+                                                //checking promotions
+                                                if((Util.isUpperCase(c)&&rank == 0)||(!Util.isUpperCase(c)&&rank == 7)){
+                                                    for(int k=1;k<4;k++){
+                                                        engine.move(new int[]{i,j,file,rank,k});
+                                                        score = minimax(alpha,beta,depth-1,!maximizing);
+                                                        if(maximizing){
+                                                            bestScore = Math.max(score,bestScore);
+                                                            alpha = Math.max(alpha,score);
+                                                        }else{
+                                                            bestScore = Math.min(score,bestScore);
+                                                            beta = Math.min(beta,score);
+                                                        }
+                                                        engine.board = Util.copyBoard(prevBoardChars);
+                                                        engine.history = prevHistory;
+                                                        engine.lastMove = prevLastMove;
+                                                        engine.whiteToMove = prevWhiteToMove;
+                                                        engine.halfMove = prevHalfMove;
+                                                        engine.fullMove = prevFullMove;
+                                                        engine.fen = prevFen;
+                                                        if(beta<=alpha){
+                                                            return bestScore;
+                                                        }
+                                                    }
                                                 }
                                             }else {
                                                 engine.board[i][j] = c;
@@ -363,6 +360,34 @@ public class BestMove extends Thread{
                                                     if(beta<=alpha){
                                                         return bestScore;
                                                     }
+                                                    //System.out.println(c+" "+i+","+j+" "+file+","+rank);
+                                                    //checking promotions
+                                                    if((Util.isUpperCase(c)&&rank == 0)||(!Util.isUpperCase(c)&&rank == 7)){
+                                                        for(int k=1;k<4;k++){
+                                                            engine.move(new int[]{i,j,file,rank,k});
+                                                            score = minimax(alpha,beta,depth-1,!maximizing);
+                                                            //System.out.println(k+" "+score);
+                                                            if(maximizing){
+                                                                bestScore = Math.max(score,bestScore);
+                                                                alpha = Math.max(alpha,score);
+                                                            }else{
+                                                                bestScore = Math.min(score,bestScore);
+                                                                beta = Math.min(beta,score);
+                                                            }
+                                                            engine.board = Util.copyBoard(prevBoardChars);
+                                                            engine.history = prevHistory;
+                                                            engine.lastMove = prevLastMove;
+                                                            engine.whiteToMove = prevWhiteToMove;
+                                                            engine.halfMove = prevHalfMove;
+                                                            engine.fullMove = prevFullMove;
+                                                            engine.fen = prevFen;
+                                                            if(beta<=alpha){
+                                                                return bestScore;
+                                                            }
+                                                        }
+                                                    }
+
+
                                                 }else {
                                                     engine.board[i][j] = c;
                                                     engine.board[file][rank] = to;
